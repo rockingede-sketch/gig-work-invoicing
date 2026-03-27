@@ -3,18 +3,33 @@ import params as params
 
 conn = pymysql.connect(host=params.Host, user=params.Username, password=params.Password, database=params.Dbname)
 cur = conn.cursor()
-cur.execute("DROP TABLE IF EXISTS BillingCaseRow") 
-query = """CREATE TABLE BillingCaseRow( 
+cur.execute("DROP TABLE IF EXISTS BillingCase") 
+query = """CREATE TABLE BillingCase( 
         id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-        billingCaseId int not null,
-        customerId int not null,
-        frontman bit not null,
-        workHours decimal(5,2) not null,
-        shareOfPay decimal(5,2) not null,
-        otherClaims varchar(500),
-        otherClaimsAmount decimal(10,2) NULL,
-        travelExpClaimId int NULL,
-        payrollId int NULL,
+        frontmanCustId int not null,
+        billingCustId int not null,
+        stage varchar(100) not null,
+        jobLocation varchar(100) not null,
+        jobDate date not null,
+        jobBegin datetime null,
+        jobEnded datetime null,
+        jobHours decimal(5,2) not null,
+        workDescription varchar(500) null,
+        workTask varchar(50) not null,
+        contactPerson varchar(50) not null,
+        phone varchar(15) not null,
+        email varchar(100) not null,
+        address varchar(50) not null,
+        postcode char(5) null,
+        postoffice varchar(50) null,
+        billingMethod varchar(15) null,  
+        eInvoiceAddress varchar(18) null,
+        payerReference varchar(50) null,  
+        payment decimal(10,2) not null,
+        vatPercent decimal(5,2) NOT NULL,
+        groupBilling bit not null,
+        numberOfMembers int not null,
+        ownerProfit decimal(10,2) not null,
         created timestamp not null,
         updated timestamp not null)"""
 
