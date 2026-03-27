@@ -3,15 +3,17 @@ import params as params
 
 conn = pymysql.connect(host=params.Host, user=params.Username, password=params.Password, database=params.Dbname)
 cur = conn.cursor()
-cur.execute("DROP TABLE IF EXISTS Users") 
-query = """CREATE TABLE Users( 
+cur.execute("DROP TABLE IF EXISTS Documents") 
+query = """CREATE TABLE Documents( 
         id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-        username varchar(100) not null,
-        password varchar(250) NOT NULL,
-        confirmed bit NOT NULL,
-        validFrom date not null,
-        validTo date null,
-        disabled bit NOT NULL,
+        docType varchar(20) not null,
+        docDate date not null,
+        userId int null,
+        contractId int null,
+        invoiceId int null,
+        payrollId int null,
+        docname varchar(250) not null,
+        filepath varchar(250) not null,
         created timestamp not null,
         updated timestamp not null)"""
 

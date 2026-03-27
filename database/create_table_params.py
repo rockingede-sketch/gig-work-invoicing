@@ -12,8 +12,8 @@ query = """CREATE TABLE Params(
         validTo date null,
         year int null,
         value decimal(10,2) not null,
-        created timestamp,
-        updated timestamp)"""
+        created timestamp not null,
+        updated timestamp not null)"""
 
 # To execute the SQL query
 cur.execute(query)   
