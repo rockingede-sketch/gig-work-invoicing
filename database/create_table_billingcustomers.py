@@ -18,8 +18,8 @@ query = """CREATE TABLE BillingCustomers(
         eInvoideAddress varchar(18) NULL,
         operatorCode varchar(18) NULL,
         customerStatus varchar(20) NULL,
-        created timestamp,
-        updated timestamp)"""
+        created timestamp not null,
+        updated timestamp not null)"""
 
 # To execute the SQL query
 cur.execute(query)   
