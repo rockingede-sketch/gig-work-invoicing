@@ -1,5 +1,5 @@
 from email_validator import validate_email, EmailNotValidError, EmailSyntaxError, EmailUndeliverableError
-import os
+import os,smtplib
 from email.mime.text import MIMEText
 
 class EmailService:
@@ -93,7 +93,7 @@ class EmailService:
     Returns:
         bool: True if the email was sent successfully, False otherwise
     """
-    def sendConfirmation(self)->bool:
+    def sendConfirmationRequest(self)->bool:
         "Check for the template"
         try:
             template_dir = os.path.join(os.path.dirname(__file__), "../email_templates/confirmation")
@@ -112,19 +112,29 @@ class EmailService:
                     email=self.email,
             )
                 
-            msg = MIMEText(text_body, "plain")
-            msg["Subject"] = "Booking Confirmation"
-            msg["From"] = os.environ.get("EMAIL_FROM")
-            msg["To"] = self.strRecipient
-
-            with smtplib.SMTP(os.environ.get("EMAIL_HOST"), int(os.environ.get("EMAIL_PORT", 587))) as server:
-                server.starttls()
-                server.login(os.environ.get("EMAIL_USER"), os.environ.get("EMAIL_PASSWORD"))
-                server.sendmail(msg["From"], [msg["To"]], msg.as_string())
+            return self.sendMail(subject='GigBookingSystem Confirmation',
+                      msgbody=html_body,
+                      recipient=self.email)
 
         except FileNotFoundError as e:
             raise FileNotFoundError(f"Email template not found: {e}") from e
         except Exception:
-                return False
+            return False
 
-        return True
+    
+    @classmethod
+    def sendMail(cls,subject,msgbody,recipient)->bool:
+
+        msg = MIMEText(msgbody, "plain")
+
+        msg["Subject"] =    str(subject)
+        msg["From"] =       str(os.environ.get("EMAIL_FROM"))
+        msg["To"] =         str(recipient)
+        try:
+            with smtplib.SMTP(str(os.environ.get("EMAIL_HOST")), int(os.environ.get("EMAIL_PORT", 587))) as server:
+                server.starttls()
+                server.login(str(os.environ.get("EMAIL_USER")), str(os.environ.get("EMAIL_PASSWORD")))
+                server.sendmail(msg["From"], [msg["To"]], msg.as_string())
+            return True
+        except:
+            return False
