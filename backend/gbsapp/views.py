@@ -7,5 +7,6 @@ from rest_framework import status
 # Create your views here.
 class sendConfirmEmail(APIView):
     def get(self, request):
-        EmailService.sendWelcomeEmail('test','email@email.com')
+        EmailService.sendConfirmEmail('test','email@email.com')
+        
         return Response({'message': 'Welcome email sent'}, status=status.HTTP_200_OK)
