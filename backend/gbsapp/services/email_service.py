@@ -8,6 +8,8 @@ from pathlib import Path
 load_dotenv(Path(__file__).parent.parent.parent / "email_settings.env")
 #print(Path(__file__).parent.parent.parent / "email_settings.env")
 
+# Test with python -m aiosmtpd -n -l localhost:1025
+
 class EmailService:
     """
         Service class for handling all email operations
