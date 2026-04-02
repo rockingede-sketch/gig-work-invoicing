@@ -9,8 +9,8 @@ query = """CREATE TABLE Users(
         username varchar(100) not null,
         password varchar(250) NOT NULL,
         confirmed bit NOT NULL,
-        validFrom date not null,
-        validTo date null,
+        valid_from date not null,
+        valid_to date null,
         disabled bit NOT NULL,
         created timestamp not null,
         updated timestamp not null)"""

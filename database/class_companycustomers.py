@@ -1,7 +1,7 @@
 from django.db import models
 # taulua companycustomers vastaava luokka:
-class Customers(models.Model):
-    userId = models.IntegerField(null=False)
+class CompanyCustomers(models.Model):
+    userId = models.ForeignKey('User', on_delete=models.SET_NULL,null=False)
     companyId= models.CharField(max_length=9, null=False)
     email = models.CharField(max_length=100, null=False)
     name = models.CharField(max_length=50, null=False)

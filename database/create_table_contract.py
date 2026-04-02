@@ -6,13 +6,13 @@ cur = conn.cursor()
 cur.execute("DROP TABLE IF EXISTS Contract") 
 query = """CREATE TABLE Contract( 
         id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-        billingCaseId int not null,
-        frontmanCustId int not null,
-        billingCustId int not null,
-        contranctNr varchar(20) not null,
-        contranctDate date not null,
-        lastAnswerDate date not null,
-        contractStatus varchar(20) not null,
+        billing_case_id int not null,
+        frontman_cust_id int not null,
+        billing_cust_id int not null,
+        contract_nr varchar(20) not null,
+        contract_date date not null,
+        last_answer_date date not null,
+        contract_status varchar(20) not null,
         created timestamp not null,
         updated timestamp not null)"""
 

@@ -6,12 +6,12 @@ cur = conn.cursor()
 cur.execute("DROP TABLE IF EXISTS Documents") 
 query = """CREATE TABLE Documents( 
         id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-        docType varchar(20) not null,
-        docDate date not null,
-        userId int null,
-        contractId int null,
-        invoiceId int null,
-        payrollId int null,
+        doc_Type varchar(20) not null,
+        doc_Date date not null,
+        user_id int null,
+        contract_id int null,
+        invoice_id int null,
+        payroll_id int null,
         docname varchar(250) not null,
         filepath varchar(250) not null,
         created timestamp not null,
