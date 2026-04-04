@@ -6,20 +6,20 @@ cur = conn.cursor()
 cur.execute("DROP TABLE IF EXISTS BillingCustomers") 
 query = """CREATE TABLE BillingCustomers( 
         id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-        companyId varchar(11) not null,
-        companyName varchar(50) NOT NULL,
+        company_id varchar(11) not null,
+        company_name varchar(50) NOT NULL,
         location varchar(50) NULL,
-        contactPerson varchar(50) NOT NULL,
+        contact_person varchar(50) NOT NULL,
         email varchar(100) NOT NULL,
         phone varchar(15) NOT NULL,
         address varchar(50) NOT NULL,
         postcode char(5) NOT NULL,
         postoffice varchar(50) NOT NULL,
-        eInvoideAddress varchar(18) NULL,
-        operatorCode varchar(18) NULL,
-        customerStatus varchar(20) NULL,
-        created timestamp,
-        updated timestamp)"""
+        e_invoice_address varchar(18) NULL,
+        operator_code varchar(18) NULL,
+        customer_status varchar(20) NULL,
+        created timestamp not null,
+        updated timestamp not null)"""
 
 # To execute the SQL query
 cur.execute(query)   

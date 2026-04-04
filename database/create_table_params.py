@@ -8,12 +8,12 @@ query = """CREATE TABLE Params(
         id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
         name varchar(50) NOT NULL,
         description varchar(250) NOT NULL, 
-        validFrom date not null,
-        validTo date null,
+        valid_from date not null,
+        valid_to date null,
         year int null,
         value decimal(10,2) not null,
-        created timestamp,
-        updated timestamp)"""
+        created timestamp not null,
+        updated timestamp not null)"""
 
 # To execute the SQL query
 cur.execute(query)   

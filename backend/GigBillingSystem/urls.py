@@ -16,7 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from gbsapp.views import sendConfirmEmail
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('sendconfirmation/', sendConfirmEmail.as_view(), name='send-confirmation-email')
 ]
