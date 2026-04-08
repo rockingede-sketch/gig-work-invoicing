@@ -35,7 +35,7 @@ class BillingCases(models.Model):
     postcode = models.CharField(max_length=5, null=True, blank=True)
     postoffice = models.CharField(max_length=50, null=True, blank=True)
     billing_method = models.CharField(max_length=15, choices=BILLING_METHODS, null=True, blank=True)
-    e_invoice_address = models.CharField(max_length=18, null=True, blank=True)
+    e_invoice_address = models.CharField(max_length=20, null=True, blank=True)
     payer_reference = models.CharField(max_length=50, null=True, blank=True)
     payment = models.DecimalField(max_digits=12, decimal_places=2, null=False)
     vat_percent = models.DecimalField(max_digits=5, decimal_places=2, null=False)
@@ -47,32 +47,5 @@ class BillingCases(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return (self.id,
-                self.frontman_cust_id, 
-                self.billing_cust_id,
-                self.stage,
-                self.job_location, 
-                self.job_date, 
-                self.job_begin,
-                self.job_ended,
-                self.job_hours,
-                self.work_description,
-                self.work_task,
-                self.contact_person,
-                self.phone,
-                self.email, 
-                self.address,
-                self.postcode, 
-                self.postoffice,
-                self.billing_method,
-                self.e_invoice_address,
-                self.payer_reference,
-                self.payment,
-                self.vat_percent,
-                self.group_billing,
-                self.group_name,
-                self.number_of_members,
-                self.owner_profit,
-                self.created, 
-                self.updated)
+        return self.work_description
 

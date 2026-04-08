@@ -3,8 +3,8 @@ import params as params
 
 conn = pymysql.connect(host=params.Host, user=params.Username, password=params.Password, database=params.Dbname)
 cur = conn.cursor()
-cur.execute("DROP TABLE IF EXISTS Params") 
-query = """CREATE TABLE Params( 
+cur.execute("DROP TABLE IF EXISTS Paramstable") 
+query = """CREATE TABLE Paramstable( 
         id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
         name varchar(50) NOT NULL,
         description varchar(250) NOT NULL, 
