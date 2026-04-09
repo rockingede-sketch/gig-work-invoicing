@@ -11,4 +11,4 @@ from rest_framework import status
    #     return Response({'message': 'Welcome email sent'}, status=status.HTTP_200_OK)
  
 def laskutus(request):
-    return render(request, 'laskutus.html')
+    return render(request, 'gbsapp/laskutus.html')
