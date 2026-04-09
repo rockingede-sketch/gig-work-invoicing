@@ -1,0 +1,39 @@
+{% extends "./base.html" %}
+{% block title %}Laskutus{% endblock %}
+
+{% block content %}
+<div class="page-header d-flex justify-content-between align-items-center mb-2">
+  <h1>Laskutus</h1>
+  <a href="{% url 'lasku_new' %}" class="btn btn-pink">+ Luo uusi lasku</a>
+</div>
+
+<p class="text-muted">Täältä löydät kaikki Oma Keikkalaskuun tallentuneet laskutuksesi ja niiden tilan.</p>
+<p class="text-muted small">Näytetään {{ invoices|length }} / {{ total_count }} lasku</p>
+
+<h5>Laskutuspyynnöt</h5>
+
+{% for invoice in invoices %}
+<div class="invoice-card">
+  <div class="invoice-left">
+    <div class="invoice-id">
+      Tapausnumero #{{ invoice.id }}
+      {% if invoice.is_group %}<span class="badge-warning">Ryhmälasku</span>{% endif %}
+    </div>
+    <div class="invoice-meta">
+      <span>📄 {{ invoice.company }} · {{ invoice.business_id }}</span>
+      <span>📅 {{ invoice.date }}</span>
+      <span>👥 {{ invoice.participants }} osallistujaa</span>
+    </div>
+  </div>
+  <div class="invoice-right">
+    <div class="btn-group">
+      <a href="{% url 'lasku_detail' invoice.id %}" class="btn btn-green">Avaa</a>
+      <button class="btn btn-secondary">Maksettu</button>
+    </div>
+    <span class="amount">{{ invoice.total|floatformat:2 }} €</span>
+  </div>
+</div>
+{% empty %}
+  <p>Ei laskuja vielä.</p>
+{% endfor %}
+{% endblock %}
