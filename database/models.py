@@ -13,7 +13,10 @@ class Paramstable(models.Model):
 
     def __str__(self):
         return self.name + ' ' + self.description + str(self.year)
+<<<<<<< HEAD
     
+=======
+>>>>>>> 3779070e5dea1e232d4b6a695ec0be1153abbc01
 # taulua users vastaava luokka:
 #class Users(models.Model):
 #    username = models.EmailField(max_length=100, null=False)
