@@ -1,52 +1,84 @@
-{% extends "../base.html" %}
+{% extends "gbsapp/base.html" %}
 {% block content %}
 
-<h1>Lasku #{{ invoice.id }}</h1>
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <div class="d-flex align-items-center gap-2">
+    <h1 class="mb-0">Lasku #{{ invoice.id }}</h1>
+    {% if invoice.group_billing %}<span class="badge bg-warning text-dark">Ryhmälasku</span>{% endif %}
+    {% if invoice.is_paid %}
+      <span class="badge bg-success">Maksettu</span>
+    {% else %}
+      <span class="badge bg-warning text-dark">Avoin</span>
+    {% endif %}
+  </div>
+  <div class="d-flex gap-2">
+    <a href="{% url 'laskutus' %}" class="btn btn-secondary btn-sm">← Takaisin</a>
+    <button class="btn btn-danger btn-sm">Merkitse maksetuksi</button>
+    <button class="btn btn-success btn-sm">Lähetä lasku</button>
+  </div>
+</div>
 
-<section>
-  <h2>Tilan tiedot</h2>
-  <p><strong>Vaihe:</strong> {{ invoice.get_stage_display }}</p>
-  <p><strong>Luotu:</strong> {{ invoice.created }}</p>
-  <p><strong>Päivitetty:</strong> {{ invoice.updated }}</p>
-</section>
+<div class="text-muted small mb-4">
+  Luotu: {{ invoice.created|date:"d.m.Y" }} &nbsp;|&nbsp;
+  Päivitetty: {{ invoice.updated|date:"d.m.Y" }} &nbsp;|&nbsp;
+  Vaihe: {{ invoice.get_stage_display }}
+</div>
 
-<section>
-  <h2>Työn tiedot</h2>
-  <p><strong>Tehtävä:</strong> {{ invoice.work_task }}</p>
-  <p><strong>Kuvaus:</strong> {{ invoice.work_description|default:"-" }}</p>
-  <p><strong>Sijainti:</strong> {{ invoice.job_location }}</p>
-  <p><strong>Päivämäärä:</strong> {{ invoice.job_date }}</p>
-  <p><strong>Alkoi:</strong> {{ invoice.job_begin|default:"-" }}</p>
-  <p><strong>Päättyi:</strong> {{ invoice.job_ended|default:"-" }}</p>
-  <p><strong>Tunnit:</strong> {{ invoice.job_hours|default:"-" }}</p>
-</section>
+<div class="row g-3 mb-4">
+  <div class="col"><div class="bg-light rounded p-3"><div class="small text-muted">Maksu (sis. ALV)</div><div class="fs-4 fw-500">{{ invoice.payment|floatformat:2 }} €</div></div></div>
+  <div class="col"><div class="bg-light rounded p-3"><div class="small text-muted">ALV</div><div class="fs-4 fw-500">{{ invoice.vat_percent }} %</div></div></div>
+  <div class="col"><div class="bg-light rounded p-3"><div class="small text-muted">Omistajan osuus</div><div class="fs-4 fw-500">{{ invoice.owner_profit|floatformat:2 }} €</div></div></div>
+</div>
 
-<section>
-  <h2>Asiakastiedot</h2>
-  <p><strong>Tilaaja:</strong> {{ invoice.frontman_cust_id }}</p>
-  <p><strong>Laskutusasiakas:</strong> {{ invoice.billing_cust_id }}</p>
-  <p><strong>Yhteyshenkilö:</strong> {{ invoice.contact_person }}</p>
-  <p><strong>Puhelin:</strong> {{ invoice.phone }}</p>
-  <p><strong>Sähköposti:</strong> {{ invoice.email }}</p>
-  <p><strong>Osoite:</strong> {{ invoice.address }}, {{ invoice.postcode }} {{ invoice.postoffice }}</p>
-</section>
+<div class="card mb-3">
+  <div class="card-body">
+    <h6 class="text-muted text-uppercase small mb-3">Työn tiedot</h6>
+    <div class="row row-cols-2 g-2">
+      <div><div class="small text-muted">Tehtävä</div><div>{{ invoice.work_task }}</div></div>
+      <div><div class="small text-muted">Sijainti</div><div>{{ invoice.job_location }}</div></div>
+      <div><div class="small text-muted">Päivämäärä</div><div>{{ invoice.job_date|date:"d.m.Y" }}</div></div>
+      <div><div class="small text-muted">Alkoi / Päättyi</div><div>{{ invoice.job_begin|default:"-" }} – {{ invoice.job_ended|default:"-" }}</div></div>
+      <div><div class="small text-muted">Tunnit</div><div>{{ invoice.job_hours|default:"-" }}</div></div>
+      <div><div class="small text-muted">Kuvaus</div><div>{{ invoice.work_description|default:"—" }}</div></div>
+    </div>
+  </div>
+</div>
 
-<section>
-  <h2>Laskutustiedot</h2>
-  <p><strong>Laskutustapa:</strong> {{ invoice.get_billing_method_display|default:"-" }}</p>
-  <p><strong>Verkkolaskuosoite:</strong> {{ invoice.e_invoice_address|default:"-" }}</p>
-  <p><strong>Maksajan viite:</strong> {{ invoice.payer_reference|default:"-" }}</p>
-  <p><strong>Maksu:</strong> {{ invoice.payment }} €</p>
-  <p><strong>ALV:</strong> {{ invoice.vat_percent }} %</p>
-  <p><strong>Omistajan osuus:</strong> {{ invoice.owner_profit }} €</p>
-</section>
+<div class="card mb-3">
+  <div class="card-body">
+    <h6 class="text-muted text-uppercase small mb-3">Asiakastiedot</h6>
+    <div class="row row-cols-2 g-2">
+      <div><div class="small text-muted">Tilaaja</div><div>{{ invoice.frontman_cust_id }}</div></div>
+      <div><div class="small text-muted">Laskutusasiakas</div><div>{{ invoice.billing_cust_id }}</div></div>
+      <div><div class="small text-muted">Yhteyshenkilö</div><div>{{ invoice.contact_person }}</div></div>
+      <div><div class="small text-muted">Puhelin</div><div>{{ invoice.phone }}</div></div>
+      <div><div class="small text-muted">Sähköposti</div><div>{{ invoice.email }}</div></div>
+      <div><div class="small text-muted">Osoite</div><div>{{ invoice.address }}, {{ invoice.postcode }} {{ invoice.postoffice }}</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="card mb-3">
+  <div class="card-body">
+    <h6 class="text-muted text-uppercase small mb-3">Laskutustiedot</h6>
+    <div class="row row-cols-2 g-2">
+      <div><div class="small text-muted">Laskutustapa</div><div>{{ invoice.get_billing_method_display|default:"—" }}</div></div>
+      <div><div class="small text-muted">Verkkolaskuosoite</div><div>{{ invoice.e_invoice_address|default:"—" }}</div></div>
+      <div><div class="small text-muted">Maksajan viite</div><div>{{ invoice.payer_reference|default:"—" }}</div></div>
+    </div>
+  </div>
+</div>
 
 {% if invoice.group_billing %}
-<section>
-  <h2>Ryhmälaskutus</h2>
-  <p><strong>Ryhmän nimi:</strong> {{ invoice.group_name|default:"-" }}</p>
-  <p><strong>Jäsenten määrä:</strong> {{ invoice.number_of_members }}</p>
-</section>
+<div class="card mb-3">
+  <div class="card-body">
+    <h6 class="text-muted text-uppercase small mb-3">Ryhmälaskutus</h6>
+    <div class="row row-cols-2 g-2">
+      <div><div class="small text-muted">Ryhmän nimi</div><div>{{ invoice.group_name|default:"—" }}</div></div>
+      <div><div class="small text-muted">Jäsenten määrä</div><div>{{ invoice.number_of_members }}</div></div>
+    </div>
+  </div>
+</div>
 {% endif %}
 
 {% endblock %}

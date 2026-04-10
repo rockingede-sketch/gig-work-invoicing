@@ -1,5 +1,6 @@
 from django.db import models
-
+from django.utils import timezone
+from datetime import timedelta
 # taulua paramstable vastaava luokka:
 class Paramstable(models.Model):
     name = models.CharField(max_length=50, null=False)
@@ -164,6 +165,22 @@ class BillingCase(models.Model):
     owner_profit = models.DecimalField(max_digits=12, decimal_places=2, null=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+
+    @property
+    def is_paid(self):
+        return self.stage == 'invoice paid'
+
+    @property
+    def is_late(self):
+        if self.stage in ('invoice paid', 'closed', 'canceled'):
+            return False
+        if not self.created:
+            return False
+        return self.created + timedelta(days=14) < timezone.now().date() #return self.created.date() + timedelta(days=14) < timezone.now().date()
+
+    @property
+    def is_open(self):
+        return self.stage in ('open', 'contract sent', 'contract accepted', 'assignment', 'invoice sent')
 
     def __str__(self):
         return str(self.work_description)
