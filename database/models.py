@@ -11,7 +11,7 @@ class Paramstable(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.name + ' ' + self.description +  self.year
+        return self.name + ' ' + self.description + str(self.year)
 # taulua users vastaava luokka:
 class Users(models.Model):
     username = models.EmailField(max_length=100, null=False)
@@ -98,7 +98,7 @@ class BilligCustomers(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.company_name + ' ' + self.location
+        return str(self.company_name) + ' ' + str(self.location)
     
     # taulua billingcases vastaava luokka:
 class BillingCases(models.Model):
@@ -148,7 +148,7 @@ class BillingCases(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.work_description
+        return str(self.work_description)
     
 # taulua billingcaserow vastaava luokka:
 class BillingCaseRow(models.Model):
