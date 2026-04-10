@@ -21,5 +21,7 @@ from gbsapp import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     #path('sendconfirmation/', sendConfirmEmail.as_view(), name='send-confirmation-email'),
-    path('laskutus/', views.laskutus, name='laskutus')
+    path('laskutus/', views.laskutus, name='laskutus'),
+    path('laskutus/uusi/', views.lasku_new, name='lasku_new'),
+    path('laskutus/<int:pk>/', views.lasku_detail, name='lasku_detail')
 ]

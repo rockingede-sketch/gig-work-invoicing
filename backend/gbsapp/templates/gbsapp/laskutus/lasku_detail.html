@@ -1,0 +1,52 @@
+{% extends "../base.html" %}
+{% block content %}
+
+<h1>Lasku #{{ invoice.id }}</h1>
+
+<section>
+  <h2>Tilan tiedot</h2>
+  <p><strong>Vaihe:</strong> {{ invoice.get_stage_display }}</p>
+  <p><strong>Luotu:</strong> {{ invoice.created }}</p>
+  <p><strong>Päivitetty:</strong> {{ invoice.updated }}</p>
+</section>
+
+<section>
+  <h2>Työn tiedot</h2>
+  <p><strong>Tehtävä:</strong> {{ invoice.work_task }}</p>
+  <p><strong>Kuvaus:</strong> {{ invoice.work_description|default:"-" }}</p>
+  <p><strong>Sijainti:</strong> {{ invoice.job_location }}</p>
+  <p><strong>Päivämäärä:</strong> {{ invoice.job_date }}</p>
+  <p><strong>Alkoi:</strong> {{ invoice.job_begin|default:"-" }}</p>
+  <p><strong>Päättyi:</strong> {{ invoice.job_ended|default:"-" }}</p>
+  <p><strong>Tunnit:</strong> {{ invoice.job_hours|default:"-" }}</p>
+</section>
+
+<section>
+  <h2>Asiakastiedot</h2>
+  <p><strong>Tilaaja:</strong> {{ invoice.frontman_cust_id }}</p>
+  <p><strong>Laskutusasiakas:</strong> {{ invoice.billing_cust_id }}</p>
+  <p><strong>Yhteyshenkilö:</strong> {{ invoice.contact_person }}</p>
+  <p><strong>Puhelin:</strong> {{ invoice.phone }}</p>
+  <p><strong>Sähköposti:</strong> {{ invoice.email }}</p>
+  <p><strong>Osoite:</strong> {{ invoice.address }}, {{ invoice.postcode }} {{ invoice.postoffice }}</p>
+</section>
+
+<section>
+  <h2>Laskutustiedot</h2>
+  <p><strong>Laskutustapa:</strong> {{ invoice.get_billing_method_display|default:"-" }}</p>
+  <p><strong>Verkkolaskuosoite:</strong> {{ invoice.e_invoice_address|default:"-" }}</p>
+  <p><strong>Maksajan viite:</strong> {{ invoice.payer_reference|default:"-" }}</p>
+  <p><strong>Maksu:</strong> {{ invoice.payment }} €</p>
+  <p><strong>ALV:</strong> {{ invoice.vat_percent }} %</p>
+  <p><strong>Omistajan osuus:</strong> {{ invoice.owner_profit }} €</p>
+</section>
+
+{% if invoice.group_billing %}
+<section>
+  <h2>Ryhmälaskutus</h2>
+  <p><strong>Ryhmän nimi:</strong> {{ invoice.group_name|default:"-" }}</p>
+  <p><strong>Jäsenten määrä:</strong> {{ invoice.number_of_members }}</p>
+</section>
+{% endif %}
+
+{% endblock %}
