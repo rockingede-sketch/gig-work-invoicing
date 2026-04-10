@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from datetime import timedelta
+from decimal import Decimal
 # taulua paramstable vastaava luokka:
 class Paramstable(models.Model):
     name = models.CharField(max_length=50, null=False)
@@ -44,8 +45,8 @@ class UserProfile(models.Model):
 # taulua customers vastaava luokka:
 class Customer(models.Model):
     CUSTOMER_ROLE = [
-        ('light entrepreneur', 'Light Entrepreneur'),
-        ('employee', 'Employee'),
+        ('light entrepreneur', 'Kevytyrittäjä'),
+        ('employee', 'Työntekijä'),
     ]
     #user_id = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)
     user_id = models.ForeignKey('auth.User', on_delete=models.SET_NULL, null=True, related_name='customers')
@@ -121,6 +122,14 @@ class BilligCustomers(models.Model):
     
     # taulua billingcases vastaava luokka:
 class BillingCase(models.Model):
+    # nämä muuttujat pitää myöhemmin luoda ja hakea Paramastable -luokasta:
+    VAT_LEVELS = [
+        (Decimal("0.00"), "0%"),
+        (Decimal("10.00"), "10%"),
+        (Decimal("10.00"), "13.5%"),
+        (Decimal("24.00"), "25.5%"),
+    ]
+
     STAGE_CHOICES = [
         ('open', 'Open'),
         ('contract sent', 'Contract Sent'),
@@ -138,6 +147,7 @@ class BillingCase(models.Model):
         ('sähköposti', 'Sähköposti'),
         ('verkkolasku', 'Verkkolasku'),
     ]
+  
     frontman_cust_id = models.ForeignKey('Customer', on_delete=models.SET_NULL, null=True, related_name='billingCase_frontman_cust_id')
     billing_cust_id = models.ForeignKey('Customer', on_delete=models.SET_NULL, null=True, related_name='billingCase_billing_cust_id')
     stage = models.CharField(max_length=20, choices=STAGE_CHOICES, null=False)
@@ -158,7 +168,8 @@ class BillingCase(models.Model):
     e_invoice_address = models.CharField(max_length=20, null=True, blank=True)
     payer_reference = models.CharField(max_length=50, null=True, blank=True)
     payment = models.DecimalField(max_digits=12, decimal_places=2, null=False)
-    vat_percent = models.DecimalField(max_digits=5, decimal_places=2, null=False)
+    vat_includes = models.BooleanField(default=True, null=False) # bit 0/1
+    vat_percent = models.DecimalField(max_digits=4,decimal_places=2,choices=VAT_LEVELS,default=Decimal("25.5"),)
     group_billing = models.BooleanField(default=False, null=False) # bit 0/1
     group_name = models.CharField(max_length=50, null=True, blank=True)
     number_of_members = models.IntegerField(null=False, default=1)
@@ -235,6 +246,7 @@ class Payroll(models.Model):
     billing_case_id = models.ForeignKey('BillingCase', on_delete=models.SET_NULL, null=True)
     billing_case_row_id = models.ForeignKey('BillingCaseRow', on_delete=models.SET_NULL, null=True)
     customer_id = models.ForeignKey('Customer', on_delete=models.SET_NULL, null=True)
+    customer_role = models.CharField(max_length=20, null=False) # kevytyrittäjä tai työntekijä = light entrepreneur, employee
     # Palkanmaksun tiedot
     payroll_time = models.CharField(max_length=50) # palkanmaksu ajalta
     working_hours = models.DecimalField(max_digits=10, decimal_places=2) # työaika h
