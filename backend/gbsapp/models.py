@@ -127,7 +127,7 @@ class BillingCase(models.Model):
         (Decimal("0.00"), "0%"),
         (Decimal("10.00"), "10%"),
         (Decimal("13.50"), "13.5%"),
-        (Decimal("24.00"), "25.5%"),
+        (Decimal("25.50"), "25.5%"),
     ]
 
     STAGE_CHOICES = [
@@ -169,7 +169,7 @@ class BillingCase(models.Model):
     payer_reference = models.CharField(max_length=50, null=True, blank=True)
     payment = models.DecimalField(max_digits=12, decimal_places=2, null=False)
     vat_includes = models.BooleanField(default=True, null=False) # bit 0/1
-    vat_percent = models.DecimalField(max_digits=4,decimal_places=2,choices=VAT_LEVELS,default=Decimal("25.5"),)
+    vat_percent = models.DecimalField(max_digits=4,decimal_places=2,choices=VAT_LEVELS,default=Decimal("25.50"),)
     group_billing = models.BooleanField(default=False, null=False) # bit 0/1
     group_name = models.CharField(max_length=50, null=True, blank=True)
     number_of_members = models.IntegerField(null=False, default=1)
