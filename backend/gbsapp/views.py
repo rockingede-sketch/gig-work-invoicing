@@ -5,6 +5,7 @@ from django.shortcuts import render
 from gbsapp.models import BillingCase
 from django.db.models import Sum, Q
 from django.utils import timezone
+from datetime import timedelta
 # Create your views here.
 #class sendConfirmEmail(APIView):
    # def get(self, request):
@@ -27,7 +28,7 @@ def laskutus(request):
     open_total = open_invoices.aggregate(t=Sum('payment'))['t'] or 0
 
     #Late Payment invoices
-    late_invoices = invoices.filter(is_late=True,stage__in=['invoice sent'])
+    late_invoices = invoices.filter(stage='invoice sent',created__date__lt=timezone.now().date() - timedelta(days=14))
     late_count = late_invoices.count()
     late_total = late_invoices.aggregate(t=Sum('payment'))['t'] or 0
 
@@ -36,13 +37,16 @@ def laskutus(request):
     paid_count = paid_invoices.count()
     paid_total = paid_invoices.aggregate(t=Sum('payment'))['t'] or 0
     
+    #Decide what invoices to pass to the context
     if filter_status == 'open':
         invoices = open_invoices
     elif filter_status == 'paid':
         invoices = paid_invoices
+    elif filter_status == 'late':
+        invoices = late_invoices
 
     context = {
-        'invoices': invoices,
+        'invoices' : invoices,
         'status_filter': filter_status,
         'total_count': invoice_total_count,
         'open_count': open_count,
@@ -53,7 +57,7 @@ def laskutus(request):
         'paid_total': paid_total,
     }
 
-    return render(request, 'gbsapp/laskutus/laskutus.html', {'invoices': invoices})
+    return render(request, 'gbsapp/laskutus/laskutus.html',context)
 
 def lasku_new(request):
     return render(request, 'gbsapp/laskutus/lasku_new.html')

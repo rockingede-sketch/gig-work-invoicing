@@ -176,7 +176,7 @@ class BillingCase(models.Model):
             return False
         if not self.created:
             return False
-        return self.created + timedelta(days=14) < timezone.now().date() #return self.created.date() + timedelta(days=14) < timezone.now().date()
+        return self.created.date() + timedelta(days=14) < timezone.now().date() #return self.created.date() + timedelta(days=14) < timezone.now().date()
 
     @property
     def is_open(self):
