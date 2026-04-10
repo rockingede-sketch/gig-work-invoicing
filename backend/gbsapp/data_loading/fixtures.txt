@@ -1,6 +1,6 @@
 # Export your data as fixtures
-uv run python manage.py dumpdata > initial_data.json
+uv run python manage.py dumpdata > ./databases/initial_data.json
 
 # Then anyone cloning can run:
 uv run python manage.py migrate
-uv run python manage.py loaddata initial_data.json
+uv run python manage.py loaddata ./databases/initial_data.json
