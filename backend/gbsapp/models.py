@@ -126,7 +126,7 @@ class BillingCase(models.Model):
     VAT_LEVELS = [
         (Decimal("0.00"), "0%"),
         (Decimal("10.00"), "10%"),
-        (Decimal("10.00"), "13.5%"),
+        (Decimal("13.50"), "13.5%"),
         (Decimal("24.00"), "25.5%"),
     ]
 
