@@ -15,10 +15,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from gbsapp.views import sendConfirmEmail
+from django.urls import path, include
+# from gbsapp.views import sendConfirmEmail
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('sendconfirmation/', sendConfirmEmail.as_view(), name='send-confirmation-email')
+    path('registration/', include('registration.urls')),
+    # path('sendconfirmation/', sendConfirmEmail.as_view(), name='send-confirmation-email')
 ]
+

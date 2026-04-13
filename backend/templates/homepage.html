@@ -1,0 +1,46 @@
+{% extends "base.html" %} {% block content %}
+
+<div class="row align-items-center mt-5">
+  <div class="col-md-6">
+    <h1 class="fw-bold">Tervetuloa Keikkalaskuun</h1>
+
+    <p class="mb-3">
+      Helppo ja nopea tapa laskuttaa ilman omaa yritystä. Aloita laskutus
+      muutamassa minuutissa.
+    </p>
+
+    <a href="{% url 'loginLink' %}" class="btn btn-primary btn-lg"
+      >Aloita nyt</a
+    >
+  </div>
+
+  <div class="col-md-6">
+    <div class="bg-light rounded" style="height: 300px"></div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<div class="row mt-5">
+  <div class="col-md-4">
+    <div class="p-3 bg-light rounded">
+      <h5 class="fw-semibold">Nopea laskutus</h5>
+      <p>Luo lasku muutamassa minuutissa ja lähetä se asiakkaalle.</p>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="p-3 bg-light rounded">
+      <h5 class="fw-semibold">Ei paperisotaa</h5>
+      <p>Hoidamme verot, vakuutukset ja muut velvoitteet puolestasi.</p>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="p-3 bg-light rounded">
+      <h5 class="fw-semibold">Turvallinen palvelu</h5>
+      <p>Luotettava suomalainen laskutuspalvelu.</p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

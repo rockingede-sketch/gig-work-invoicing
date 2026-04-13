@@ -1,0 +1,55 @@
+{% extends "base.html" %} {% load static %} {% block content %}
+<div
+  class="d-flex justify-content-center align-items-center min-vh-100 bg-light px-3"
+>
+  <div
+    class="card shadow-sm"
+    style="max-width: 420px; width: 100%; border-radius: 12px"
+  >
+    <div class="card-body p-4">
+      <h4 class="fw-semibold mb-3">Kirjaudu</h4>
+
+      <form method="POST">
+        {% csrf_token %}
+
+        <div class="mb-3">
+          <label class="form-label">Sähköposti</label>
+          <input type="email" name="email" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Salasana</label>
+          <input
+            type="password"
+            name="password"
+            class="form-control"
+            required
+          />
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100 py-2 mt-2">
+          Kirjaudu sisään
+        </button>
+
+        <div class="text-center mt-3">
+          <a href="{% url 'forgotPwdLink' %}" class="text-decoration-none">
+            Unohtunut salasana?
+          </a>
+        </div>
+
+        <hr class="my-4" />
+
+        <div class="text-center">
+          <p class="mb-2">Eikö sinulla ole tiliä?</p>
+          <a
+            href="{% url 'createAccLink' %}"
+            class="btn btn-outline-primary w-100"
+          >
+            Luo tili
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
