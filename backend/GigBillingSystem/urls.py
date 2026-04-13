@@ -16,11 +16,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from gbsapp import views
 # from gbsapp.views import sendConfirmEmail
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('registration/', include('registration.urls')),
-    # path('sendconfirmation/', sendConfirmEmail.as_view(), name='send-confirmation-email')
+    #path('sendconfirmation/', sendConfirmEmail.as_view(), name='send-confirmation-email'),
+    path('laskutus/', views.laskutus, name='laskutus'),
+    path('laskutus/uusi/', views.lasku_new, name='lasku_new'),
+    path('laskutus/uusi/luotu', views.lasku_new, name='lasku_luotu'),
+    path('laskutus/<int:pk>/', views.lasku_detail, name='lasku_detail')
 ]
 

@@ -1,0 +1,23 @@
+{% extends "gbsapp/base.html" %}
+{% block title %}Laskutus{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-2">
+  <h1>Luo lasku</h1>
+</div>
+<p class="text-muted small mb-4">Blah</p>
+
+<div class="row g-3 mb-4">
+  <div class="col">open total</div>
+  <div class="col">paid total</div>
+</div>
+
+{{ form.as_p }}
+
+<div class="row g-3 mb-4">
+    <div class="col"></div>
+    <div class="col"></div>
+</div>
+
+{% endblock %}

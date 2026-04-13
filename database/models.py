@@ -1,4 +1,7 @@
+from decimal import Decimal
+
 from django.db import models
+
 # taulua paramstable vastaava luokka:
 class Paramstable(models.Model):
     name = models.CharField(max_length=50, null=False)
@@ -11,28 +14,41 @@ class Paramstable(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.name + ' ' + self.description +  self.year
+        return self.name + ' ' + self.description + str(self.year)
 # taulua users vastaava luokka:
-class Users(models.Model):
-    username = models.EmailField(max_length=100, null=False)
-    password = models.CharField(max_length=250, null=False)
+#class Users(models.Model):
+#    username = models.EmailField(max_length=100, null=False)
+#    password = models.CharField(max_length=250, null=False)
+#    confirmed = models.BooleanField(default=False)
+#    valid_from = models.DateField(null=False)
+#    valid_to = models.DateField(null=True)
+#    disabled = models.BooleanField(default=False)
+#    created = models.DateTimeField(auto_now_add=True)
+#    updated = models.DateTimeField(auto_now=True)
+#
+#    def __str__(self):
+#        return self.username + ' ' + str(self.confirmed) + ' ' + str(self.disabled)
+
+#Changed the data model, so that we use the native users in django
+from django.contrib.auth.models import User
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     confirmed = models.BooleanField(default=False)
-    valid_from = models.DateField(null=False)
-    valid_to = models.DateField(null=True)
-    disabled = models.BooleanField(default=False)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    valid_from = models.DateField(null=True, blank=True)
+    valid_to = models.DateField(null=True, blank=True)
 
     def __str__(self):
-        return self.username + ' ' + str(self.confirmed) + ' ' + str(self.disabled)
+        return self.user.email
 
 # taulua customers vastaava luokka:
-class Customers(models.Model):
+class Customer(models.Model):
     CUSTOMER_ROLE = [
-        ('light entrepreneur', 'Light Entrepreneur'),
-        ('employee', 'Employee'),
+        ('light entrepreneur', 'Kevytyrittäjä'),
+        ('employee', 'Työntekijä'),
     ]
-    user_id = models.ForeignKey('User', on_delete=models.SET_NULL, null=False)
+    #user_id = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)
+    user_id = models.ForeignKey('auth.User', on_delete=models.SET_NULL, null=True, related_name='customers')
     person_id= models.CharField(max_length=250, null=False)
     custom_role = models.CharField(max_length=20, null=False, choices=CUSTOMER_ROLE) # kevytyrittäjä tai työntekijä = light entrepreneur, employee
     tax_number = models.CharField(max_length=20, null=True, blank=True)
@@ -43,7 +59,7 @@ class Customers(models.Model):
     address = models.CharField(max_length=50, null=False)
     postcode = models.CharField(max_length=5, null=False)
     postoffice = models.CharField(max_length=50, null=False)
-    tax_rate = models.DecimalField(null=False)
+    tax_rate = models.DecimalField(max_digits=5, decimal_places=2)
     bankaccount = models.CharField(max_length=18, null=True, blank=True)
     valid_from = models.DateField(null=False)
     valid_to = models.DateField(null=True, blank=True)
@@ -54,8 +70,9 @@ class Customers(models.Model):
         return self.last_name + ' ' + self.first_name
 
   # taulua companycustomers vastaava luokka:
-class CompanyCustomers(models.Model):
-    userId = models.ForeignKey('User', on_delete=models.SET_NULL,null=False)
+class CompanyCustomer(models.Model):
+    #userId = models.ForeignKey('User', on_delete=models.SET_NULL,null=True)
+    user_id = models.ForeignKey('auth.User', on_delete=models.SET_NULL, null=True, related_name='company_customers')
     companyId= models.CharField(max_length=9, null=False)
     email = models.EmailField(max_length=100, null=False)
     name = models.CharField(max_length=50, null=False)
@@ -72,7 +89,9 @@ class CompanyCustomers(models.Model):
 
     def __str__(self):
         return self.name
-    
+  
+
+
 # taulua billingcustomers vastaava luokka:
 class BilligCustomers(models.Model):
     CUSTOMER_STATUS_CHOICES = [
@@ -98,10 +117,16 @@ class BilligCustomers(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.company_name + ' ' + self.location
+        return str(self.company_name) + ' ' + str(self.location)
     
     # taulua billingcases vastaava luokka:
-class BillingCases(models.Model):
+class BillingCase(models.Model):
+    # nämä muuttujat pitää myöhemmin luoda ja hakea Paramastable -luokasta:
+    vatfull = Decimal('25.5')
+    vatpartial1 = Decimal('13.5')
+    vatpartial2 = Decimal('10')
+    vat0 = Decimal('0')
+
     STAGE_CHOICES = [
         ('open', 'Open'),
         ('contract sent', 'Contract Sent'),
@@ -119,8 +144,14 @@ class BillingCases(models.Model):
         ('sähköposti', 'Sähköposti'),
         ('verkkolasku', 'Verkkolasku'),
     ]
-    frontman_cust_id = models.ForeignKey('Customer', on_delete=models.SET_NULL, null=False)
-    billing_cust_id = models.ForeignKey('Customer', on_delete=models.SET_NULL, null=False)
+    VAT_LEVEL = [
+        (vatfull, f'ALV {vatfull} %'.replace('.', ',')),
+        (vatpartial1, f'ALV {vatpartial1} %'.replace('.', ',')),
+        (vatpartial2, f'ALV {vatpartial2} %'.replace('.', ',')),
+        (vat0, f'ALV {vat0} %'.replace('.', ',')),
+    ]   
+    frontman_cust_id = models.ForeignKey('Customer', on_delete=models.SET_NULL, null=True, related_name='billingCase_frontman_cust_id')
+    billing_cust_id = models.ForeignKey('Customer', on_delete=models.SET_NULL, null=True, related_name='billingCase_billing_cust_id')
     stage = models.CharField(max_length=20, choices=STAGE_CHOICES, null=False)
     job_location = models.CharField(max_length=100, null=False)
     job_date = models.DateField(null=False)
@@ -139,7 +170,8 @@ class BillingCases(models.Model):
     e_invoice_address = models.CharField(max_length=20, null=True, blank=True)
     payer_reference = models.CharField(max_length=50, null=True, blank=True)
     payment = models.DecimalField(max_digits=12, decimal_places=2, null=False)
-    vat_percent = models.DecimalField(max_digits=5, decimal_places=2, null=False)
+    vat_includes = models.BooleanField(default=True, null=False) # bit 0/1
+    vat_percent = models.DecimalField(max_digits=5, decimal_places=2, choices=VAT_LEVEL, null=False)
     group_billing = models.BooleanField(default=False, null=False) # bit 0/1
     group_name = models.CharField(max_length=50, null=True, blank=True)
     number_of_members = models.IntegerField(null=False, default=1)
@@ -148,12 +180,12 @@ class BillingCases(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.work_description
+        return str(self.work_description)
     
 # taulua billingcaserow vastaava luokka:
 class BillingCaseRow(models.Model):
-    billing_case_id = models.ForeignKey('BillingCase', on_delete=models.SET_NULL, null=False)
-    customer_id = models.ForeignKey('Customer', on_delete=models.SET_NULL, null=False)  
+    billing_case_id = models.ForeignKey('BillingCase', on_delete=models.SET_NULL, null=True)
+    customer_id = models.ForeignKey('Customer', on_delete=models.SET_NULL, null=True)  
     frontman = models.BooleanField(default=False, null=False) # bit 0/1
     work_hours = models.DecimalField(max_digits=10, decimal_places=2, null=False)
     share_of_pay = models.DecimalField(max_digits=5, decimal_places=2, null=False)
@@ -167,6 +199,7 @@ class BillingCaseRow(models.Model):
     def __str__(self):
         return str(self.share_of_pay) + ' %'
 
+
 # taulua contract vastaava luokka:
 class Contract(models.Model):
 
@@ -177,9 +210,9 @@ class Contract(models.Model):
         ('accepted', 'Accepted'),
         ('rejected', 'Rejected'),
     ]
-    billing_case_id = models.ForeignKey('BillingCase', on_delete=models.SET_NULL, null=False)
-    frontman_cust_id = models.ForeignKey('Customer', on_delete=models.SET_NULL, null=False)
-    billing_cust_id = models.ForeignKey('Customer', on_delete=models.SET_NULL, null=False)
+    billing_case_id = models.ForeignKey('BillingCase', on_delete=models.SET_NULL, null=True)
+    frontman_cust_id = models.ForeignKey('Customer', on_delete=models.SET_NULL, null=True, related_name='Contract_frontman_cust_id')
+    billing_cust_id = models.ForeignKey('Customer', on_delete=models.SET_NULL, null=True, related_name='contract_billing_cust_id')
     contract_nr = models.CharField(max_length=20, null=False)
     contract_date = models.DateField(null=False)
     last_answer_date = models.DateField(null=False)
@@ -196,9 +229,10 @@ class Payroll(models.Model):
         ('unpaid', 'Unpaid'),
         ('paid', 'Paid'),
     ]
-    billing_case_id = models.ForeignKey('BillingCase', on_delete=models.SET_NULL, null=False)
-    billing_case_row_id = models.ForeignKey('BillingCaseRow', on_delete=models.SET_NULL, null=False)
-    customer_id = models.ForeignKey('Customer', on_delete=models.SET_NULL, null=False)
+    billing_case_id = models.ForeignKey('BillingCase', on_delete=models.SET_NULL, null=True)
+    billing_case_row_id = models.ForeignKey('BillingCaseRow', on_delete=models.SET_NULL, null=True)
+    customer_id = models.ForeignKey('Customer', on_delete=models.SET_NULL, null=True)
+    customer_role = models.CharField(max_length=20, null=False) # kevytyrittäjä tai työntekijä = light entrepreneur, employee
     # Palkanmaksun tiedot
     payroll_time = models.CharField(max_length=50) # palkanmaksu ajalta
     working_hours = models.DecimalField(max_digits=10, decimal_places=2) # työaika h
@@ -239,9 +273,9 @@ class TravelExpenseClaim(models.Model):
         ('unpaid', 'Unpaid'),
         ('paid', 'Paid'),
     ]
-    billing_case_id = models.ForeignKey('BillingCase', on_delete=models.SET_NULL, null=False)
-    billing_case_row_id = models.ForeignKey('BillingCaseRow', on_delete=models.SET_NULL, null=False)
-    customer_id = models.ForeignKey('Customer', on_delete=models.SET_NULL, null=False)
+    billing_case_id = models.ForeignKey('BillingCase', on_delete=models.SET_NULL, null=True)
+    billing_case_row_id = models.ForeignKey('BillingCaseRow', on_delete=models.SET_NULL, null=True)
+    customer_id = models.ForeignKey('Customer', on_delete=models.SET_NULL, null=True)
     travel_begin = models.DateTimeField() # matka alkoi
     travel_ended = models.DateTimeField() # matka päättyi
     country = models.CharField(max_length=50, default='Finland')
@@ -277,8 +311,8 @@ class Invoice(models.Model):
         ('unpaid', 'Unpaid'),
         ('debt_collection', 'Debt Collection'),
     ]
-    billing_case_id = models.ForeignKey('BillingCase', on_delete=models.SET_NULL, null=False)
-    billing_cust_id = models.ForeignKey('Customer', on_delete=models.SET_NULL, null=False)
+    billing_case_id = models.ForeignKey('BillingCase', on_delete=models.SET_NULL, null=True)
+    billing_cust_id = models.ForeignKey('Customer', on_delete=models.SET_NULL, null=True)
     invoice_num = models.CharField(max_length=20, null=False) # laskun numero
     invoice_date = models.DateField(null=False) # laskun päivämäärä
     due_date = models.DateField(null=False) # eräpäivä
@@ -317,7 +351,8 @@ class Documents(models.Model):
     doc_type = models.CharField(max_length=20, choices=DOC_TYPE_CHOICES, null=False)
     doc_date = models.DateField(null=False)
     # Foreign Keys: 
-    user_id = models.ForeignKey('User', on_delete=models.SET_NULL, null=True, blank=True)
+    #user_id = models.ForeignKey('User', on_delete=models.SET_NULL, null=True, blank=True)
+    user_id = models.ForeignKey('auth.User', on_delete=models.SET_NULL, null=True, related_name='customer')
     contract_id = models.ForeignKey('Contract', on_delete=models.SET_NULL, null=True, blank=True)
     invoice_id = models.ForeignKey('Invoice', on_delete=models.SET_NULL, null=True, blank=True)
     payroll_id = models.ForeignKey('Payroll', on_delete=models.SET_NULL, null=True, blank=True)
