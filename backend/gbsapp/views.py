@@ -1,18 +1,11 @@
 from django.shortcuts import render
-#from rest_framework.views import APIView
-#from rest_framework.response import Response
-#from rest_framework import status
 from gbsapp.models import BillingCase
 from django.db.models import Sum, Q
 from django.utils import timezone
 from datetime import timedelta
-# Create your views here.
-#class sendConfirmEmail(APIView):
-   # def get(self, request):
-   #     EmailService.sendConfirmEmail('test','email@email.com')
-   #     
-   #     return Response({'message': 'Welcome email sent'}, status=status.HTTP_200_OK)
- 
+from .forms import BillingCaseForm
+from django.shortcuts import redirect
+from .services.services import BillingCalculators
 
 def laskutus(request):
 
@@ -60,7 +53,29 @@ def laskutus(request):
     return render(request, 'gbsapp/laskutus/laskutus.html',context)
 
 def lasku_new(request):
-    return render(request, 'gbsapp/laskutus/lasku_new.html')
+    if request.method == 'POST':
+        lasku_form = BillingCaseForm(request.POST)
+    else:
+        lasku_form = BillingCaseForm()
+    
+    if lasku_form.is_valid():
+        uusi_lasku = lasku_form.save(commit=False)
+        uusi_lasku.stage = 'open'
+       # uusi_lasku.frontman_cust_id = uusi_lasku.billing_cust_id
+        uusi_lasku.owner_profit = BillingCalculators.calculate_customer_portion(
+            uusi_lasku.payment,
+            uusi_lasku.number_of_members or 1
+        )
+        uusi_lasku.save()
+        return redirect('lasku_luotu', pk=uusi_lasku.pk)
+    
+    else:    
+        return render(request, 'gbsapp/laskutus/lasku_new.html',{'form': lasku_form})
+
+         
+def lasku_luotu(request):
+    return render(request, 'gbsapp/laskutus/lasku_new_confirm.html')
+    
 
 def lasku_detail(request, pk):
     invoice = BillingCase.objects.get(pk=pk)

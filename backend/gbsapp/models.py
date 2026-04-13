@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from datetime import timedelta
 from decimal import Decimal
+
 # taulua paramstable vastaava luokka:
 class Paramstable(models.Model):
     name = models.CharField(max_length=50, null=False)
@@ -123,12 +124,10 @@ class BilligCustomers(models.Model):
     # taulua billingcases vastaava luokka:
 class BillingCase(models.Model):
     # nämä muuttujat pitää myöhemmin luoda ja hakea Paramastable -luokasta:
-    VAT_LEVELS = [
-        (Decimal("0.00"), "0%"),
-        (Decimal("10.00"), "10%"),
-        (Decimal("13.50"), "13.5%"),
-        (Decimal("25.50"), "25.5%"),
-    ]
+    vatfull =       Decimal("25.50")
+    vatpartial1 =   Decimal("13.50")
+    vatpartial2 =   Decimal("10.00")
+    vat0 =          Decimal("0.00")
 
     STAGE_CHOICES = [
         ('open', 'Open'),
@@ -147,7 +146,12 @@ class BillingCase(models.Model):
         ('sähköposti', 'Sähköposti'),
         ('verkkolasku', 'Verkkolasku'),
     ]
-  
+    VAT_LEVEL = [
+        (vatfull, f'ALV {vatfull} %'.replace('.', ',')),
+        (vatpartial1, f'ALV {vatpartial1} %'.replace('.', ',')),
+        (vatpartial2, f'ALV {vatpartial2} %'.replace('.', ',')),
+        (vat0, f'ALV {vat0} %'.replace('.', ',')),
+    ]   
     frontman_cust_id = models.ForeignKey('Customer', on_delete=models.SET_NULL, null=True, related_name='billingCase_frontman_cust_id')
     billing_cust_id = models.ForeignKey('Customer', on_delete=models.SET_NULL, null=True, related_name='billingCase_billing_cust_id')
     stage = models.CharField(max_length=20, choices=STAGE_CHOICES, null=False)
@@ -169,7 +173,7 @@ class BillingCase(models.Model):
     payer_reference = models.CharField(max_length=50, null=True, blank=True)
     payment = models.DecimalField(max_digits=12, decimal_places=2, null=False)
     vat_includes = models.BooleanField(default=True, null=False) # bit 0/1
-    vat_percent = models.DecimalField(max_digits=4,decimal_places=2,choices=VAT_LEVELS,default=Decimal("25.50"),)
+    vat_percent = models.DecimalField(max_digits=5, decimal_places=2, choices=VAT_LEVEL, null=False)
     group_billing = models.BooleanField(default=False, null=False) # bit 0/1
     group_name = models.CharField(max_length=50, null=True, blank=True)
     number_of_members = models.IntegerField(null=False, default=1)
@@ -180,6 +184,10 @@ class BillingCase(models.Model):
     @property
     def is_paid(self):
         return self.stage == 'invoice paid'
+
+    @property
+    def is_vat_includes(self) -> bool:
+        return self.vat_includes
 
     @property
     def is_late(self):

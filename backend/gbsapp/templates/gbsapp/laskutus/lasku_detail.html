@@ -13,8 +13,8 @@
   </div>
   <div class="d-flex gap-2">
     <a href="{% url 'laskutus' %}" class="btn btn-secondary btn-sm">← Takaisin</a>
-    <button class="btn btn-danger btn-sm">Merkitse maksetuksi</button>
-    <button class="btn btn-success btn-sm">Lähetä lasku</button>
+    <!--<button class="btn btn-danger btn-sm">Merkitse maksetuksi</button>-->
+    {% if not invoice.is_paid %}<button class="btn btn-success btn-sm">Lähetä lasku</button>{% endif %}
   </div>
 </div>
 
@@ -26,7 +26,7 @@
 
 <div class="row g-3 mb-4">
   <div class="col"><div class="bg-light rounded p-3"><div class="small text-muted">Maksu (sis. ALV)</div><div class="fs-4 fw-500">{{ invoice.payment|floatformat:2 }} €</div></div></div>
-  <div class="col"><div class="bg-light rounded p-3"><div class="small text-muted">ALV</div><div class="fs-4 fw-500">{{ invoice.vat_percent }} %</div></div></div>
+  {% if invoice.is_vat_includes %}<div class="col"><div class="bg-light rounded p-3"><div class="small text-muted">Vero:</div><div class="fs-4 fw-500">{{ invoice.vat_percent }} %</div></div></div>{% endif %}
   <div class="col"><div class="bg-light rounded p-3"><div class="small text-muted">Omistajan osuus</div><div class="fs-4 fw-500">{{ invoice.owner_profit|floatformat:2 }} €</div></div></div>
 </div>
 
