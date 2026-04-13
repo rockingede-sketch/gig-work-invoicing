@@ -14,7 +14,7 @@
   <div class="d-flex gap-2">
     <a href="{% url 'laskutus' %}" class="btn btn-secondary btn-sm">← Takaisin</a>
     <!--<button class="btn btn-danger btn-sm">Merkitse maksetuksi</button>-->
-    <button class="btn btn-success btn-sm">Lähetä lasku</button>
+    {% if not invoice.is_paid %}<button class="btn btn-success btn-sm">Lähetä lasku</button>{% endif %}
   </div>
 </div>
 
