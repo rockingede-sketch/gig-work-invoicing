@@ -1,18 +1,9 @@
 from django.shortcuts import render
-#from rest_framework.views import APIView
-#from rest_framework.response import Response
-#from rest_framework import status
 from gbsapp.models import BillingCase
 from django.db.models import Sum, Q
 from django.utils import timezone
 from datetime import timedelta
-# Create your views here.
-#class sendConfirmEmail(APIView):
-   # def get(self, request):
-   #     EmailService.sendConfirmEmail('test','email@email.com')
-   #     
-   #     return Response({'message': 'Welcome email sent'}, status=status.HTTP_200_OK)
- 
+from .forms import BillingCaseForm
 
 def laskutus(request):
 
@@ -64,14 +55,33 @@ def lasku_new(request):
         # POST — what do we pass to the template?
         # 1. take the submitted data and pass it to the form
         # 2. check if it's valid
-        # 3. if valid — what do you do before saving?
-        # 4. where do you redirect?
+        '''
+        e_invoice_address is only required if verkkolasku is 1. Verkkolasku is required
+
+group_name, number_of_members required only if group_billing is 1 and always required
+let's do searchable combo box dropdown perhaps for now, pull customers from the model
+        
+        # 3. if valid — we manually set to open, retrieve the owner profit and caluclate the profit for the lasku - this should be done as an application available function. billing cust id can come from the logged in customer (which is not done right now, so this needs to be handled somehow).
+        # 4. Yes we could redirect to created template / view def.
         pass
     else:
+        billing_cust_id = forms.ModelChoiceField(queryset=Customer.objects.all())
         pass
+        job location
+        a date
+        job started, job ended, work description, work_task, contact details
+        billing method is selected
+        e_invoice address if it is a verkkolasku
+        paying reference
+        the payment
+        group billingy yes/no then group name
+        number of members
+        VAT included and at what percent.
         # GET — what do we pass to the template?
+         '''
     return render(request, 'gbsapp/laskutus/lasku_new.html')
 
+         
 def lasku_luotu(request):
     return render(request, 'gbsapp/laskutus/lasku_new_confirm.html')
     
