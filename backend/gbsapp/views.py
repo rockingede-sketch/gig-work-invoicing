@@ -5,7 +5,7 @@ from django.utils import timezone
 from datetime import timedelta
 from .forms import BillingCaseForm
 from django.shortcuts import redirect
-from services.services import BillingCalculators
+from .services.services import BillingCalculators
 
 def laskutus(request):
 
