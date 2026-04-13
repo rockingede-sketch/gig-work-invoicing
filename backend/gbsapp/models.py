@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from datetime import timedelta
+from decimal import Decimal
 
 # taulua paramstable vastaava luokka:
 class Paramstable(models.Model):
@@ -123,10 +124,10 @@ class BilligCustomers(models.Model):
     # taulua billingcases vastaava luokka:
 class BillingCase(models.Model):
     # nämä muuttujat pitää myöhemmin luoda ja hakea Paramastable -luokasta:
-    vatfull = 25.5
-    vatpartial1 = 13.5
-    vatpartial2 = 10
-    vat0 = 0
+    vatfull =       Decimal("25.50")
+    vatpartial1 =   Decimal("13.50")
+    vatpartial2 =   Decimal("10.00")
+    vat0 =          Decimal("0.00")
 
     STAGE_CHOICES = [
         ('open', 'Open'),
@@ -183,6 +184,10 @@ class BillingCase(models.Model):
     @property
     def is_paid(self):
         return self.stage == 'invoice paid'
+
+    @property
+    def is_vat_includes(self) -> bool:
+        return self.vat_includes
 
     @property
     def is_late(self):
