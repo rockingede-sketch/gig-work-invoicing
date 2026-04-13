@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from django.db import models
 
 # taulua paramstable vastaava luokka:
@@ -13,10 +15,6 @@ class Paramstable(models.Model):
 
     def __str__(self):
         return self.name + ' ' + self.description + str(self.year)
-<<<<<<< HEAD
-    
-=======
->>>>>>> 3779070e5dea1e232d4b6a695ec0be1153abbc01
 # taulua users vastaava luokka:
 #class Users(models.Model):
 #    username = models.EmailField(max_length=100, null=False)
@@ -124,10 +122,10 @@ class BilligCustomers(models.Model):
     # taulua billingcases vastaava luokka:
 class BillingCase(models.Model):
     # nämä muuttujat pitää myöhemmin luoda ja hakea Paramastable -luokasta:
-    vatfull = 25.5
-    vatpartial1 = 13.5
-    vatpartial2 = 10
-    vat0 = 0
+    vatfull = Decimal('25.5')
+    vatpartial1 = Decimal('13.5')
+    vatpartial2 = Decimal('10')
+    vat0 = Decimal('0')
 
     STAGE_CHOICES = [
         ('open', 'Open'),
@@ -147,10 +145,10 @@ class BillingCase(models.Model):
         ('verkkolasku', 'Verkkolasku'),
     ]
     VAT_LEVEL = [
-        ('vat_full', f'ALV {vatfull} %'),
-        ('vat_partial1', f'ALV {vatpartial1} %'),
-        ('vat_partial2', f'ALV {vatpartial2} %'),
-        ('vat_0', f'ALV {vat0} %'),
+        (vatfull, f'ALV {vatfull} %'.replace('.', ',')),
+        (vatpartial1, f'ALV {vatpartial1} %'.replace('.', ',')),
+        (vatpartial2, f'ALV {vatpartial2} %'.replace('.', ',')),
+        (vat0, f'ALV {vat0} %'.replace('.', ',')),
     ]   
     frontman_cust_id = models.ForeignKey('Customer', on_delete=models.SET_NULL, null=True, related_name='billingCase_frontman_cust_id')
     billing_cust_id = models.ForeignKey('Customer', on_delete=models.SET_NULL, null=True, related_name='billingCase_billing_cust_id')
