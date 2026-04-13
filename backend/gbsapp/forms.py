@@ -6,6 +6,8 @@ class BillingCaseForm(forms.ModelForm):
     e_invoice_address =     forms.CharField(required=False)
     group_name =            forms.CharField(required=False)
     number_of_members =     forms.IntegerField(required=False)
+    billing_cust_id =       forms.ModelChoiceField(queryset=Customer.objects.all())
+    front_cust_id =         forms.ModelChoiceField(queryset=Customer.objects.all())
 
     class Meta:
         model = BillingCase
@@ -35,7 +37,7 @@ class BillingCaseForm(forms.ModelForm):
         'billing_cust_id': 'Laskutusasiakas',
         }
 
-        fields = {
+        fields = [
         'job_location',
         'job_date',
         'job_begin',
@@ -59,7 +61,7 @@ class BillingCaseForm(forms.ModelForm):
         'number_of_members',
         'front_cust_id',
         'billing_cust_id'
-        }
+        ]
 
         help_texts = {
         'vat_percent': 'Esim. 25.5 yleinen ALV-kanta',
@@ -75,8 +77,9 @@ class BillingCaseForm(forms.ModelForm):
         'group_billing':    forms.CheckboxInput(),
         }
         
+    
         #Automatic Fields:
-
+        #cutomer ID, Front ID
         #stage
         #created
         #updated

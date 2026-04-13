@@ -4,6 +4,8 @@ from django.db.models import Sum, Q
 from django.utils import timezone
 from datetime import timedelta
 from .forms import BillingCaseForm
+from django.shortcuts import redirect
+from services.services import BillingCalculators
 
 def laskutus(request):
 
@@ -52,34 +54,23 @@ def laskutus(request):
 
 def lasku_new(request):
     if request.method == 'POST':
-        # POST — what do we pass to the template?
-        # 1. take the submitted data and pass it to the form
-        # 2. check if it's valid
-        '''
-        e_invoice_address is only required if verkkolasku is 1. Verkkolasku is required
-
-group_name, number_of_members required only if group_billing is 1 and always required
-let's do searchable combo box dropdown perhaps for now, pull customers from the model
-        
-        # 3. if valid — we manually set to open, retrieve the owner profit and caluclate the profit for the lasku - this should be done as an application available function. billing cust id can come from the logged in customer (which is not done right now, so this needs to be handled somehow).
-        # 4. Yes we could redirect to created template / view def.
-        pass
+        lasku_form = BillingCaseForm(request.POST)
     else:
-        billing_cust_id = forms.ModelChoiceField(queryset=Customer.objects.all())
-        pass
-        job location
-        a date
-        job started, job ended, work description, work_task, contact details
-        billing method is selected
-        e_invoice address if it is a verkkolasku
-        paying reference
-        the payment
-        group billingy yes/no then group name
-        number of members
-        VAT included and at what percent.
-        # GET — what do we pass to the template?
-         '''
-    return render(request, 'gbsapp/laskutus/lasku_new.html')
+        lasku_form = BillingCaseForm()
+    
+    if lasku_form.is_valid():
+        uusi_lasku = lasku_form.save(commit=False)
+        uusi_lasku.stage = 'open'
+       # uusi_lasku.frontman_cust_id = uusi_lasku.billing_cust_id
+        uusi_lasku.owner_profit = BillingCalculators.calculate_customer_portion(
+            uusi_lasku.payment,
+            uusi_lasku.number_of_members or 1
+        )
+        uusi_lasku.save()
+        return redirect('lasku_luotu', pk=uusi_lasku.pk)
+    
+    else:    
+        return render(request, 'gbsapp/laskutus/lasku_new.html',{'form': lasku_form})
 
          
 def lasku_luotu(request):
