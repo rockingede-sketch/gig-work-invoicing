@@ -123,4 +123,6 @@ STATICFILES_DIRS = [
 ]
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-DEFAULT_FROM_EMAIL = 'no-reply@gigbilling.local'
+
+LOGIN_REDIRECT_URL = '/profile-complete/'
+LOGIN_URL = '/login/'

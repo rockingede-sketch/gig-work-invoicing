@@ -54,7 +54,10 @@
 
         <div class="text-center">
           <p class="mb-2">Onko sinulla jo tili?</p>
-          <a href="{% url 'loginLink' %}" class="btn btn-outline-primary w-100">
+          <a
+            href="{% url 'registration:loginLink' %}"
+            class="btn btn-outline-primary w-100"
+          >
             Kirjaudu sisään
           </a>
         </div>
