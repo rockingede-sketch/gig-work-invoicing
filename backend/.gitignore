@@ -2,6 +2,8 @@ email_settings.env
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
+*.pyc
+db.sqlite3
 
 # C extensions
 *.so
