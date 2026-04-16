@@ -1,4 +1,9 @@
 email_settings.env
+.env
+*.log
+.vscode/
+.idea/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
