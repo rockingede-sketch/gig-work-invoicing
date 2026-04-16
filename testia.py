@@ -1,17 +1,30 @@
-from backend.gbsapp.models import BillingCase as bcase
-from backend.gbsapp.models import BilligCustomers as bcust
-from docs import make_invoice as make_invoice
+import os
+import sys
+import django
+sys.path.append(os.path.join(os.getcwd(), "backend"))
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.GigBillingSystem.settings')
+django.setup()
+
+# Käytä nyt lyhyttä polkua (ilman backend-etuliitettä)
+# jotta se täsmää INSTALLED_APPS-asetukseen
+from gbsapp.models import BillingCase as bcase
+from gbsapp.models import BillingCustomers as bcust
+from docs import make_invoice
+
+print("Yhteys muodostettu!")
+print(f"BillingCase-rivejä tietokannassa: {bcase.objects.count()}")
 
 try:
     inv_case = bcase.objects.get(id=102)
     # haetaan laskutusasiakkaan tiedot:
-    billing_cust = bcust.objects.get(id=inv_case.billing_cust_id)
-    p_name = billing_cust.name
+    billing_cust = inv_case.billing_cust_id
+    p_name = billing_cust.company_name
     p_address = billing_cust.address
     p_zip = billing_cust.postcode
     p_city = billing_cust.postoffice
-    p_country = billing_cust.country
-    p_business_id = billing_cust.business_id
+    p_country = ''
+    p_business_id = billing_cust.company_id
     i_service = inv_case.job_date.strftime("%Y-%m-%d") + ", " + inv_case.work_task + ", " + inv_case.work_description + ", " + inv_case.job_location
     i_reference = inv_case.payer_reference
     i_pcs = inv_case.number_of_members

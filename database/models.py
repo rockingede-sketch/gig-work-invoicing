@@ -93,7 +93,7 @@ class CompanyCustomer(models.Model):
 
 
 # taulua billingcustomers vastaava luokka:
-class BilligCustomers(models.Model):
+class BillingCustomers(models.Model):
     CUSTOMER_STATUS_CHOICES = [
         ('valid', 'Valid'),
         ('liquidation', 'Liquidation'),
@@ -133,6 +133,7 @@ class BillingCase(models.Model):
         ('contract accepted', 'Contract Accepted'),
         ('contract rejected', 'Contract Rejected'),
         ('assignment', 'Assignment'),
+        ('job done', 'Job Done'),
         ('invoice sent', 'Invoice Sent'),
         ('invoice paid', 'Invoice Paid'),
         ('debt collection', 'Debt Collection'),
@@ -151,7 +152,7 @@ class BillingCase(models.Model):
         (vat0, f'ALV {vat0} %'.replace('.', ',')),
     ]   
     frontman_cust_id = models.ForeignKey('Customer', on_delete=models.SET_NULL, null=True, related_name='billingCase_frontman_cust_id')
-    billing_cust_id = models.ForeignKey('Customer', on_delete=models.SET_NULL, null=True, related_name='billingCase_billing_cust_id')
+    billing_cust_id = models.ForeignKey('BillingCustomer', on_delete=models.SET_NULL, null=True, related_name='billingCase_billing_cust_id')
     stage = models.CharField(max_length=20, choices=STAGE_CHOICES, null=False)
     job_location = models.CharField(max_length=100, null=False)
     job_date = models.DateField(null=False)
@@ -212,7 +213,7 @@ class Contract(models.Model):
     ]
     billing_case_id = models.ForeignKey('BillingCase', on_delete=models.SET_NULL, null=True)
     frontman_cust_id = models.ForeignKey('Customer', on_delete=models.SET_NULL, null=True, related_name='Contract_frontman_cust_id')
-    billing_cust_id = models.ForeignKey('Customer', on_delete=models.SET_NULL, null=True, related_name='contract_billing_cust_id')
+    billing_cust_id = models.ForeignKey('BillingCustomers', on_delete=models.SET_NULL, null=True, related_name='contract_billing_cust_id')
     contract_nr = models.CharField(max_length=20, null=False)
     contract_date = models.DateField(null=False)
     last_answer_date = models.DateField(null=False)
