@@ -29,66 +29,55 @@ def home_view(request):
 def login_view(request):
     return render(request,"registration/loginpage.html")
 
-def register_view(request):
-    if request.method == "POST":
-        form = RegistrationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-             # Creating inactive user
-            # user = form.save(commit=False)
-            # user.username = form.cleaned_data['email'] 
-            # user.username = form.cleaned_data['username']  
-            # user.is_active = False
-            # user.save()
-
-            # Generating token + uid
-            # uid = urlsafe_base64_encode(force_bytes(user.pk))
-            # token = default_token_generator.make_token(user)
-
-            uid = urlsafe_base64_encode(force_bytes(user.pk))
-            token = account_activation_token.make_token(user)
-            # Building link
-            # link = request.build_absolute_uri(
-            #     reverse('registration:complete_profile', kwargs={'uidb64': uid, 'token': token})
-            # )
-                
-            domain = get_current_site(request).domain
-            link = f"http://{domain}/activate/{uid}/{token}/"
-
-            # subject = "Complete Your Profile - Gig Billing"
-            # message = f"Hi {user.first_name},\n\nClick the link below to complete your profile:\n{link}"
-            # send_mail(subject, message, None, [user.email])
-            
-            send_mail(
-                "Activate your account",
-                f"Click the link: {link}",
-                "noreply@gigbillingsystem.com",
-                [user.email],
-            )
-
-            return render(request, "registration/registrationSuccess.html")
-            # return render(request, 'registration/registrationSuccess.html', {'email': user.email})
-    else:
-        form = RegistrationForm()
-
-    return render(request, "registration/register.html", {"form": form})
-
 def createAcc_view(request):
     if request.method == "POST":
-        form = RegistrationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect("registration:login_view")
+        return redirect("registration:registerLink")
     else:
         form = RegistrationForm()
 
     return render(request, "registration/createAccount.html", {"form": form})
 
+def register_view(request):
+    if request.method == "POST":
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            # Create inactive user
+            user = form.save(commit=False)
+            user.email = form.cleaned_data["email"]  # or username, choose one
+            user.set_password(form.cleaned_data["password1"])
+            user.is_active = False
+            user.save()
+
+            # Generate activation token
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
+            token = account_activation_token.make_token(user)
+
+            # Build activation link
+            domain = get_current_site(request).domain
+            link = f"http://{domain}/activate/{uid}/{token}/"
+
+            # Send activation email
+            send_mail(
+                "Activate your account",
+                # # f"Click the link: {link}",
+                f"Click the link to activate your account:\n\n{link}\n",
+                "noreply@gigbillingsystem.com",
+                [user.email],
+            )
+
+            return render(request, "registration/registrationSuccess.html")
+        else:
+            print("FORM ERRORS:", form.errors)  # Debugging
+    else:
+        form = RegistrationForm()
+
+    return render(request, "registration/createAccount.html", {"form": form})
+    # return render(request, "registration/AccountCreationFailed.html", {"form": form})
 
 def forgotPwd_view(request):
     if request.method == "POST":
         email = request.POST.get("email")
-        # You can integrate Django's password reset system here
+        # Django's password reset system can be integrated here
         return redirect("login")
 
     return render(request, "registration/forgotPwd.html")

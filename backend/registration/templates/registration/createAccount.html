@@ -12,7 +12,7 @@
       <form method="POST">
         {% csrf_token %} {{ form.non_field_errors }}
 
-        <div class="mb-3">
+        <!-- <div class="mb-3">
           <label class="form-label">Etunimi</label>
           {{ form.first_name }}
         </div>
@@ -20,17 +20,17 @@
         <div class="mb-3">
           <label class="form-label">Sukunimi</label>
           {{ form.last_name }}
-        </div>
+        </div> -->
 
         <div class="mb-3">
           <label class="form-label">Sähköposti</label>
           {{ form.email }}
         </div>
 
-        <div class="mb-3">
+        <!-- <div class="mb-3">
           <label class="form-label">Käyttäjänimi</label>
           {{ form.username }}
-        </div>
+        </div> -->
 
         <div class="mb-3">
           <label class="form-label">Salasana</label>
@@ -42,12 +42,8 @@
           {{ form.password2 }}
         </div>
 
-        <button
-          type="button"
-          class="btn btn-primary w-100 py-2 mt-2"
-          onclick="window.location.href = 'register/'"
-        >
-          Luo tili
+        <button type="submit" class="btn btn-primary w-100 py-2 mt-2">
+          Rekisteröityä
         </button>
 
         <hr class="my-4" />
