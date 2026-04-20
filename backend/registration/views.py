@@ -65,7 +65,7 @@ def register_view(request):
                 [user.email],
             )
 
-            return render(request, "registration/registrationSuccess.html")
+            return render(request, "registration/registrationSuccess.html",{"email": form.cleaned_data["email"]})
         else:
             print("FORM ERRORS:", form.errors)  # Debugging
     else:

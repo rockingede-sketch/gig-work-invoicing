@@ -13,6 +13,19 @@ class RegistrationForm(UserCreationForm):
         model = User
         fields = ["email", "password1", "password2"]
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # Add Bootstrap classes to all fields
+        for field_name, field in self.fields.items():
+            css = "form-control"
+
+            # If this field has errors, add Bootstrap's invalid class
+            if self.errors.get(field_name):
+                css += " is-invalid"
+
+            field.widget.attrs["class"] = css
+
     def clean_email(self):
         email = self.cleaned_data.get("email")
         if User.objects.filter(email=email).exists():
