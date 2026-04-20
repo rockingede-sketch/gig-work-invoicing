@@ -6,6 +6,7 @@ from datetime import timedelta
 from .forms import BillingCaseForm
 from django.shortcuts import redirect
 from .services.services import BillingCalculators
+from django.http import HttpResponse
 
 def laskutus(request):
 
@@ -80,3 +81,14 @@ def lasku_luotu(request):
 def lasku_detail(request, pk):
     invoice = BillingCase.objects.get(pk=pk)
     return render(request, 'gbsapp/laskutus/lasku_detail.html', {'invoice': invoice})
+
+def group_billing_fields(request):
+    if request.get('group_billing'):
+        form = BillingCaseForm()
+        return render(request, 'gbsapp/form_sections/group_billing.html', {'form': form})
+    else:
+        return HttpResponse('')
+
+def e_invoice_address(request):
+    form = BillingCaseForm()
+    return render(request,'gbsapp/form_sections/einvoice_address.html',{'form':form})

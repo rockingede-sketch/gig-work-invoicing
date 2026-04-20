@@ -21,6 +21,8 @@ from gbsapp import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     #path('sendconfirmation/', sendConfirmEmail.as_view(), name='send-confirmation-email'),
+    path('forms/group_billing/', views.group_billing_fields, name='group_billing_fields'),
+    path('forms/e_invoice_address/', views.e_invoice_address, name='e_invoice_address_fields'),
     path('laskutus/', views.laskutus, name='laskutus'),
     path('laskutus/uusi/', views.lasku_new, name='lasku_new'),
     path('laskutus/uusi/luotu', views.lasku_new, name='lasku_luotu'),
