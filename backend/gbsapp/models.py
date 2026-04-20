@@ -335,7 +335,7 @@ class Invoice(models.Model):
         ('debt_collection', 'Debt Collection'),
     ]
     billing_case_id = models.ForeignKey('BillingCase', on_delete=models.SET_NULL, null=True)
-    billing_cust_id = models.ForeignKey('Customer', on_delete=models.SET_NULL, null=True)
+    billing_cust_id = models.ForeignKey('BillingCustomers', on_delete=models.SET_NULL, null=True)
     invoice_num = models.CharField(max_length=20, null=False) # laskun numero
     invoice_date = models.DateField(null=False) # laskun päivämäärä
     due_date = models.DateField(null=False) # eräpäivä
