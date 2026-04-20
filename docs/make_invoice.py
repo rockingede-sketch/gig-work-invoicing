@@ -8,7 +8,7 @@ import logging
 
 logging.basicConfig(
     level=logging.INFO,
-    filename = os.path.join(os.path.dirname(os.path.abspath(__file__)), "invoice_generation.log"),
+    filename = os.path.join(os.path.dirname(os.path.abspath(__file__)), "invoicing_case.log"),
     format='%(asctime)s - %(levelname)s - %(message)s',
     filemode='a'
 )
@@ -124,7 +124,7 @@ def create_invoice(payer_name: str, payer_address: str, payer_zip: str, payer_ci
 
     except Exception as e:
         logging.error(f"Virhe tapahtui: {e}")
-
+    # Palauta laskun tiedot sanakirjana tietokantaan tallennusta varten
     return {
                 'invoice_number': invoice_number,
                 'invoice_date': invoice_date,
