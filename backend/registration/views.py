@@ -50,17 +50,23 @@ def register_view(request):
 
             # Generate activation token
             uid = urlsafe_base64_encode(force_bytes(user.pk))
+            print("Decoded UID:", uid)
+
             token = account_activation_token.make_token(user)
 
             # Build activation link
+            activation_url = reverse(
+                "registration:activationLink",
+                kwargs={"uidb64": uid, "token": token}
+            )
             domain = get_current_site(request).domain
-            link = f"http://{domain}/activate/{uid}/{token}/"
+            activation_link = f"http://{domain}{activation_url}"
 
             # Send activation email
             send_mail(
                 "Activate your account",
                 # # f"Click the link: {link}",
-                f"Click the link to activate your account:\n\n{link}\n",
+                f"Click the link to activate your account:\n\n{activation_link}\n",
                 "noreply@gigbillingsystem.com",
                 [user.email],
             )
@@ -72,8 +78,7 @@ def register_view(request):
         form = RegistrationForm()
 
     return render(request, "registration/createAccount.html", {"form": form})
-    # return render(request, "registration/AccountCreationFailed.html", {"form": form})
-
+    
 def forgotPwd_view(request):
     if request.method == "POST":
         email = request.POST.get("email")
@@ -82,12 +87,16 @@ def forgotPwd_view(request):
 
     return render(request, "registration/forgotPwd.html")
 
-User = get_user_model()
+# User = get_user_model()
 
 def activation_view(request, uidb64, token):
     try:
         uid = urlsafe_base64_decode(uidb64).decode()
         user = User.objects.get(pk=uid)
+
+        print("UIDB64:", uidb64)
+        print("Decoded:", urlsafe_base64_decode(uidb64))
+
     except:
         user = None
 
