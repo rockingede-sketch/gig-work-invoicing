@@ -1,5 +1,18 @@
 from django.shortcuts import render
-from gbsapp.models import BillingCase
+# from .services import EmailService
+# from rest_framework.views import APIView
+# from rest_framework.response import Response
+# from rest_framework import status
+
+# # Create your views here.
+# class sendConfirmEmail(APIView):
+#     def get(self, request):
+#         EmailService.sendConfirmEmail('test','email@email.com')
+        
+#         return Response({'message': 'Welcome email sent'}, status=status.HTTP_200_OK)
+
+
+from gbsapp.models import BillingCase, BillingCustomers
 from gbsapp.models import Invoice
 from django.db.models import Sum, Q
 from django.utils import timezone
@@ -109,7 +122,7 @@ def make_pdf_invoice(billing_case_id: int):
     try:
         inv_case = BillingCase.objects.get(id=billing_case_id)
         # haetaan laskutusasiakkaan tiedot:
-        billing_cust = inv_case.billing_cust_id
+        billing_cust = BillingCustomers.objects.get(id=inv_case.billing_cust_id)
         p_name = billing_cust.company_name
         p_address = billing_cust.address
         p_zip = billing_cust.postcode
@@ -126,7 +139,7 @@ def make_pdf_invoice(billing_case_id: int):
     except BillingCase.DoesNotExist:
         logging.info("Billing case not found")
 
-
+    
     invoice_values = make_invoice.create_invoice(
         payer_name=p_name,
         payer_address=p_address,

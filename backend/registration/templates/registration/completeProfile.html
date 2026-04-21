@@ -1,0 +1,8 @@
+<h2>Complete Your Profile</h2>
+
+<p>Hi {{ user.first_name }}, please fill in the details below.</p>
+
+<form method="POST">
+  {% csrf_token %} {{ form.as_p }}
+  <button type="submit">Submit</button>
+</form>

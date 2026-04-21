@@ -1,0 +1,71 @@
+{% extends "base.html" %} {% block content %}
+<div
+  class="d-flex justify-content-center align-items-center min-vh-100 bg-light px-3"
+>
+  <div
+    class="card shadow-sm"
+    style="max-width: 420px; width: 100%; border-radius: 12px"
+  >
+    <div class="card-body p-4">
+      <h4 class="fw-semibold mb-3">Luo tili</h4>
+
+      <form method="POST">
+        {% csrf_token %} {% spaceless %} {% if form.errors %}
+        <div class="alert alert-danger">
+          <ul class="mb-0">
+            {% for field in form %} {% for error in field.errors %}
+            <li><strong>{{ field.label }}:</strong> {{ error }}</li>
+            {% endfor %} {% endfor %} {% for error in form.non_field_errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %} {% endspaceless %}
+
+        <div class="mb-3">
+          <label class="form-label">Sähköposti</label>
+          {{ form.email }} {% if form.email.errors %}
+          <div class="invalid-feedback d-block">
+            {{ form.email.errors|striptags }}
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Salasana</label>
+          {{ form.password1 }} {% if form.password1.errors %}
+          <div class="invalid-feedback d-block">
+            {{ form.password1.errors|striptags }}
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Vahvista salasana</label>
+          {{ form.password2 }} {% if form.password2.errors %}
+          <div class="invalid-feedback d-block">
+            {{ form.password2.errors|striptags }}
+          </div>
+          {% endif %}
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100 py-2 mt-2">
+          Rekisteröityä
+        </button>
+
+        <hr class="my-4" />
+
+        <div class="text-center">
+          <p class="mb-2">Onko sinulla jo tili?</p>
+          <a
+            href="{% url 'registration:loginLink' %}"
+            class="btn btn-outline-primary w-100"
+          >
+            Kirjaudu sisään
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
