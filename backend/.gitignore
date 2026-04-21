@@ -1,6 +1,7 @@
 email_settings.env
 # Byte-compiled / optimized / DLL files
 __pycache__/
+*.pyc
 *.py[cod]
 
 # C extensions
@@ -49,3 +50,5 @@ coverage.xml
 
 # Sphinx documentation
 docs/_build/
+
+db.sqlite3
