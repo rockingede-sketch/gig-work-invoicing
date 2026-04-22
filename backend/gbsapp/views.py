@@ -67,22 +67,30 @@ def laskutus(request):
 def lasku_new(request):
     if request.method == 'POST':
         lasku_form = BillingCaseForm(request.POST)
+        job_date = lasku_form.cleaned_data.get('job_date')
+        job_begin_time = lasku_form.cleaned_data.get('job_begin')
+        job_ended_time = lasku_form.cleaned_data.get('job_ended')
+        
+        if lasku_form.is_valid():
+            uusi_lasku = lasku_form.save(commit=False)
+            uusi_lasku.stage = 'open'
+
+            if job_date and job_begin_time:
+                uusi_lasku.job_begin = datetime.combine(job_date, job_begin_time)
+            
+            if job_date and job_ended_time:
+                uusi_lasku.job_ended = datetime.combine(job_date, job_ended_time)
+
+            uusi_lasku.owner_profit = BillingCalculators.calculate_customer_portion(
+                uusi_lasku.payment,
+                uusi_lasku.number_of_members or 1
+            )
+            uusi_lasku.save()
+            return redirect('lasku_luotu', pk=uusi_lasku.pk)
     else:
         lasku_form = BillingCaseForm()
-    
-    if lasku_form.is_valid():
-        uusi_lasku = lasku_form.save(commit=False)
-        uusi_lasku.stage = 'open'
-       # uusi_lasku.frontman_cust_id = uusi_lasku.billing_cust_id
-        uusi_lasku.owner_profit = BillingCalculators.calculate_customer_portion(
-            uusi_lasku.payment,
-            uusi_lasku.number_of_members or 1
-        )
-        uusi_lasku.save()
-        return redirect('lasku_luotu', pk=uusi_lasku.pk)
-    
-    else:    
-        return render(request, 'gbsapp/laskutus/lasku_new.html',{'form': lasku_form})
+
+    return render(request, 'gbsapp/laskutus/lasku_new.html', {'form': lasku_form})
 
          
 def lasku_luotu(request):
@@ -94,11 +102,11 @@ def lasku_detail(request, pk):
     return render(request, 'gbsapp/laskutus/lasku_detail.html', {'invoice': invoice})
 
 def group_billing_fields(request):
-    if request.get('group_billing'):
+    if request.GET.get('group_billing'):
+        return HttpResponse('')
+    else:
         form = BillingCaseForm()
         return render(request, 'gbsapp/form_sections/group_billing.html', {'form': form})
-    else:
-        return HttpResponse('')
 
 def e_invoice_address(request):
     form = BillingCaseForm()
