@@ -22,6 +22,20 @@
         </div>
         {% endif %} {% endspaceless %}
 
+        <!-- <div class="mb-3">
+          <label class="form-label">Käyttäjätunnus</label>
+          <input type="text" name="username" class="form-control" required />
+        </div> -->
+
+        <div class="mb-3">
+          <label class="form-label">Käyttäjätunnus</label>
+          {{ form.username }} {% if form.username.errors %}
+          <div class="invalid-feedback d-block">
+            {{ form.username.errors|striptags }}
+          </div>
+          {% endif %}
+        </div>
+
         <div class="mb-3">
           <label class="form-label">Sähköposti</label>
           {{ form.email }} {% if form.email.errors %}

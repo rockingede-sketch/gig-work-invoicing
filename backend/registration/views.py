@@ -26,16 +26,10 @@ from gbsapp.models import Customer,Invoice
 def home_view(request):
     return render(request, "homepage.html")
 
-def login_view(request):
-    return render(request,"registration/loginpage.html")
-
-def createAcc_view(request):
-    if request.method == "POST":
-        return redirect("registration:registerLink")
-    else:
-        form = RegistrationForm()
-
-    return render(request, "registration/createAccount.html", {"form": form})
+# def login_view(request):
+#     if request.method == "POST":
+#          if form.is_valid():
+#     return render(request,"registration/loginpage.html")
 
 def register_view(request):
     if request.method == "POST":
@@ -43,9 +37,10 @@ def register_view(request):
         if form.is_valid():
             # Create inactive user
             user = form.save(commit=False)
-            user.email = form.cleaned_data["email"]  # or username, choose one
+            user.email = form.cleaned_data["email"] 
+            user.username = form.cleaned_data["username"] 
             user.set_password(form.cleaned_data["password1"])
-            user.is_active = False
+            # user.is_active = False
             user.save()
 
             # Generate activation token
@@ -103,7 +98,8 @@ def activation_view(request, uidb64, token):
     if user and account_activation_token.check_token(user, token):
         user.is_active = True
         user.save()
-        login(request, user)  # auto login
+        return HttpResponse("Successfully activated")
+        # login(request, user)  # auto login
         return redirect("registration:profileCompleteLink")
     else:
         return HttpResponse("Invalid activation link")
@@ -130,5 +126,7 @@ def profileCompletion_view(request):
     return render(request, "registration/profileComplete.html", {"form": form})
 
 def dashboard_view(request):
-    invoices = Invoice.objects.order_by("due_date")[:10]  # show latest 10
-    return render(request, "registration/dashboard.html", {"invoices": invoices})
+    # invoices = Invoice.objects.order_by("due_date")[:10]  # show latest 10
+    # return render(request, "registration/dashboard.html", {"invoices": invoices})
+    # return HttpResponse("Tervetuloa Keikkalaskutus tilille")
+    return render(request, "registration/dashboard.html")
