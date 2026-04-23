@@ -16,24 +16,24 @@ logging.basicConfig(
 base_dir = os.path.dirname(os.path.abspath(__file__))
 
 def invoicenumber() -> int:
-    # 1. Luo hakemisto, jos sitä ei ole
+    # Luodaan hakemisto, jos sitä ei ole
     if not os.path.exists(os.path.join(base_dir, "invoicedata")):
          os.makedirs(os.path.join(base_dir, "invoicedata"))
-    # 2. Muodostetaan laskunnumeron vuosi vuoden viimeisistä kahdesta numerosta:
+    # Muodostetaan laskunnumeron vuosi vuoden viimeisistä kahdesta numerosta:
     #nr_start = f'{datetime.datetime.now().year}'.replace("20", "")
     nr_start = str(datetime.datetime.now().year)[2:4]
-    # 3. Jos tiedostoa ei ole, luo se ja aseta aloitusarvoksi nr_start + "00001"
+    # Jos tiedostoa ei ole, luo se ja aseta aloitusarvoksi nr_start + "00001"
     data_dir = os.path.join(base_dir, "invoicedata")
     tiedosto_polku = os.path.join(data_dir, "invoicenumbers.txt")
     if not os.path.exists(tiedosto_polku):
         with open(tiedosto_polku, "w") as f:
             f.write(nr_start + "00001")
-    # 4. Lue nykyinen laskunumero, kasvata sitä yhdellä ja tallenna takaisin tiedostoon
+    # Lue nykyinen laskunumero, kasvata sitä yhdellä ja tallenna takaisin tiedostoon
     with open(tiedosto_polku, "r") as f:
         luku = int(f.read().strip())
         if str(luku)[:2] != nr_start:
             luku = int(nr_start + "00001")
-    # 5. Seuraavan laskun numero ja tallennus
+    # Seuraavan laskun numero ja tallennus
     uusi_luku = luku + 1
     with open(tiedosto_polku, "w") as f:
         f.write(str(uusi_luku))
