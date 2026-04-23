@@ -173,4 +173,6 @@ def make_pdf_invoice(billing_case_id: int):
     )
     invoicing_row.save()
 
-
+def customer_dashboard(request, userid):
+    customer = request.GET.objects('customer', user_id=userid)
+    return render(request, 'gbsapp/dashboards/customer.html', {'customer': customer})
