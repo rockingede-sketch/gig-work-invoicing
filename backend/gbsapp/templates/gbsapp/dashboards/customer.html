@@ -4,23 +4,85 @@
 {% block content %}
 
 <div class="d-flex justify-content-between align-items-center mb-2">
-  <h1>Laskutus</h1>
-  <a href="{% url 'lasku_new' %}" class="btn btn-sm" style="background:#993556; color:white;">+ Luo uusi lasku</a>
+  <h1>Omat tietosi</h1>
 </div>
-<p class="text-muted small mb-4">Täältä löydät kaikki tallentuneet laskutuksesi ja niiden tilan.</p>
+<p class="text-muted small mb-4">Tästä näet omat tietosi ja voit päivittää ne tarvittaessa. Sähköpostiosoitetta et voi muuttaa, sillä se on tunnistetietosi.</p>
+<br><br>
+{% if customer.custom_role == "kevytyrittäjä" %}
+  <p class="text-info">Olet rekisteröitynyt kevytyrittäjänä.</p>
+{% elif customer.custom_role == "työntekijä" %}
+  <p class="text-info">Olet rekisteröitynyt työntekijänä.</p>
+{% endif %}
 
-<div class="row g-3 mb-4">
-  <div class="col"><div class="bg-light rounded p-3"><div class="small text-muted">Avoimet yhteensä</div><div class="fs-5 fw-500">{{ open_total|floatformat:2 }} €</div></div></div>
-  <div class="col"><div class="bg-light rounded p-3"><div class="small text-muted">Maksettu ({{ year }})</div><div class="fs-5 fw-500">{{ paid_total|floatformat:2 }} €</div></div></div>
-  <div class="col"><div class="bg-light rounded p-3"><div class="small text-muted">Myöhässä</div><div class="fs-5 fw-500 text-danger">{{ late_count }}</div></div></div>
-</div>
+<table>
+  <tr>
+    <th>Käyttäjätunnus/sähköpostiosoite:</th>
+    <td>{{ customer.email }}</td>
+  </tr>
+  <tr>
+    <th>Sukunimi:</th>
+    <td>{{ customer.last_name }}</td>
+  </tr>
+  <tr>
+    <th>Etunimi:</th>
+    <td>{{ customer.first_name }}</td>
+  </tr>
+  <tr>
+    <th>Henkilötunnus:</th>
+    <td>{{ customer.person_id }}</td>
+  </tr>
+  <tr>
+    <th>Puhelinnmero:</th>
+    <td>{{ customer.phone }}</td>
+  </tr>
+  <tr>
+    <th>Katuosoite:</th>
+    <td>{{ customer.address }}</td>
+  </tr>
+  <tr>
+    <th>Postinumero:</th>
+    <td>{{ customer.postcode }}</td>
+  </tr>
+  <tr>
+    <th>Postitoimipaikka:</th>
+    <td>{{ customer.postoffice }}</td>
+  </tr>
+  <tr>
+    <th>Pankkitili:</th>
+    <td>{{ customer.bankaccount }}</td>
+  </tr>
+  <tr>
+    <th>Ennakonpidätysprosentti:</th>
+    <td>{{ customer.tax_rate }} %</td>
+  </tr>
+  <tr>
+    <th>Veronumero:</th>
+    <td>{{ customer.tax_number }}</td>
+  </tr>
+  <tr>
+    <th>Asiakasrooli (kevytyrittäjä tai työntekijä):</th>
+    <td>{{ customer.custom_role }}</td>
+  </tr>
+</table>
+<br>
+<a href="{% url 'update_customer' userid=customer.user_id %}" class="btn btn-sm " style="background:#993556; color:white;">+ Päivitä tietoja</a>
 
-<ul class="nav nav-tabs mb-3">
-  <li class="nav-item"><a class="nav-link {% if not status_filter %}active{% endif %}" href="{% url 'laskutus' %}">Kaikki ({{ total_count }})</a></li>
-  <li class="nav-item"><a class="nav-link {% if status_filter == 'open' %}active{% endif %}" href="?status=open">Avoimet ({{ open_count }})</a></li>
-  <li class="nav-item"><a class="nav-link {% if status_filter == 'paid' %}active{% endif %}" href="?status=paid">Maksettu ({{ paid_count }})</a></li>
-</ul>
-
+<style>
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 800px;
+  }
+  th, td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+  }
+  th {
+    background-color: #f2f2f2;
+    width: 30%; /* Säätää otsikkosarakkeen leveyden */
+  }
+</style>
 
 
 {% endblock %}

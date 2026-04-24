@@ -26,5 +26,7 @@ urlpatterns = [
     path('laskutus/', views.laskutus, name='laskutus'),
     path('laskutus/uusi/', views.lasku_new, name='lasku_new'),
     path('laskutus/uusi/luotu', views.lasku_new, name='lasku_luotu'),
-    path('laskutus/<int:pk>/', views.lasku_detail, name='lasku_detail')
+    path('laskutus/<int:pk>/', views.lasku_detail, name='lasku_detail'),
+    path('customer/<int:userid>/', views.customer_dashboard, name='customer_dashboard'),
+    path('customer/<int:userid>/edit/', views.update_customer, name='update_customer'),
 ]

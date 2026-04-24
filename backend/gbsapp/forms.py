@@ -101,7 +101,7 @@ class BillingCaseForm(forms.ModelForm):
             'vat_percent':      forms.Select(attrs={'class': 'form-select'}),
             'group_billing':    forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
-
+    
     def clean(self):
         cleaned_data = super().clean()
 
@@ -121,3 +121,21 @@ class BillingCaseForm(forms.ModelForm):
             self.add_error('number_of_members', 'Jäsenten määrä on pakollinen')
 
         return cleaned_data
+    
+class CustomerUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Customer
+        fields = [
+            'email', 'last_name', 'first_name', 'person_id', 
+            'phone', 'address', 'postcode', 'postoffice', 
+            'bankaccount', 'tax_rate', 'tax_number', 'custom_role'
+        ]
+        widgets = {
+            # Muutetaan rooli valintanapeiksi (radio buttons)
+            'custom_role': forms.RadioSelect(choices=[
+                ('kevytyrittäjä', 'Kevytyrittäjä'),
+                ('työntekijä', 'Työntekijä')
+            ]),
+            # Muut kentät voi tyylitellä tarvittaessa luokilla
+            'address': forms.TextInput(attrs={'style': 'width: 100%;'}),
+        }

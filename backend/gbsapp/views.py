@@ -1,11 +1,11 @@
-from django.shortcuts import render
-from gbsapp.models import BillingCase
+from django.shortcuts import get_object_or_404, render
+from gbsapp.models import BillingCase, Customer
 from gbsapp.models import Invoice
 from django.db.models import Sum, Q
 from django.utils import timezone
 from datetime import datetime
 from datetime import timedelta
-from .forms import BillingCaseForm
+from .forms import BillingCaseForm, CustomerUpdateForm
 from django.shortcuts import redirect
 from .services.services import BillingCalculators
 from django.http import HttpResponse
@@ -174,5 +174,18 @@ def make_pdf_invoice(billing_case_id: int):
     invoicing_row.save()
 
 def customer_dashboard(request, userid):
-    customer = request.GET.objects('customer', user_id=userid)
+    customer = get_object_or_404(Customer, user_id=userid)
     return render(request, 'gbsapp/dashboards/customer.html', {'customer': customer})
+
+def update_customer(request, userid):
+    customer = get_object_or_404(Customer, user_id=userid)
+    
+    if request.method == 'POST':
+        form = CustomerUpdateForm(request.POST, instance=customer)
+        if form.is_valid():
+            form.save()
+            return redirect(customer_dashboard, userid=customer.user_id) # Ohjaa takaisin katselunäkymään
+    else:
+        form = CustomerUpdateForm(instance=customer)
+    
+    return render(request, 'gbsapp/dashboards/customer_update.html', {'form': form})
