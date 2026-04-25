@@ -184,7 +184,7 @@ def update_customer(request, userid):
         form = CustomerUpdateForm(request.POST, instance=customer)
         if form.is_valid():
             form.save()
-            return redirect(customer_dashboard, userid=customer.user_id) # Ohjaa takaisin katselunäkymään
+            return redirect(customer_dashboard, userid=customer.pk) # Ohjaa takaisin katselunäkymään
     else:
         form = CustomerUpdateForm(instance=customer)
     

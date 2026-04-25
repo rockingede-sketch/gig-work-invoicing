@@ -33,7 +33,7 @@
     </table>
     <br>
     <button type="submit" style="padding: 10px 20px; cursor: pointer;">Tallenna muutokset</button>
-    <a href="{% url 'customer_dashboard' userid=form.instance.user_id %}">Peruuta</a>
+    <a href="{% url 'customer_dashboard' userid=form.instance.pk %}">Peruuta</a>
 </form>
 
 <style>
