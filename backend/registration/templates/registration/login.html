@@ -1,4 +1,5 @@
 {% extends "base.html" %} {% load static %} {% block content %}
+
 <div
   class="d-flex justify-content-center align-items-center min-vh-100 bg-light px-3"
 >
@@ -21,10 +22,6 @@
           </ul>
         </div>
         {% endif %} {% endspaceless %}
-        <!-- <div class="mb-3">
-          <label class="form-label">Sähköposti</label>
-          <input type="email" name="username" class="form-control" required />
-        </div> -->
 
         <div class="mb-3">
           <label class="form-label">Käyttäjätunnus</label>
@@ -46,12 +43,7 @@
         </button>
 
         <div class="text-center mt-3">
-          <a
-            href="{% url 'registration:forgotPwdLink' %}"
-            class="text-decoration-none"
-          >
-            Unohtunut salasana?
-          </a>
+          <a href="/auth/password_reset/">Unohtunut salasana?</a>
         </div>
 
         <hr class="my-4" />
