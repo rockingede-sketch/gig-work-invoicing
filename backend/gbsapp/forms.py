@@ -52,8 +52,6 @@ class BillingCaseForm(forms.ModelForm):
         fields = [
         'job_location',
         'job_date',
-        'job_begin',
-        'job_ended',
         'job_hours',
         'work_description',
         'work_task',

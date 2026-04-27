@@ -25,6 +25,6 @@ urlpatterns = [
     path('forms/e_invoice_address/', views.e_invoice_address, name='e_invoice_address_fields'),
     path('laskutus/', views.laskutus, name='laskutus'),
     path('laskutus/uusi/', views.lasku_new, name='lasku_new'),
-    path('laskutus/uusi/luotu', views.lasku_new, name='lasku_luotu'),
+    path('laskutus/uusi/luotu', views.lasku_luotu, name='lasku_luotu'),
     path('laskutus/<int:pk>/', views.lasku_detail, name='lasku_detail')
 ]
