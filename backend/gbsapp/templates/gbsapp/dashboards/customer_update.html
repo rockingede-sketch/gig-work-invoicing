@@ -6,12 +6,13 @@
 <div class="d-flex justify-content-between align-items-center mb-2">
   <h1>Omat tietosi</h1>
 </div>
-<p class="text-muted small mb-4">Tässä voit päivittää omat tietosi. Sähköpostiosoitetta et voi muuttaa, sillä se on tunnistetietosi.</p>
-<br><br>
-{% if customer.custom_role == "kevytyrittäjä" %}
-  <p class="text-info">Olet rekisteröitynyt kevytyrittäjänä.</p>
-{% elif customer.custom_role == "työntekijä" %}
+<p>Tässä voit päivittää omat tietosi. Sähköpostiosoitetta et voi muuttaa, sillä se on tunnistetietosi.</p>
+<p>Veronumero on pakollinen tieto vain rakennusalalla työskentelevillä.</p>
+<br>    
+{% if form.instance.custom_role == "employee" %}
   <p class="text-info">Olet rekisteröitynyt työntekijänä.</p>
+{% elif form.instance.custom_role == "light entrepreneur" %}
+  <p class="text-info">Olet rekisteröitynyt kevytyrittäjänä.</p>
 {% endif %}
 
 <form method="post">
@@ -32,19 +33,14 @@
         {% endfor %}
     </table>
     <br>
-    <button type="submit" style="padding: 10px 20px; cursor: pointer;">Tallenna muutokset</button>
+    <button type="submit" style="background:#993556; color:white; cursor: pointer;">Tallenna muutokset</button>
     <a href="{% url 'customer_dashboard' userid=form.instance.pk %}">Peruuta</a>
 </form>
-
 <style>
-    /* Siistitään Djangon radiolistan (ul/li) ulkoasu taulukossa */
-    td ul { list-style: none; padding: 0; margin: 0; }
-    td ul li { display: inline-block; margin-right: 15px; }
-    input[type="text"], input[type="email"], input[type="number"] {
-        width: 95%;
-        padding: 5px;
+    .no-bullets ul { 
+        list-style-type: none; 
+        padding: 0; 
+        margin: 0; 
     }
 </style>
-
-
 {% endblock %}

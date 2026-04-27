@@ -123,19 +123,40 @@ class BillingCaseForm(forms.ModelForm):
         return cleaned_data
     
 class CustomerUpdateForm(forms.ModelForm):
+    # Ylikirjoitetaan kenttä tässä, jotta voimme pakottaa valinnat ilman tyhjää
+    custom_role = forms.ChoiceField(
+        label='Asiakasrooli',
+        widget=forms.RadioSelect(attrs={'class': 'no-bullets'}),
+        choices=[
+            ('light entrepreneur', 'Kevytyrittäjä'),
+            ('employee', 'Työntekijä')
+        ],
+        required=True  # Tämä poistaa automaattisesti "---------" vaihtoehdon
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Nyt init-metodissa ei tarvitse enää kikkailla empty_labelin kanssa
+
     class Meta:
         model = Customer
         fields = [
-            'email', 'last_name', 'first_name', 'person_id', 
+            'last_name', 'first_name', 
             'phone', 'address', 'postcode', 'postoffice', 
             'bankaccount', 'tax_rate', 'tax_number', 'custom_role'
         ]
+        labels = {
+            'last_name': 'Sukunimi',
+            'first_name': 'Etunimi',
+            'phone': 'Puhelinnumero',
+            'address': 'Katuosoite',
+            'postcode': 'Postinumero',
+            'postoffice': 'Postitoimipaikka',
+            'bankaccount': 'Tilinumero (IBAN)',
+            'tax_rate': 'Veroprosentti',
+            'tax_number': 'Veronumero',
+            # 'custom_role' label on jo määritelty ylhäällä
+        }
         widgets = {
-            # Muutetaan rooli valintanapeiksi (radio buttons)
-            'custom_role': forms.RadioSelect(choices=[
-                ('kevytyrittäjä', 'Kevytyrittäjä'),
-                ('työntekijä', 'Työntekijä')
-            ]),
-            # Muut kentät voi tyylitellä tarvittaessa luokilla
             'address': forms.TextInput(attrs={'style': 'width: 100%;'}),
         }
