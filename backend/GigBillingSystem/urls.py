@@ -24,7 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', regViews.home_view, name='homeLink'),
     path('registration/', include('registration.urls',namespace="registration")),
-    #path('sendconfirmation/', sendConfirmEmail.as_view(), name='send-confirmation-email'),
+    path("auth/", include("django.contrib.auth.urls")),
     path('laskutus/', gbsViews.laskutus, name='laskutus'),
     path('laskutus/uusi/', gbsViews.lasku_new, name='lasku_new'),
     path('laskutus/uusi/luotu', gbsViews.lasku_new, name='lasku_luotu'),
