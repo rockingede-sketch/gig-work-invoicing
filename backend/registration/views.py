@@ -15,37 +15,33 @@ from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMultiAlternatives
 from .tokens import account_activation_token
 from django.contrib.auth.decorators import login_required
 from .forms import RegistrationForm,ProfileCompletionForm
-from gbsapp.models import Customer,Invoice
+from gbsapp.models import Customer,Invoice,UserProfile
 
 # Create your views here.
 
 def home_view(request):
     return render(request, "homepage.html")
 
-# def login_view(request):
-#     if request.method == "POST":
-#          if form.is_valid():
-#     return render(request,"registration/loginpage.html")
-
 def register_view(request):
     if request.method == "POST":
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            # Create inactive user
+            # Calling RegistrationForm class's save method
             user = form.save(commit=False)
-            user.email = form.cleaned_data["email"] 
-            user.username = form.cleaned_data["username"] 
-            user.set_password(form.cleaned_data["password1"])
-            # user.is_active = False
+            # Saving the user record as inactive in the User model
+            user.is_active = False 
             user.save()
 
+            # Creates user profile row 
+            UserProfile.objects.create(user=user)
+                      
             # Generate activation token
             uid = urlsafe_base64_encode(force_bytes(user.pk))
-            print("Decoded UID:", uid)
+            # print("Decoded UID:", uid)
 
             token = account_activation_token.make_token(user)
 
@@ -58,11 +54,11 @@ def register_view(request):
             activation_link = f"http://{domain}{activation_url}"
 
             # Send activation email
+           
             send_mail(
                 "Activate your account",
-                # # f"Click the link: {link}",
-                f"Click the link to activate your account:\n\n{activation_link}\n",
-                "noreply@gigbillingsystem.com",
+                f"Click the link:\n\n{activation_link}\n",
+                "keikkalaskutus@gmail.com",
                 [user.email],
             )
 
@@ -74,39 +70,30 @@ def register_view(request):
 
     return render(request, "registration/createAccount.html", {"form": form})
     
-def forgotPwd_view(request):
-    if request.method == "POST":
-        email = request.POST.get("email")
-        # Django's password reset system can be integrated here
-        return redirect("login")
-
-    return render(request, "registration/forgotPwd.html")
-
-# User = get_user_model()
-
 def activation_view(request, uidb64, token):
     try:
         uid = urlsafe_base64_decode(uidb64).decode()
         user = User.objects.get(pk=uid)
 
-        print("UIDB64:", uidb64)
-        print("Decoded:", urlsafe_base64_decode(uidb64))
+        # print("UIDB64:", uidb64)
+        # print("Decoded:", urlsafe_base64_decode(uidb64))
 
     except:
         user = None
 
     if user and account_activation_token.check_token(user, token):
+        # Making the user active
         user.is_active = True
         user.save()
-        return HttpResponse("Successfully activated")
-        # login(request, user)  # auto login
-        return redirect("registration:profileCompleteLink")
+        return render(request,"registration/ActivationSuccess.html")
     else:
-        return HttpResponse("Invalid activation link")
+        return HttpResponse("Failed to send an activation link email. Please retry.")
 
-@login_required
+# Saving profile data to the Customer model
 def profileCompletion_view(request):
-    if Customer.objects.filter(user_id=request.user).exists():
+    # if Customer.objects.filter(user_id=request.user).exists():
+    if request.user.profile.confirmed:
+        print("Record already exists in Customer model")
         return redirect("registration:dashboardLink")
 
     if request.method == "POST":
@@ -115,18 +102,22 @@ def profileCompletion_view(request):
             profile = form.save(commit=False)
             profile.user = request.user
             profile.email = request.user.email
-            profile.first_name = request.user.first_name
-            profile.last_name = request.user.last_name
             profile.valid_from = timezone.now().date()
             profile.save()
-            return redirect("registration:dashboardLink")
+            
+            request.user.profile.confirmed = True
+            request.user.profile.save()
+            
+            return render(request, "registration/profileComplete.html")
     else:
         form = ProfileCompletionForm()
 
-    return render(request, "registration/profileComplete.html", {"form": form})
+    return render(request, "registration/completeProfile.html", {"form": form})
 
 def dashboard_view(request):
-    # invoices = Invoice.objects.order_by("due_date")[:10]  # show latest 10
-    # return render(request, "registration/dashboard.html", {"invoices": invoices})
-    # return HttpResponse("Tervetuloa Keikkalaskutus tilille")
-    return render(request, "registration/dashboard.html")
+    userProfile = getattr(request.user, "profile", None)
+
+    if not userProfile or not userProfile.confirmed:
+        return redirect("registration:profileCompleteLink")
+    else:
+        return render(request, "registration/dashboard.html")
