@@ -128,7 +128,7 @@ def make_pdf_invoice(billing_case_id: int):
         p_city = billing_cust.postoffice
         p_country = ''
         p_business_id = billing_cust.company_id
-        i_service = inv_case.job_date.strftime("%Y-%m-%d") + ", " + inv_case.work_task + ", " + inv_case.work_description + ", " + inv_case.job_location
+        i_service = inv_case.job_date.strftime("%d.%m.%Y") + ", " + inv_case.work_task + ", " + inv_case.work_description + ", " + inv_case.job_location
         i_pcs = inv_case.number_of_members
         i_price = inv_case.payment
         i_vat_prec = inv_case.vat_percent
@@ -177,4 +177,6 @@ def make_pdf_invoice(billing_case_id: int):
     )
     invoicing_row.save()
 
-
+def customer_dashboard(request, userid):
+    customer = request.GET.objects('customer', user_id=userid)
+    return render(request, 'gbsapp/dashboards/customer.html', {'customer': customer})
