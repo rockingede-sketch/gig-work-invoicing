@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'registration',
+    'registration', 
     'gbsapp',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -122,21 +122,30 @@ STATICFILES_DIRS = [
     BASE_DIR / "registration/static",
 ]
 
+
+# Test code to check email sending functionality in Console
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 DEFAULT_FROM_EMAIL = "noreply@gigbillingsystem.com"
 
-# LOGIN_REDIRECT_URL = '/profile-complete/'
-LOGIN_REDIRECT_URL = 'registration:dashboardLink'
-# LOGIN_URL = '/login/'
+# Email sending code using Brevo service
+# from decouple import config
 
 # EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-# EMAIL_HOST = "smtp.gmail.com"
+
+# EMAIL_HOST = "smtp-relay.brevo.com"
 # EMAIL_PORT = 587
 # EMAIL_USE_TLS = True
-# EMAIL_HOST_USER = "gigbilling@gmail.com"
-# EMAIL_HOST_PASSWORD = "your_app_password"
+
+# EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+# EMAIL_HOST_PASSWORD = config("BREVO_API_KEY")
+
+# DEFAULT_FROM_EMAIL = "keikkalaskutus@gmail.com"
+
+# Setting Default url for Django's builtin authentication  
+LOGIN_REDIRECT_URL = 'registration:dashboardLink'
 
 # AUTHENTICATION_BACKENDS = [
 #     'registration.authentication.EmailBackend',
 #     'django.contrib.auth.backends.ModelBackend',
 # ]
+
