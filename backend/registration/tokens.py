@@ -1,4 +1,5 @@
-# registration/tokens.py
+
+# Token generator Class
 
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 
