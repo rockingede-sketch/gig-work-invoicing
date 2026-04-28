@@ -123,11 +123,12 @@ STATICFILES_DIRS = [
 ]
 
 
-# Test code to check email sending functionality in Console
+# Debugging - Test code to check email sending functionality in Console
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 DEFAULT_FROM_EMAIL = "noreply@gigbillingsystem.com"
 
-# Email sending code using Brevo service
+# Actual email sending code using Brevo service
+
 # from decouple import config
 
 # EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
@@ -144,8 +145,5 @@ DEFAULT_FROM_EMAIL = "noreply@gigbillingsystem.com"
 # Setting Default url for Django's builtin authentication  
 LOGIN_REDIRECT_URL = 'registration:dashboardLink'
 
-# AUTHENTICATION_BACKENDS = [
-#     'registration.authentication.EmailBackend',
-#     'django.contrib.auth.backends.ModelBackend',
-# ]
+
 
