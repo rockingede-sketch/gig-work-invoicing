@@ -1,4 +1,5 @@
 {% extends "base.html" %} {% load static %} {% block content %}
+
 <div
   class="d-flex justify-content-center align-items-center min-vh-100 bg-light px-3"
 >
@@ -9,12 +10,22 @@
     <div class="card-body p-4">
       <h4 class="fw-semibold mb-3">Kirjaudu</h4>
 
-      <form method="POST">
-        {% csrf_token %}
+      <form method="POST" action="{% url 'registration:loginLink' %}">
+        {% csrf_token %} {% spaceless %} {% if form.errors %}
+        <div class="alert alert-danger">
+          <ul class="mb-0">
+            {% for field in form %} {% for error in field.errors %}
+            <li><strong>{{ field.label }}:</strong> {{ error }}</li>
+            {% endfor %} {% endfor %} {% for error in form.non_field_errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %} {% endspaceless %}
 
         <div class="mb-3">
-          <label class="form-label">Sähköposti</label>
-          <input type="email" name="email" class="form-control" required />
+          <label class="form-label">Käyttäjätunnus</label>
+          <input type="text" name="username" class="form-control" required />
         </div>
 
         <div class="mb-3">
@@ -32,9 +43,7 @@
         </button>
 
         <div class="text-center mt-3">
-          <a href="{% url 'forgotPwdLink' %}" class="text-decoration-none">
-            Unohtunut salasana?
-          </a>
+          <a href="/auth/password_reset/">Unohtunut salasana?</a>
         </div>
 
         <hr class="my-4" />
@@ -42,7 +51,7 @@
         <div class="text-center">
           <p class="mb-2">Eikö sinulla ole tiliä?</p>
           <a
-            href="{% url 'createAccLink' %}"
+            href="{% url 'registration:createAccLink' %}"
             class="btn btn-outline-primary w-100"
           >
             Luo tili

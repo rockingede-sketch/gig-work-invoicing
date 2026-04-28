@@ -1,8 +1,15 @@
 email_settings.env
+.env
+*.log
+.vscode/
+.idea/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.pyc
 *.py[cod]
+*.pyc
+db.sqlite3
 
 # C extensions
 *.so

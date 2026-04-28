@@ -7,14 +7,11 @@
     style="max-width: 420px; width: 100%; border-radius: 12px"
   >
     <div class="card-body p-4">
-      <h2>Rekisteröityminen onnistui</h2>
+      <h2>Profiili valmis</h2>
 
-      <p>
-        Olemme lähettäneet aktivointilinkin sähköpostiisi
-        <strong>{{ email }}</strong>
-      </p>
+      <p>Tilisi on nyt aktiivinen</p>
 
-      <p>Tarkista sähköpostisi jaatkaaksesi</p>
+      <a href="{% url 'registration:dashboardLink' %}">Siirry dashboardiin</a>
     </div>
   </div>
 </div>

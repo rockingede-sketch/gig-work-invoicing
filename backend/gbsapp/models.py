@@ -49,7 +49,7 @@ class Customer(models.Model):
         ('light entrepreneur', 'Kevytyrittäjä'),
         ('employee', 'Työntekijä'),
     ]
-    #user_id = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)
+    
     user_id = models.ForeignKey('auth.User', on_delete=models.SET_NULL, null=True, related_name='customers')
     person_id= models.CharField(max_length=250, null=False)
     custom_role = models.CharField(max_length=20, null=False, choices=CUSTOMER_ROLE) # kevytyrittäjä tai työntekijä = light entrepreneur, employee
@@ -67,9 +67,9 @@ class Customer(models.Model):
     valid_to = models.DateField(null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True) 
     updated = models.DateTimeField(auto_now=True)
-
+# Changed to first_name first and last_name last format
     def __str__(self):
-        return self.last_name + ' ' + self.first_name
+        return self.first_name + ' ' + self.last_name
 
   # taulua companycustomers vastaava luokka:
 class CompanyCustomer(models.Model):
@@ -375,7 +375,7 @@ class Documents(models.Model):
     doc_date = models.DateField(null=False)
     # Foreign Keys: 
     #user_id = models.ForeignKey('User', on_delete=models.SET_NULL, null=True, blank=True)
-    user_id = models.ForeignKey('auth.User', on_delete=models.SET_NULL, null=True, related_name='customer')
+    user_id = models.ForeignKey('auth.User', on_delete=models.SET_NULL, null=True, related_name='documents')
     contract_id = models.ForeignKey('Contract', on_delete=models.SET_NULL, null=True, blank=True)
     invoice_id = models.ForeignKey('Invoice', on_delete=models.SET_NULL, null=True, blank=True)
     payroll_id = models.ForeignKey('Payroll', on_delete=models.SET_NULL, null=True, blank=True)

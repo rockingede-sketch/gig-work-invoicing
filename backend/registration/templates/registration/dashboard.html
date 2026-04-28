@@ -1,5 +1,4 @@
 {% extends "base.html" %} {% load static %} {% block content %}
-
 <div
   class="d-flex justify-content-center align-items-center min-vh-100 bg-light px-3"
 >
@@ -8,12 +7,7 @@
     style="max-width: 420px; width: 100%; border-radius: 12px"
   >
     <div class="card-body p-4">
-      <h4 class="fw-semibold mb-3">Luo tili</h4>
-
-      <form method="POST">
-        {% csrf_token %} {{ form.as_p }}
-        <button type="submit">Register</button>
-      </form>
+      <h2>Welcome to the dashboard</h2>
     </div>
   </div>
 </div>

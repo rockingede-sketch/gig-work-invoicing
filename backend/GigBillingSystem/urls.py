@@ -15,22 +15,20 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from gbsapp import views
 from django.urls import path, include
+from gbsapp import views as gbsViews
+from registration import views as regViews
 # from gbsapp.views import sendConfirmEmail
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    #path('sendconfirmation/', sendConfirmEmail.as_view(), name='send-confirmation-email'),
-    path('forms/group_billing/', views.group_billing_fields, name='group_billing_fields'),
-    path('forms/e_invoice_address/', views.e_invoice_address, name='e_invoice_address_fields'),
-    path('laskutus/', views.laskutus, name='laskutus'),
-    path('laskutus/uusi/', views.lasku_new, name='lasku_new'),
-    path('laskutus/uusi/luotu', views.lasku_luotu, name='lasku_luotu'),
-    path('laskutus/<int:pk>/', views.lasku_detail, name='lasku_detail')
+    path('', regViews.home_view, name='homeLink'),
+    path('registration/', include('registration.urls',namespace="registration")),
+    path("auth/", include("django.contrib.auth.urls")),
+    path('forms/group_billing/', gbsViews.group_billing_fields, name='group_billing_fields'),
+    path('forms/e_invoice_address/', gbsViews.e_invoice_address, name='e_invoice_address_fields'),
+    path('laskutus/', gbsViews.laskutus, name='laskutus'),
+    path('laskutus/uusi/', gbsViews.lasku_new, name='lasku_new'),
+    path('laskutus/uusi/luotu', gbsViews.lasku_new, name='lasku_luotu'),
+    path('laskutus/<int:pk>/', gbsViews.lasku_detail, name='lasku_detail')
 ]
-    path('registration/', include('registration.urls')),
-    # path('sendconfirmation/', sendConfirmEmail.as_view(), name='send-confirmation-email')
-]
-

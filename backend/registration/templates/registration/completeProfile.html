@@ -1,8 +1,143 @@
-<h2>Complete Your Profile</h2>
+{% extends "base.html" %} {% load static %} {% block content %}
+<div
+  class="d-flex justify-content-center align-items-center min-vh-100 bg-light px-3"
+>
+  <div
+    class="card shadow-sm"
+    style="max-width: 480px; width: 100%; border-radius: 12px"
+  >
+    <div class="card-body p-4">
+      <h4 class="fw-semibold mb-3">Viimeistele profiilisi</h4>
 
-<p>Hi {{ user.first_name }}, please fill in the details below.</p>
+      <form method="POST">
+        {% csrf_token %} {% if form.errors %}
+        <div class="alert alert-danger">
+          <ul class="mb-0">
+            {% for field in form %} {% for error in field.errors %}
+            <li><strong>{{ field.label }}:</strong> {{ error }}</li>
+            {% endfor %} {% endfor %} {% for error in form.non_field_errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
 
-<form method="POST">
-  {% csrf_token %} {{ form.as_p }}
-  <button type="submit">Submit</button>
-</form>
+        <!-- FIRST NAME -->
+        <div class="mb-3">
+          <label class="form-label">Etunimi</label>
+          {{ form.first_name }} {% if form.first_name.errors %}
+          <div class="invalid-feedback d-block">
+            {{ form.first_name.errors|striptags }}
+          </div>
+          {% endif %}
+        </div>
+
+        <!-- LAST NAME -->
+        <div class="mb-3">
+          <label class="form-label">Sukunimi</label>
+          {{ form.last_name }} {% if form.last_name.errors %}
+          <div class="invalid-feedback d-block">
+            {{ form.last_name.errors|striptags }}
+          </div>
+          {% endif %}
+        </div>
+
+        <!-- PERSON ID -->
+        <div class="mb-3">
+          <label class="form-label">Henkilötunnus</label>
+          {{ form.person_id }} {% if form.person_id.errors %}
+          <div class="invalid-feedback d-block">
+            {{ form.person_id.errors|striptags }}
+          </div>
+          {% endif %}
+        </div>
+
+        <!-- CUSTOM ROLE -->
+        <div class="mb-3">
+          <label class="form-label">Rooli</label>
+          {{ form.custom_role }} {% if form.custom_role.errors %}
+          <div class="invalid-feedback d-block">
+            {{ form.custom_role.errors|striptags }}
+          </div>
+          {% endif %}
+        </div>
+
+        <!-- TAX NUMBER -->
+        <div class="mb-3">
+          <label class="form-label">Veronumero</label>
+          {{ form.tax_number }} {% if form.tax_number.errors %}
+          <div class="invalid-feedback d-block">
+            {{ form.tax_number.errors|striptags }}
+          </div>
+          {% endif %}
+        </div>
+
+        <!-- PHONE -->
+        <div class="mb-3">
+          <label class="form-label">Puhelinnumero</label>
+          {{ form.phone }} {% if form.phone.errors %}
+          <div class="invalid-feedback d-block">
+            {{ form.phone.errors|striptags }}
+          </div>
+          {% endif %}
+        </div>
+
+        <!-- ADDRESS -->
+        <div class="mb-3">
+          <label class="form-label">Osoite</label>
+          {{ form.address }} {% if form.address.errors %}
+          <div class="invalid-feedback d-block">
+            {{ form.address.errors|striptags }}
+          </div>
+          {% endif %}
+        </div>
+
+        <!-- POSTCODE -->
+        <div class="mb-3">
+          <label class="form-label">Postinumero</label>
+          {{ form.postcode }} {% if form.postcode.errors %}
+          <div class="invalid-feedback d-block">
+            {{ form.postcode.errors|striptags }}
+          </div>
+          {% endif %}
+        </div>
+
+        <!-- POST OFFICE -->
+        <div class="mb-3">
+          <label class="form-label">Postitoimipaikka</label>
+          {{ form.postoffice }} {% if form.postoffice.errors %}
+          <div class="invalid-feedback d-block">
+            {{ form.postoffice.errors|striptags }}
+          </div>
+          {% endif %}
+        </div>
+
+        <!-- TAX RATE -->
+        <div class="mb-3">
+          <label class="form-label">Veroprosentti</label>
+          {{ form.tax_rate }} {% if form.tax_rate.errors %}
+          <div class="invalid-feedback d-block">
+            {{ form.tax_rate.errors|striptags }}
+          </div>
+          {% endif %}
+        </div>
+
+        <!-- BANK ACCOUNT -->
+        <div class="mb-3">
+          <label class="form-label">Tilinumero</label>
+          {{ form.bankaccount }} {% if form.bankaccount.errors %}
+          <div class="invalid-feedback d-block">
+            {{ form.bankaccount.errors|striptags }}
+          </div>
+          {% endif %}
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100 py-2 mt-2">
+          Tallenna tiedot
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
