@@ -7,7 +7,7 @@ from django.urls import re_path
 app_name = 'registration'
 
 urlpatterns = [
-    path("/", home_view, name="homeLink"),
+    path("", home_view, name="homeLink"),
     path("dashboard/",dashboard_view, name='dashboardLink'),
     path("createAccount/", register_view, name="createAccLink"),
     # path("activate/<uidb64>/<token>/", activation_view, name="activationLink"),
