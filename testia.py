@@ -1,3 +1,5 @@
+import datetime                    
+from datetime import datetime
 import os
 import sys
 import django
@@ -8,12 +10,20 @@ django.setup()
 
 # Käytä nyt lyhyttä polkua (ilman backend-etuliitettä)
 # jotta se täsmää INSTALLED_APPS-asetukseen
+from gbsapp.models import Invoice
 from gbsapp.models import BillingCase as bcase
-from gbsapp.models import BillingCustomers as bcust
+#from gbsapp.models import BillingCustomers as bcust
 from docs import make_invoice
+import logging
 
-print("Yhteys muodostettu!")
-print(f"BillingCase-rivejä tietokannassa: {bcase.objects.count()}")
+logging.basicConfig(
+    level=logging.INFO,
+    filename = os.path.join(os.path.dirname(os.path.abspath(__file__)), "invoice_log.log"),
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    filemode='a')
+
+logging.info("Yhteys muodostettu!")
+logging.info(f"BillingCase-rivejä tietokannassa: {bcase.objects.count()}")
 
 try:
     inv_case = bcase.objects.get(id=102)
@@ -34,7 +44,7 @@ try:
     i_payer_reference = inv_case.payer_reference
 
 except bcase.DoesNotExist:
-    print("Billing case not found")
+    logging.info("Billing case not found")
 
 
 invoice_values = make_invoice.create_invoice(
@@ -53,3 +63,27 @@ invoice_values = make_invoice.create_invoice(
 )
 
 print(invoice_values)
+
+invoicing_row = Invoice(
+        billing_case_id = inv_case,
+        billing_cust_id = billing_cust,
+        invoice_num = invoice_values['invoice_number'],
+        invoice_date = datetime.strptime(invoice_values['invoice_date'], "%d.%m.%Y").date(),
+        due_date = datetime.strptime(invoice_values['due_date'], "%d.%m.%Y").date(),
+        invoice_status = 'draft',
+        description = i_service,
+        salary_sum = None,
+        travel_exp_sum = None,
+        other_claims_sum = None,
+        amount_vat_0 = invoice_values['price'],
+        vat_percent = i_vat_prec,
+        vat_sum = invoice_values['vat_e'],
+        total_amount = invoice_values['total_sum'],  
+        reference = invoice_values['reference'],
+        bank_account = None,
+        paid_amount = 0,
+        penalty_interest = None,
+        payment_date = None,
+        payment_state = 'unpaid'
+    )
+invoicing_row.save()

@@ -1,11 +1,11 @@
-from django.shortcuts import render
-from gbsapp.models import BillingCase
+from django.shortcuts import get_object_or_404, render
+from gbsapp.models import BillingCase, Customer
 from gbsapp.models import Invoice
 from django.db.models import Sum, Q
 from django.utils import timezone
 from datetime import datetime
 from datetime import timedelta
-from .forms import BillingCaseForm
+from .forms import BillingCaseForm, CustomerUpdateForm
 from django.shortcuts import redirect
 from .services.services import BillingCalculators
 from django.http import HttpResponse
@@ -178,5 +178,34 @@ def make_pdf_invoice(billing_case_id: int):
     invoicing_row.save()
 
 def customer_dashboard(request, userid):
-    customer = request.GET.objects('customer', user_id=userid)
-    return render(request, 'gbsapp/dashboards/customer.html', {'customer': customer})
+    customer = get_object_or_404(Customer, user_id=userid)
+     # Tarkistetaan onko GET-pyynnössä mukana 'show_full'
+    show_full = request.GET.get('show_full') == 'true'
+    
+    # Valmistellaan henkilötunnus näytettäväksi
+    if show_full:
+        display_id = customer.person_id
+    else:
+        # Piilotetaan 4 viimeistä (varmistetaan ensin, että tunnus on olemassa)
+        pid = customer.person_id or ""
+        display_id = pid[:-4] + "****" if len(pid) > 6 else pid
+
+    context = {
+        'customer': customer,
+        'display_id': display_id,
+        'is_full': show_full
+    }
+    return render(request, 'gbsapp/dashboards/customer.html', context)
+
+def update_customer(request, userid):
+    customer = get_object_or_404(Customer, user_id=userid)
+    
+    if request.method == 'POST':
+        form = CustomerUpdateForm(request.POST, instance=customer)
+        if form.is_valid():
+            form.save()
+            return redirect(customer_dashboard, userid=customer.pk) # Ohjaa takaisin katselunäkymään
+    else:
+        form = CustomerUpdateForm(instance=customer)
+    
+    return render(request, 'gbsapp/dashboards/customer_update.html', {'form': form})

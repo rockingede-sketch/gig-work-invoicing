@@ -30,5 +30,8 @@ urlpatterns = [
     path('laskutus/', gbsViews.laskutus, name='laskutus'),
     path('laskutus/uusi/', gbsViews.lasku_new, name='lasku_new'),
     path('laskutus/uusi/luotu', gbsViews.lasku_new, name='lasku_luotu'),
-    path('laskutus/<int:pk>/', gbsViews.lasku_detail, name='lasku_detail')
+    path('laskutus/<int:pk>/', gbsViews.lasku_detail, name='lasku_detail'),
+    path('customer/<int:userid>/', gbsViews.customer_dashboard, name='customer_dashboard'),
+    path('customer/<int:userid>/edit/', gbsViews.update_customer, name='update_customer'),
+
 ]
