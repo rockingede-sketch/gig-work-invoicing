@@ -1,6 +1,12 @@
-
-   <div class="mb-3">
-        <label class="form-label">{{ form.e_invoice_address.label }}</label>
-            {{ form.e_invoice_address }}
-            <div class="text-danger small">{{ form.e_invoice_address.errors }}</div>
-        </div>
+<div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">{{ form.group_name.label }}</label>
+                            {{ form.group_name }}
+                            <div class="text-danger small">{{ form.group_name.errors }}</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">{{ form.number_of_members.label }}</label>
+                            {{ form.number_of_members }}
+                            <div class="text-danger small">{{ form.number_of_members.errors }}</div>
+                        </div>
+                    </div>

@@ -67,11 +67,14 @@ def laskutus(request):
 def lasku_new(request):
     if request.method == 'POST':
         lasku_form = BillingCaseForm(request.POST)
-        job_date = lasku_form.cleaned_data.get('job_date')
-        job_begin_time = lasku_form.cleaned_data.get('job_begin')
-        job_ended_time = lasku_form.cleaned_data.get('job_ended')
+       
         
         if lasku_form.is_valid():
+             
+            job_date = lasku_form.cleaned_data.get('job_date')
+            job_begin_time = lasku_form.cleaned_data.get('job_begin')
+            job_ended_time = lasku_form.cleaned_data.get('job_ended')
+
             uusi_lasku = lasku_form.save(commit=False)
             uusi_lasku.stage = 'open'
 
@@ -86,7 +89,8 @@ def lasku_new(request):
                 uusi_lasku.number_of_members or 1
             )
             uusi_lasku.save()
-            return redirect('lasku_luotu', pk=uusi_lasku.pk)
+            #return redirect('lasku_luotu', pk=uusi_lasku.pk)
+            return redirect('lasku_luotu')
     else:
         lasku_form = BillingCaseForm()
 

@@ -52,8 +52,6 @@ class BillingCaseForm(forms.ModelForm):
         fields = [
         'job_location',
         'job_date',
-        'job_begin',
-        'job_ended',
         'job_hours',
         'work_description',
         'work_task',
@@ -153,7 +151,7 @@ class CustomerUpdateForm(forms.ModelForm):
             'postcode': 'Postinumero',
             'postoffice': 'Postitoimipaikka',
             'bankaccount': 'Tilinumero (IBAN)',
-            'tax_rate': 'Veroprosentti',
+            'tax_rate': 'Ennakonpidätysprosentti',
             'tax_number': 'Veronumero',
             # 'custom_role' label on jo määritelty ylhäällä
         }
