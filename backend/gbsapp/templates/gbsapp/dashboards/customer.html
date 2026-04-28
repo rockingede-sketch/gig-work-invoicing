@@ -1,0 +1,26 @@
+{% extends "gbsapp/base.html" %}
+{% block title %}Henkilöasiakkaan tiedot{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-2">
+  <h1>Laskutus</h1>
+  <a href="{% url 'lasku_new' %}" class="btn btn-sm" style="background:#993556; color:white;">+ Luo uusi lasku</a>
+</div>
+<p class="text-muted small mb-4">Täältä löydät kaikki tallentuneet laskutuksesi ja niiden tilan.</p>
+
+<div class="row g-3 mb-4">
+  <div class="col"><div class="bg-light rounded p-3"><div class="small text-muted">Avoimet yhteensä</div><div class="fs-5 fw-500">{{ open_total|floatformat:2 }} €</div></div></div>
+  <div class="col"><div class="bg-light rounded p-3"><div class="small text-muted">Maksettu ({{ year }})</div><div class="fs-5 fw-500">{{ paid_total|floatformat:2 }} €</div></div></div>
+  <div class="col"><div class="bg-light rounded p-3"><div class="small text-muted">Myöhässä</div><div class="fs-5 fw-500 text-danger">{{ late_count }}</div></div></div>
+</div>
+
+<ul class="nav nav-tabs mb-3">
+  <li class="nav-item"><a class="nav-link {% if not status_filter %}active{% endif %}" href="{% url 'laskutus' %}">Kaikki ({{ total_count }})</a></li>
+  <li class="nav-item"><a class="nav-link {% if status_filter == 'open' %}active{% endif %}" href="?status=open">Avoimet ({{ open_count }})</a></li>
+  <li class="nav-item"><a class="nav-link {% if status_filter == 'paid' %}active{% endif %}" href="?status=paid">Maksettu ({{ paid_count }})</a></li>
+</ul>
+
+
+
+{% endblock %}

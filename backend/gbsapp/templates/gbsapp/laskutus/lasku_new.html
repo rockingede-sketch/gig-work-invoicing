@@ -1,0 +1,250 @@
+{% extends "gbsapp/base.html" %}
+{% block title %}Uusi lasku{% endblock %}
+ 
+{% block content %}
+ 
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Uusi lasku</h1>
+    <a href="{% url 'laskutus' %}" class="btn btn-secondary btn-sm">← Takaisin</a>
+</div>
+ 
+<form method="post" action="{% url 'lasku_new' %}">
+    {% csrf_token %}
+
+    {% if form.errors %}
+    <div class="alert alert-danger mb-4">
+        <strong>Korjaa seuraavat virheet:</strong>
+        <ul class="mb-0 mt-2">
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <li><strong>{{ field.label }}:</strong> {{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+ 
+    {% if form.non_field_errors %}
+    <div class="alert alert-danger">
+        {{ form.non_field_errors }}
+    </div>
+    {% endif %}
+ 
+    {# ── ASIAKASTIEDOT ── #}
+    <div class="card mb-3">
+        <div class="card-body">
+            <h6 class="text-muted text-uppercase small mb-3">Asiakastiedot</h6>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">{{ form.front_cust_id.label }}</label>
+                    {{ form.front_cust_id }}
+                    <div class="text-danger small">{{ form.front_cust_id.errors }}</div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">{{ form.billing_cust_id.label }}</label>
+                    {{ form.billing_cust_id }}
+                    <div class="text-danger small">{{ form.billing_cust_id.errors }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+    {# ── TYÖN TIEDOT ── #}
+    <div class="card mb-3">
+        <div class="card-body">
+            <h6 class="text-muted text-uppercase small mb-3">Työn tiedot</h6>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">{{ form.work_task.label }}</label>
+                    {{ form.work_task }}
+                    <div class="text-danger small">{{ form.work_task.errors }}</div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">{{ form.job_location.label }}</label>
+                    {{ form.job_location }}
+                    <div class="text-danger small">{{ form.job_location.errors }}</div>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">{{ form.job_date.label }}</label>
+                    {{ form.job_date }}
+                    <div class="text-danger small">{{ form.job_date.errors }}</div>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">{{ form.job_begin.label }}</label>
+                    {{ form.job_begin }}
+                    <div class="text-danger small">{{ form.job_begin.errors }}</div>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">{{ form.job_ended.label }}</label>
+                    {{ form.job_ended }}
+                    <div class="text-danger small">{{ form.job_ended.errors }}</div>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">{{ form.job_hours.label }}</label>
+                    {{ form.job_hours }}
+                    <div class="text-danger small">{{ form.job_hours.errors }}</div>
+                </div>
+                <div class="col-12">
+                    <label class="form-label">{{ form.work_description.label }}</label>
+                    {{ form.work_description }}
+                    <div class="text-danger small">{{ form.work_description.errors }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+    {# ── YHTEYSTIEDOT ── #}
+    <div class="card mb-3">
+        <div class="card-body">
+            <h6 class="text-muted text-uppercase small mb-3">Yhteystiedot</h6>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">{{ form.contact_person.label }}</label>
+                    {{ form.contact_person }}
+                    <div class="text-danger small">{{ form.contact_person.errors }}</div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">{{ form.phone.label }}</label>
+                    {{ form.phone }}
+                    <div class="text-danger small">{{ form.phone.errors }}</div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">{{ form.email.label }}</label>
+                    {{ form.email }}
+                    <div class="text-danger small">{{ form.email.errors }}</div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">{{ form.address.label }}</label>
+                    {{ form.address }}
+                    <div class="text-danger small">{{ form.address.errors }}</div>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">{{ form.postcode.label }}</label>
+                    {{ form.postcode }}
+                    <div class="text-danger small">{{ form.postcode.errors }}</div>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">{{ form.postoffice.label }}</label>
+                    {{ form.postoffice }}
+                    <div class="text-danger small">{{ form.postoffice.errors }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+    {# ── LASKUTUSTIEDOT ── #}
+    <div class="card mb-3">
+        <div class="card-body">
+            <h6 class="text-muted text-uppercase small mb-3">Laskutustiedot</h6>
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">{{ form.payment.label }}</label>
+                    {{ form.payment }}
+                    <div class="text-danger small">{{ form.payment.errors }}</div>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">{{ form.vat_percent.label }}</label>
+                    {{ form.vat_percent }}
+                    {% if form.vat_percent.help_text %}
+                    <div class="form-text">{{ form.vat_percent.help_text }}</div>
+                    {% endif %}
+                    <div class="text-danger small">{{ form.vat_percent.errors }}</div>
+                </div>
+                <div class="col-md-4 d-flex align-items-end pb-2">
+                    <div class="form-check">
+                        {{ form.vat_includes }}
+                        <label class="form-check-label">{{ form.vat_includes.label }}</label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">{{ form.billing_method.label }}</label>
+                    {{ form.billing_method }}
+                    <div class="text-danger small">{{ form.billing_method.errors }}</div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">{{ form.payer_reference.label }}</label>
+                    {{ form.payer_reference }}
+                    {% if form.payer_reference.help_text %}
+                    <div class="form-text">{{ form.payer_reference.help_text }}</div>
+                    {% endif %}
+                    <div class="text-danger small">{{ form.payer_reference.errors }}</div>
+                </div>
+ 
+                {# e_invoice_address — shown via HTMX when billing_method = verkkolasku #}
+                <div class="col-12"
+                     id="e-invoice-field"
+                     {% if form.billing_method.value != 'verkkolasku' %}style="display:none"{% endif %}>
+                    <label class="form-label">{{ form.e_invoice_address.label }}</label>
+                    {{ form.e_invoice_address }}
+                    {% if form.e_invoice_address.help_text %}
+                    <div class="form-text">{{ form.e_invoice_address.help_text }}</div>
+                    {% endif %}
+                    <div class="text-danger small">{{ form.e_invoice_address.errors }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+    {# ── RYHMÄLASKUTUS ── #}
+    <div class="card mb-4">
+        <div class="card-body">
+            <h6 class="text-muted text-uppercase small mb-3">Ryhmälaskutus</h6>
+            <div class="row g-3">
+                <div class="col-12">
+                    <div class="form-check">
+                        {{ form.group_billing }}
+                        <label class="form-check-label">{{ form.group_billing.label }}</label>
+                    </div>
+                </div>
+ 
+                {# group fields — shown via HTMX when group_billing is checked #}
+                <div id="group-fields">
+                    {% if form.group_billing.value %}
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">{{ form.group_name.label }}</label>
+                            {{ form.group_name }}
+                            <div class="text-danger small">{{ form.group_name.errors }}</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">{{ form.number_of_members.label }}</label>
+                            {{ form.number_of_members }}
+                            <div class="text-danger small">{{ form.number_of_members.errors }}</div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+    <div class="d-flex gap-2 mb-5">
+        <button type="submit" class="btn btn-success">Tallenna lasku</button>
+        <a href="{% url 'laskutus' %}" class="btn btn-secondary">Peruuta</a>
+    </div>
+ 
+</form>
+ 
+{# ── HTMX CONDITIONAL FIELDS ── #}
+<script>
+    // Show/hide e-invoice field based on billing method
+    document.querySelector('[name="billing_method"]').addEventListener('change', function() {
+        const eInvoiceField = document.getElementById('e-invoice-field');
+        eInvoiceField.style.display = this.value === 'verkkolasku' ? 'block' : 'none';
+    });
+ 
+    // Show/hide group fields based on checkbox — using HTMX
+    document.querySelector('[name="group_billing"]').addEventListener('change', function() {
+        const url = this.checked ? "{% url 'group_billing_fields' %}" : '';
+        if (this.checked) {
+            htmx.ajax('GET', "{% url 'group_billing_fields' %}", {target: '#group-fields', swap: 'innerHTML'});
+        } else {
+            document.getElementById('group-fields').innerHTML = '';
+        }
+    });
+</script>
+ 
+{% endblock %}
