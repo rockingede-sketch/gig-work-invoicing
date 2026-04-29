@@ -177,25 +177,35 @@ def make_pdf_invoice(billing_case_id: int):
     )
     invoicing_row.save()
 
-def customer_dashboard(request, userid):
-    customer = get_object_or_404(Customer, user_id=userid)
-     # Tarkistetaan onko GET-pyynnössä mukana 'show_full'
-    show_full = request.GET.get('show_full') == 'true'
-    
-    # Valmistellaan henkilötunnus näytettäväksi
-    if show_full:
-        display_id = customer.person_id
-    else:
-        # Piilotetaan 4 viimeistä (varmistetaan ensin, että tunnus on olemassa)
-        pid = customer.person_id or ""
-        display_id = pid[:-4] + "****" if len(pid) > 6 else pid
+def customer_dashboard(request):
+    userProfile = getattr(request.user, "profile", None)
+    #userProfile = getattr(userid, "profile", None)
 
-    context = {
-        'customer': customer,
-        'display_id': display_id,
-        'is_full': show_full
-    }
-    return render(request, 'gbsapp/dashboards/customer.html', context)
+    if not userProfile or not userProfile.confirmed:
+        return redirect("registration:profileCompleteLink")
+    else:
+   
+      #  customer = get_object_or_404(Customer, request.user.id)
+        customer = Customer.objects.get(user_id=request.user.id)
+
+        # Tarkistetaan onko GET-pyynnössä mukana 'show_full'
+        show_full = request.GET.get('show_full') == 'true'
+        
+        # Valmistellaan henkilötunnus näytettäväksi
+        if show_full:
+            display_id = customer.person_id
+        else:
+            # Piilotetaan 4 viimeistä (varmistetaan ensin, että tunnus on olemassa)
+            pid = customer.person_id or ""
+            display_id = pid[:-4] + "****" if len(pid) > 6 else pid
+
+        context = {
+            'customer': customer,
+            'display_id': display_id,
+            'is_full': show_full
+        }
+
+        return render(request, 'gbsapp/dashboards/customer.html', context)
 
 def update_customer(request, userid):
     customer = get_object_or_404(Customer, user_id=userid)

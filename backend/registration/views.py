@@ -103,6 +103,7 @@ def profileCompletion_view(request):
             profile.user = request.user
             profile.email = request.user.email
             profile.valid_from = timezone.now().date()
+            profile.user_id = request.user
             profile.save()
             
             request.user.profile.confirmed = True
