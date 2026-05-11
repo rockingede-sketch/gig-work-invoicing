@@ -1,17 +1,18 @@
 from django.shortcuts import get_object_or_404, render
-from gbsapp.models import BillingCase, Customer
-from gbsapp.models import Invoice
+from django.contrib.auth.decorators import login_required
+from gbsapp.models import BillingCase, Customer, Invoice, BillingCustomers
 from django.db.models import Sum, Q
 from django.utils import timezone
 from datetime import datetime
 from datetime import timedelta
-from .forms import BillingCaseForm, CustomerUpdateForm
+from .forms import BillingCaseForm, BillingCustomersForm, CustomerUpdateForm
 from django.shortcuts import redirect
 from .services.services import BillingCalculators
 from django.http import HttpResponse
-from .services import make_invoice
+from .services import make_invoice, customer_info
 import os
 import logging
+
 
 logging.basicConfig(
     level=logging.INFO,
@@ -22,9 +23,10 @@ logging.basicConfig(
 def laskutus(request):
 
     filter_status = str(request.GET.get('status'))
-
-    #All Invoices
-    invoices = BillingCase.objects.all()
+    customer_info_dict = customer_info.Asiakas.get_customer_info(request)
+    customer_id = customer_info_dict['customer_id']
+    #Haetaan vain kirjautuneen asiakkaan laskut:
+    invoices = BillingCase.objects.filter(frontman_cust_id=customer_id)
     invoice_total_count = invoices.count()
 
     #Open invoices
@@ -64,39 +66,100 @@ def laskutus(request):
 
     return render(request, 'gbsapp/laskutus/laskutus.html',context)
 
+def create_billing_case(request):
+    # Nyt lomake saa tiedon käyttäjästä turvallisesti
+    form = BillingCaseForm(user=request.user) 
+    return render(request, 'template.html', {'form': form})
+
+@login_required
 def lasku_new(request):
     if request.method == 'POST':
-        lasku_form = BillingCaseForm(request.POST)
+        maksaja_form = BillingCustomersForm(request.POST)
+        # KORJAUS: Käytetään user-parametria, ei request-parametria
+        lasku_form = BillingCaseForm(request.POST, user=request.user)
        
-        
-        if lasku_form.is_valid():
-             
+        if lasku_form.is_valid() and maksaja_form.is_valid():
+            uusi_maksaja = maksaja_form.save(commit=False)
+
             job_date = lasku_form.cleaned_data.get('job_date')
             job_begin_time = lasku_form.cleaned_data.get('job_begin')
             job_ended_time = lasku_form.cleaned_data.get('job_ended')
-
-            uusi_lasku = lasku_form.save(commit=False)
-            uusi_lasku.stage = 'open'
-
-            if job_date and job_begin_time:
-                uusi_lasku.job_begin = datetime.combine(job_date, job_begin_time)
             
-            if job_date and job_ended_time:
-                uusi_lasku.job_ended = datetime.combine(job_date, job_ended_time)
+            #uusi_lasku = lasku_form.save(commit=False)
+            #uusi_lasku.billing_cust_id = maksaja_form.save()
+            try:
+                asiakas = Customer.objects.get(user_id=request.user.id)
+                
+                # KORJAUS: Luodaan malli-olio, ei viitata lomakkeeseen
+                uusi_lasku = lasku_form.save(commit=False)
+                
+                uusi_lasku.frontman_cust_id = asiakas
+                uusi_lasku.billing_cust_id = maksaja_form.save()
+                uusi_lasku.stage = 'open'
+                
+                # Haetaan arvot cleaned_datasta laskentaa varten
+                payment = lasku_form.cleaned_data.get('payment') or 0
+                members = lasku_form.cleaned_data.get('number_of_members') or 1
 
-            uusi_lasku.owner_profit = BillingCalculators.calculate_customer_portion(
-                uusi_lasku.payment,
-                uusi_lasku.number_of_members or 1
-            )
-            uusi_lasku.save()
-            #return redirect('lasku_luotu', pk=uusi_lasku.pk)
-            return redirect('lasku_luotu')
+                if job_date and job_begin_time:
+                    uusi_lasku.job_begin = datetime.combine(job_date, job_begin_time)
+                
+                if job_date and job_ended_time:
+                    uusi_lasku.job_ended = datetime.combine(job_date, job_ended_time)
+
+                # Käytetään haettuja muuttujia laskentaan
+                uusi_lasku.owner_profit = BillingCalculators.calculate_customer_portion(
+                    payment
+                )
+                
+                uusi_lasku.save()
+                uusi_maksaja.save()
+                return redirect('lasku_luotu')
+                
+            except Customer.DoesNotExist:
+                return HttpResponse("Käyttäjälläsi ei ole oikeutta luoda laskuja.")
+         #   try:
+         #       # Hae käyttäjään liittyvä Customer-profiili
+         #       # Olettaen, että Customer-mallissa on kenttä 'user'
+         #       asiakas = Customer.objects.get(user_id=request.user.id)
+         #       uusi_lasku = lasku_form
+         #       uusi_lasku.frontman_cust_id = asiakas
+         #       uusi_lasku.frontman_cust_id_id = request.user.id
+         #       uusi_lasku.save(commit=False)
+         #       uusi_lasku.billing_cust_id = maksaja_form.save()
+         #       uusi_lasku.stage = 'open' # Voit asettaa alkutilan tässä
+         #   except Customer.DoesNotExist:
+         #   # Käsittele virhe, jos kirjautuneella käyttäjällä ei ole asiakasprofiilia
+         #       return HttpResponse("Käyttäjälläsi ei ole oikeutta luoda laskuja.")
+         #   # Asetetaan kirjautunut käyttäjä työn vastuuhenkilöksi
+         #   #logging.info(f"Frontman customer ID: {request.user.id}")
+         #   #uusi_lasku.stage = 'open' # Voit asettaa alkutilan tässä
+        
+        #    if job_date and job_begin_time:
+         #       uusi_lasku.job_begin = datetime.combine(job_date, job_begin_time)
+         #   
+         #   if job_date and job_ended_time:
+         #       uusi_lasku.job_ended = datetime.combine(job_date, job_ended_time)
+        #
+        #    uusi_lasku.owner_profit = BillingCalculators.calculate_customer_portion(
+        #        uusi_lasku.payment,
+        #      uusi_lasku.number_of_members or 1
+        #   )
+        #    uusi_lasku.save()
+        #    return redirect('lasku_luotu')
+        else:
+            logging.info(f"Lasku form errors: {lasku_form.errors}")
+            logging.info(f"Maksaja form errors: {maksaja_form.errors}")
     else:
-        lasku_form = BillingCaseForm()
+        # KORJAUS: Välitetään käyttäjä lomakkeelle oletusarvoja varten
+        lasku_form = BillingCaseForm(user=request.user)
+        maksaja_form = BillingCustomersForm()
 
-    return render(request, 'gbsapp/laskutus/lasku_new.html', {'form': lasku_form})
+    return render(request, 'gbsapp/laskutus/lasku_new.html', {
+        'form': lasku_form, 
+        'maksaja_form': maksaja_form
+    })
 
-         
 def lasku_luotu(request):
     return render(request, 'gbsapp/laskutus/lasku_new_confirm.html')
     
@@ -106,14 +169,16 @@ def lasku_detail(request, pk):
     return render(request, 'gbsapp/laskutus/lasku_detail.html', {'invoice': invoice})
 
 def group_billing_fields(request):
-    if request.GET.get('group_billing'):
+    if request.GET.get('group_billing') == 'false':
         return HttpResponse('')
     else:
-        form = BillingCaseForm()
+        # KORJAUS: Myös dynaamisesti ladattava osio tarvitsee käyttäjätiedon
+        form = BillingCaseForm(user=request.user)
         return render(request, 'gbsapp/form_sections/group_billing.html', {'form': form})
-
+    
 def e_invoice_address(request):
-    form = BillingCaseForm()
+    # KORJAUS: Myös dynaamisesti ladattava osio tarvitsee käyttäjätiedon
+    form = BillingCaseForm(user=request.user)
     return render(request,'gbsapp/form_sections/einvoice_address.html',{'form':form})
 
 ## pdf-laskun tekeminen ja tallentaminen tietokantaan:
@@ -176,7 +241,7 @@ def make_pdf_invoice(billing_case_id: int):
         payment_state = 'unpaid'
     )
     invoicing_row.save()
-
+# Asiakkaan tiedot (dashboard) ja henkilötunnuksen osittainen piilottaminen tai näyttäminen kokonaisena:
 def customer_dashboard(request):
     userProfile = getattr(request.user, "profile", None)
     #userProfile = getattr(userid, "profile", None)
@@ -206,16 +271,21 @@ def customer_dashboard(request):
         }
 
         return render(request, 'gbsapp/dashboards/customer.html', context)
-
-def update_customer(request, userid):
-    customer = get_object_or_404(Customer, user_id=userid)
+# Asiakkaan tietojen päivitys:
+def update_customer(request):
+    userProfile = getattr(request.user, "profile", None)
+    if not userProfile or not userProfile.confirmed:
+        return redirect("registration:profileCompleteLink")
+    else:
+        #customer = get_object_or_404(Customer, user_id=userid)
+        customer = Customer.objects.get(user_id=request.user.id)
     
     if request.method == 'POST':
         form = CustomerUpdateForm(request.POST, instance=customer)
         if form.is_valid():
             form.save()
-            return redirect(customer_dashboard, userid=customer.pk) # Ohjaa takaisin katselunäkymään
+            return redirect(customer_dashboard) # Ohjaa takaisin katselunäkymään
     else:
         form = CustomerUpdateForm(instance=customer)
     
-    return render(request, 'gbsapp/dashboards/customer_update.html', {'form': form})
+    return render(request, 'gbsapp/dashboards/customer_update.html', {'form': form, 'customer': customer})

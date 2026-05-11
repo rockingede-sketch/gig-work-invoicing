@@ -1,8 +1,6 @@
-{% extends "gbsapp/base.html" %}
-{% block title %}Uusi lasku{% endblock %}
- 
-{% block content %}
- 
+{% extends "base.html" %} {% load static %} {% block content %}
+{% block title %}Tee uusi laskutustoimeksianto{% endblock %}
+  
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h1>Uusi lasku</h1>
     <a href="{% url 'laskutus' %}" class="btn btn-secondary btn-sm">← Takaisin</a>
@@ -39,20 +37,103 @@
             <h6 class="text-muted text-uppercase small mb-3">Asiakastiedot</h6>
             <div class="row g-3">
                 <div class="col-md-6">
-                    <label class="form-label">{{ form.front_cust_id.label }}</label>
-                    {{ form.front_cust_id }}
-                    <div class="text-danger small">{{ form.front_cust_id.errors }}</div>
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">{{ form.billing_cust_id.label }}</label>
-                    {{ form.billing_cust_id }}
-                    <div class="text-danger small">{{ form.billing_cust_id.errors }}</div>
+                    <label class="form-label">{{ form.customer_info.label }}</label>
+                    {{ form.customer_info }}
+                    <div class="text-danger small">{{ form.customer_info.errors }}</div>
                 </div>
             </div>
         </div>
     </div>
  
-    {# ── TYÖN TIEDOT ── #}
+    {# ── RYHMÄLASKUTUS ── #}
+    <div class="card mb-4">
+        <div class="card-body">
+            <h6 class="text-muted text-uppercase small mb-3">Ryhmälaskutus</h6>
+            <div class="row g-3">
+                <div class="col-12">
+                    <div class="form-check">
+                        {{ form.group_billing }}
+                        <label class="form-check-label">{{ form.group_billing.label }}</label>
+                    </div>
+                </div>
+ 
+                {# group fields — shown via HTMX when group_billing is checked #}
+                <div id="group-fields">
+                    {% if form.group_billing.value %}
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">{{ form.group_name.label }}</label>
+                            {{ form.group_name }}
+                            <div class="text-danger small">{{ form.group_name.errors }}</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">{{ form.number_of_members.label }}</label>
+                            {{ form.number_of_members }}
+                            <div class="text-danger small">{{ form.number_of_members.errors }}</div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+ 
+    {# ── MAKSAJAN TIEDOT ── #}
+    <div class="card mb-3">
+        <div class="card-body">
+            <h6 class="text-muted text-uppercase small mb-3">Maksajan tiedot</h6>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">{{ maksaja_form.company_name.label }}</label>
+                    {{ maksaja_form.company_name }}
+                    <div class="text-danger small">{{ maksaja_form.company_name.errors }}</div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">{{ maksaja_form.location.label }}</label>
+                    {{ maksaja_form.location }}
+                    <div class="text-danger small">{{ maksaja_form.location.errors }}</div>
+                </div>
+                 <div class="col-md-6">
+                    <label class="form-label">{{ maksaja_form.company_id.label }}</label>
+                    {{ maksaja_form.company_id }}
+                    <div class="text-danger small">{{ maksaja_form.company_id.errors }}</div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">{{ maksaja_form.contact_person.label }}</label>
+                    {{ maksaja_form.contact_person }}
+                    <div class="text-danger small">{{ maksaja_form.contact_person.errors }}</div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">{{ maksaja_form.phone.label }}</label>
+                    {{ maksaja_form.phone }}
+                    <div class="text-danger small">{{ maksaja_form.phone.errors }}</div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">{{ maksaja_form.email.label }}</label>
+                    {{ maksaja_form.email }}
+                    <div class="text-danger small">{{ maksaja_form.email.errors }}</div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">{{ maksaja_form.address.label }}</label>
+                    {{ maksaja_form.address }}
+                    <div class="text-danger small">{{ maksaja_form.address.errors }}</div>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">{{ maksaja_form.postcode.label }}</label>
+                    {{ maksaja_form.postcode }}
+                    <div class="text-danger small">{{ maksaja_form.postcode.errors }}</div>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">{{ maksaja_form.postoffice.label }}</label>
+                    {{ maksaja_form.postoffice }}
+                    <div class="text-danger small">{{ maksaja_form.postoffice.errors }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+ {# ── TYÖN TIEDOT ── #}
     <div class="card mb-3">
         <div class="card-body">
             <h6 class="text-muted text-uppercase small mb-3">Työn tiedot</h6>
@@ -95,46 +176,6 @@
             </div>
         </div>
     </div>
- 
-    {# ── YHTEYSTIEDOT ── #}
-    <div class="card mb-3">
-        <div class="card-body">
-            <h6 class="text-muted text-uppercase small mb-3">Yhteystiedot</h6>
-            <div class="row g-3">
-                <div class="col-md-6">
-                    <label class="form-label">{{ form.contact_person.label }}</label>
-                    {{ form.contact_person }}
-                    <div class="text-danger small">{{ form.contact_person.errors }}</div>
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">{{ form.phone.label }}</label>
-                    {{ form.phone }}
-                    <div class="text-danger small">{{ form.phone.errors }}</div>
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">{{ form.email.label }}</label>
-                    {{ form.email }}
-                    <div class="text-danger small">{{ form.email.errors }}</div>
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">{{ form.address.label }}</label>
-                    {{ form.address }}
-                    <div class="text-danger small">{{ form.address.errors }}</div>
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label">{{ form.postcode.label }}</label>
-                    {{ form.postcode }}
-                    <div class="text-danger small">{{ form.postcode.errors }}</div>
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label">{{ form.postoffice.label }}</label>
-                    {{ form.postoffice }}
-                    <div class="text-danger small">{{ form.postoffice.errors }}</div>
-                </div>
-            </div>
-        </div>
-    </div>
- 
     {# ── LASKUTUSTIEDOT ── #}
     <div class="card mb-3">
         <div class="card-body">
@@ -188,39 +229,6 @@
         </div>
     </div>
  
-    {# ── RYHMÄLASKUTUS ── #}
-    <div class="card mb-4">
-        <div class="card-body">
-            <h6 class="text-muted text-uppercase small mb-3">Ryhmälaskutus</h6>
-            <div class="row g-3">
-                <div class="col-12">
-                    <div class="form-check">
-                        {{ form.group_billing }}
-                        <label class="form-check-label">{{ form.group_billing.label }}</label>
-                    </div>
-                </div>
- 
-                {# group fields — shown via HTMX when group_billing is checked #}
-                <div id="group-fields">
-                    {% if form.group_billing.value %}
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <label class="form-label">{{ form.group_name.label }}</label>
-                            {{ form.group_name }}
-                            <div class="text-danger small">{{ form.group_name.errors }}</div>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">{{ form.number_of_members.label }}</label>
-                            {{ form.number_of_members }}
-                            <div class="text-danger small">{{ form.number_of_members.errors }}</div>
-                        </div>
-                    </div>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-    </div>
- 
     <div class="d-flex gap-2 mb-5">
         <button type="submit" class="btn btn-success">Tallenna lasku</button>
         <a href="{% url 'laskutus' %}" class="btn btn-secondary">Peruuta</a>
@@ -246,5 +254,5 @@
         }
     });
 </script>
- 
+
 {% endblock %}

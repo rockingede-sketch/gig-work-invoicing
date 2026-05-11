@@ -1,3 +1,5 @@
+import profile
+from urllib import request
 from django.shortcuts import render,redirect
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.models import User
@@ -17,10 +19,11 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.core.mail import send_mail, EmailMultiAlternatives
 from .tokens import account_activation_token
-from django.contrib.auth.decorators import login_required
 from .forms import RegistrationForm,ProfileCompletionForm
 from gbsapp.models import Customer,Invoice,UserProfile
+from django.contrib.auth.decorators import login_required
 
+#@login_required  # Tämä rivi estää AnonymousUser-virheen
 # Create your views here.
 
 def home_view(request):
@@ -92,6 +95,11 @@ def activation_view(request, uidb64, token):
 # Saving profile data to the Customer model
 def profileCompletion_view(request):
     # if Customer.objects.filter(user_id=request.user).exists():
+    if request.user.is_authenticated:
+        profile = request.user.profile
+    else:
+        return redirect("registration/createAccount.html", {"form": form})
+    #profile = request.user.profile
     if request.user.profile.confirmed:
         print("Record already exists in Customer model")
         return redirect("registration:dashboardLink")

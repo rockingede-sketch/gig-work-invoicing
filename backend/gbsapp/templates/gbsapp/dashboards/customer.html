@@ -1,6 +1,5 @@
-{% extends "gbsapp/base.html" %}
+{% extends "base.html" %} {% load static %} {% block content %}
 {% block title %}Henkilöasiakkaan tiedot{% endblock %}
-{% block content %}
 
 <div class="d-flex justify-content-between align-items-center mb-2">
   <h1>Omat tietosi</h1>
@@ -74,7 +73,7 @@
   </tr>
 </table>
 <br>
-<a href="{% url 'update_customer' userid=customer.pk %}" class="btn btn-sm " style="background:#993556; color:white;">+ Päivitä tietoja</a>
+<a href="{% url 'update_customer'%}" class="btn btn-sm " style="background:#993556; color:white;">+ Päivitä tietoja</a>
 
 <style>
   table {
