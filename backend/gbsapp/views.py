@@ -79,7 +79,24 @@ def lasku_new(request):
         lasku_form = BillingCaseForm(request.POST, user=request.user)
        
         if lasku_form.is_valid() and maksaja_form.is_valid():
-            uusi_maksaja = maksaja_form.save(commit=False)
+            co_id = maksaja_form.cleaned_data.get('company_id')
+            loc = maksaja_form.cleaned_data.get('location')
+            obj, created = BillingCustomers.objects.update_or_create(
+                company_id=co_id, 
+                location=loc, 
+                defaults={
+                    'company_name': maksaja_form.cleaned_data.get('company_name'),
+                    'contact_person': maksaja_form.cleaned_data.get('contact_person'),
+                    'email': maksaja_form.cleaned_data.get('email'),
+                    'phone': maksaja_form.cleaned_data.get('phone'),
+                    'address': maksaja_form.cleaned_data.get('address'),
+                    'postcode': maksaja_form.cleaned_data.get('postcode'),
+                    'postoffice': maksaja_form.cleaned_data.get('postoffice'),
+                    'e_invoice_address': maksaja_form.cleaned_data.get('e_invoice_address'),
+                    'operator_code': maksaja_form.cleaned_data.get('operator_code'),
+                    'customer_status': maksaja_form.cleaned_data.get('customer_status'),
+                    }
+            )
 
             job_date = lasku_form.cleaned_data.get('job_date')
             job_begin_time = lasku_form.cleaned_data.get('job_begin')
@@ -89,12 +106,10 @@ def lasku_new(request):
             #uusi_lasku.billing_cust_id = maksaja_form.save()
             try:
                 asiakas = Customer.objects.get(user_id=request.user.id)
-                
-                # KORJAUS: Luodaan malli-olio, ei viitata lomakkeeseen
+
                 uusi_lasku = lasku_form.save(commit=False)
-                
                 uusi_lasku.frontman_cust_id = asiakas
-                uusi_lasku.billing_cust_id = maksaja_form.save()
+                uusi_lasku.billing_cust_id = obj
                 uusi_lasku.stage = 'open'
                 
                 # Haetaan arvot cleaned_datasta laskentaa varten
@@ -113,40 +128,12 @@ def lasku_new(request):
                 )
                 
                 uusi_lasku.save()
-                uusi_maksaja.save()
+                #uusi_maksaja.save()
                 return redirect('lasku_luotu')
                 
             except Customer.DoesNotExist:
                 return HttpResponse("Käyttäjälläsi ei ole oikeutta luoda laskuja.")
-         #   try:
-         #       # Hae käyttäjään liittyvä Customer-profiili
-         #       # Olettaen, että Customer-mallissa on kenttä 'user'
-         #       asiakas = Customer.objects.get(user_id=request.user.id)
-         #       uusi_lasku = lasku_form
-         #       uusi_lasku.frontman_cust_id = asiakas
-         #       uusi_lasku.frontman_cust_id_id = request.user.id
-         #       uusi_lasku.save(commit=False)
-         #       uusi_lasku.billing_cust_id = maksaja_form.save()
-         #       uusi_lasku.stage = 'open' # Voit asettaa alkutilan tässä
-         #   except Customer.DoesNotExist:
-         #   # Käsittele virhe, jos kirjautuneella käyttäjällä ei ole asiakasprofiilia
-         #       return HttpResponse("Käyttäjälläsi ei ole oikeutta luoda laskuja.")
-         #   # Asetetaan kirjautunut käyttäjä työn vastuuhenkilöksi
-         #   #logging.info(f"Frontman customer ID: {request.user.id}")
-         #   #uusi_lasku.stage = 'open' # Voit asettaa alkutilan tässä
-        
-        #    if job_date and job_begin_time:
-         #       uusi_lasku.job_begin = datetime.combine(job_date, job_begin_time)
-         #   
-         #   if job_date and job_ended_time:
-         #       uusi_lasku.job_ended = datetime.combine(job_date, job_ended_time)
-        #
-        #    uusi_lasku.owner_profit = BillingCalculators.calculate_customer_portion(
-        #        uusi_lasku.payment,
-        #      uusi_lasku.number_of_members or 1
-        #   )
-        #    uusi_lasku.save()
-        #    return redirect('lasku_luotu')
+            
         else:
             logging.info(f"Lasku form errors: {lasku_form.errors}")
             logging.info(f"Maksaja form errors: {maksaja_form.errors}")
