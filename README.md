@@ -82,3 +82,14 @@ Once the required information is submitted, the worker can generate an invoice f
     
     Your project will be available at: </br>
     http://127.0.0.1:8000 </br>
+
+## My Contribution (Sreevidya Ch)
+
+I implemented the complete user authentication and onboarding flow for the project, including:
+
+- Login with Django’s built‑in authentication system  
+- User registration with validation and inactive‑user creation  
+- Account activation via Brevo email service  
+- Profile completion workflow (contact, bank, and tax details)  
+- Saving customer data and updating profile status in the database  
+- Forgot Password functionality with email‑based reset flow  
