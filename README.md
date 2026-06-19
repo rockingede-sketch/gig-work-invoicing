@@ -33,9 +33,9 @@ Once the required information is submitted, the worker can generate an invoice f
     • Django (Templates, Forms, Auth, ORM) </br> 
     • Bootstrap </br> 
 <b>Database</b> </br> 
-    • SQLite — lightweight relational database used for development and local storage </br> 
+    • SQLite - lightweight relational database used for development and local storage </br> 
 <b>Integrations</b> </br> 
-    • Brevo — email service used for sending account activation links 
+    • Brevo - email service used for sending account activation links 
 
 <h2>Installation & Setup</h2>
 
@@ -82,6 +82,43 @@ Once the required information is submitted, the worker can generate an invoice f
     
     Your project will be available at: </br>
     http://127.0.0.1:8000 </br>
+
+## Screenshots 
+
+<details>
+  <summary>Click to view</summary>
+
+  ### Home Page
+  ![Home](assets/HomePage.png)
+
+  ### Login Page
+  ![Login](assets/LoginPage.png)
+
+  ### ForgotPassword Page
+  ![ForgotPassword](assets/ForgotPassword.png)
+
+  ### ResetPassword Page
+  ![ResetPassword](assets/ResetPassword.png)
+
+  ### Registration
+  ![Registration](assets/CreateAccount.png)
+  
+  ### Validation of Account
+  ![AccountValidation](assets/AccountValidation.png)
+
+  ### Email with Account activation link 
+  ![ActivationMail](assets/ActivationEmail.png)
+
+  ### Activation Success
+  ![ActivationSuccess](assets/ActivationSuccess.png)
+   
+  ### Profile Completion
+  ![Profile](assets/ProfileCompletion.png)
+
+  ### Dashboard
+  ![Dashboard](assets/Dashboard.png)
+
+</details>
 
 ## My Contribution (Sreevidya Ch)
 
