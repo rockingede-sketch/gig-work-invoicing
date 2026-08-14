@@ -10,6 +10,7 @@ django.setup()
 
 # Käytä nyt lyhyttä polkua (ilman backend-etuliitettä)
 # jotta se täsmää INSTALLED_APPS-asetukseen
+#from gbsapp.models import Invoice
 from gbsapp.models import Invoice
 from gbsapp.models import BillingCase as bcase
 #from gbsapp.models import BillingCustomers as bcust
@@ -26,7 +27,7 @@ logging.info("Yhteys muodostettu!")
 logging.info(f"BillingCase-rivejä tietokannassa: {bcase.objects.count()}")
 
 try:
-    inv_case = bcase.objects.get(id=102)
+    inv_case = bcase.objects.get(id=121)
     # haetaan laskutusasiakkaan tiedot:
     billing_cust = inv_case.billing_cust_id
     p_name = billing_cust.company_name

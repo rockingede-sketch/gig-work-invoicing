@@ -116,11 +116,10 @@ def create_invoice(payer_name: str, payer_address: str, payer_zip: str, payer_ci
     
         doc.render(context)
         doc.save(word_output)
-        print(f"Word-tiedosto luotu: {word_output}")
+        logging.info(f"Word-tiedosto luotu laskunro {invoice_number}: {word_output}")
         #  Muunnos PDF-muotoon
-        #print("Muunnetaan PDF-muotoon...")
         convert(word_output, pdf_output)
-        print(f"PDF valmis: {pdf_output}")
+        logging.info(f"PDF valmis laskunro {invoice_number}: {pdf_output}")
 
     except Exception as e:
         logging.error(f"Virhe tapahtui: {e}")

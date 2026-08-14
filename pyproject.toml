@@ -6,6 +6,8 @@ readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
     "django>=6.0.4",
+    "django-shortcuts>=1.6",
+    "django-utils>=0.0.2",
     "docx>=0.2.4",
     "docx2pdf>=0.1.8",
     "docxtpl>=0.20.2",
@@ -13,5 +15,6 @@ dependencies = [
     "mysql-connector-python>=9.6.0",
     "mysqlclient>=2.2.8",
     "pymysql>=1.1.2",
+    "python-decouple>=3.8",
     "sqlalchemy>=2.0.49",
 ]

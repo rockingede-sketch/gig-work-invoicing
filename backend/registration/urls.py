@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import include, path
 from . import views
 from .views import home_view,register_view,activation_view, profileCompletion_view, dashboard_view
 from django.contrib.auth import views as auth_views
@@ -11,6 +11,7 @@ urlpatterns = [
     path("", home_view, name="homeLink"),
     # path("dashboard/",dashboard_view, name='dashboardLink'),
     path("dashboard/",gbsViews.customer_dashboard, name='dashboardLink'),
+    path("dashboard_update/",gbsViews.update_customer, name='dashboardUpdateLink'),
     path("createAccount/", register_view, name="createAccLink"),
     # path("activate/<uidb64>/<token>/", activation_view, name="activationLink"),
     re_path(

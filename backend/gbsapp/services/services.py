@@ -21,21 +21,19 @@ class BillingCalculators:
         return 'Billing Calculator'
    
     @staticmethod
-    def calculate_platform_fee(payment:Decimal, members:int):
+    def calculate_platform_fee(payment:Decimal):
         """
         Calculates the profit amount for an invoice
 
         Parameters:
             payment (Decimal): Invoice Payment amount (ex vat)
-            members (Integer): Number of group members
-
+           
         Returns:
             Decimal: Platform fee amount
 
         Raises:
             TypeError: If payment is not a Decimal.
-            ValueError: If payment or members are negative, or members
-                is 0 for payments over 100€.
+        
         """ 
         #Guarding due to Python calculation bug
         payment = Decimal(str(payment))
@@ -43,31 +41,30 @@ class BillingCalculators:
         if not isinstance(payment, Decimal):
             raise TypeError("payment must be a Decimal, not float or int")
 
-        if payment < 0 or members < 0:
-            raise ValueError("Payment and members must be non-negative")
-        
-        if payment > 100 and members <= 0:
-            raise ValueError("Payments over 100 require at least one member")
+        if payment < 0:
+            raise ValueError("Payment must be a non-negative number")
+
+        #if payment > 100:
+        #    raise ValueError("Payments over 100 require at least one member")
 
         if payment <= 100:
             profit = Decimal('5.00')
         elif payment <= 500:
-            profit = Decimal('10.00') * members
+            profit = Decimal('10.00')
         else:
-            profit = (payment*Decimal('0.03')) * members
+            profit = (payment*Decimal('0.03'))
         
         return Decimal(profit)
     
     @staticmethod
-    def calculate_customer_portion(payment:Decimal, members:int):
+    def calculate_customer_portion(payment:Decimal):
         """
-        Calculates the amount a customer is liable to receive in the invoice
+        Calculates the amount a owner is liable to receive in the invoice
 
         Parameters:
             Decimal: Invoice Payment amount (ex vat)
-            Integer: Number of group members
 
         Returns:
-            Decimal: Amount of profit for the customer
+            Decimal: Amount of profit for the owner
         """
-        return Decimal(payment - BillingCalculators.calculate_platform_fee(payment, members))
+        return Decimal(BillingCalculators.calculate_platform_fee(payment))
