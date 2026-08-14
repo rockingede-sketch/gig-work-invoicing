@@ -1,97 +1,103 @@
-{% extends "gbsapp/base.html" %}
-{% block title %}Henkilöasiakkaan tiedot{% endblock %}
-{% block content %}
+{% extends "base.html" %} {% load static %} {% block content %}
 
-<div class="d-flex justify-content-between align-items-center mb-2">
-  <h1>Omat tietosi</h1>
-</div>
-<p>Tästä näet omat tietosi ja voit päivittää ne tarvittaessa. Sähköpostiosoitetta et voi muuttaa, sillä se on tunnistetietosi.</p>
-<br>
-{% if customer.custom_role == "light entrepreneur" %}
-  <p class="text-info">Olet rekisteröitynyt kevytyrittäjänä.</p>
-{% elif customer.custom_role == "employee" %}
-  <p class="text-info">Olet rekisteröitynyt työntekijänä.</p>
-{% endif %}
+<div class="d-flex justify-content-center bg-light px-3">
+  <div
+    class="card shadow-sm"
+    style="max-width: 800px; width: 100%; border-radius: 12px"
+  >
+    <div class="card-body p-4">
+      <h1>Omat tietosi</h1>
 
-<table>
-  <tr>
-    <th>Käyttäjätunnus/sähköpostiosoite:</th>
-    <td>{{ customer.email }}</td>
-  </tr>
-  <tr>
-    <th>Sukunimi:</th>
-    <td>{{ customer.last_name }}</td>
-  </tr>
-  <tr>
-    <th>Etunimi:</th>
-    <td>{{ customer.first_name }}</td>
-  </tr>
-  <tr>
-    <th>Henkilötunnus:</th>
-    <td>
-        {{ display_id }}
-        
-        {% if is_full %}
+      <p>
+        Tästä näet omat tietosi ja voit päivittää ne tarvittaessa.
+        Sähköpostiosoitetta et voi muuttaa, sillä se on tunnistetietosi.
+      </p>
+      <br />
+      {% if customer.custom_role == "light entrepreneur" %}
+      <p class="text-info">Olet rekisteröitynyt kevytyrittäjänä.</p>
+      {% elif customer.custom_role == "employee" %}
+      <p class="text-info">Olet rekisteröitynyt työntekijänä.</p>
+      {% endif %}
+
+      <table>
+        <tr>
+          <th>Käyttäjätunnus/sähköpostiosoite:</th>
+          <td>{{ customer.email }}</td>
+        </tr>
+        <tr>
+          <th>Sukunimi:</th>
+          <td>{{ customer.last_name }}</td>
+        </tr>
+        <tr>
+          <th>Etunimi:</th>
+          <td>{{ customer.first_name }}</td>
+        </tr>
+        <tr>
+          <th>Henkilötunnus:</th>
+          <td>
+            {{ display_id }} {% if is_full %}
             <!-- Linkki, joka lataa sivun ilman show_full-parametria -->
-            <a href="?show_full=false" style="margin-left: 10px; font-size: 0.8em;">Piilota</a>
-        {% else %}
+            <a
+              href="?show_full=false"
+              style="margin-left: 10px; font-size: 0.8em"
+              >Piilota</a
+            >
+            {% else %}
             <!-- Linkki, joka lisää URL:iin ?show_full=true -->
-            <a href="?show_full=true" style="margin-left: 10px; font-size: 0.8em;">Näytä</a>
-        {% endif %}
-    </td>
-</tr>
-  <tr>
-    <th>Puhelinnmero:</th>
-    <td>{{ customer.phone }}</td>
-  </tr>
-  <tr>
-    <th>Katuosoite:</th>
-    <td>{{ customer.address }}</td>
-  </tr>
-  <tr>
-    <th>Postinumero:</th>
-    <td>{{ customer.postcode }}</td>
-  </tr>
-  <tr>
-    <th>Postitoimipaikka:</th>
-    <td>{{ customer.postoffice }}</td>
-  </tr>
-  <tr>
-    <th>Pankkitili:</th>
-    <td>{{ customer.bankaccount }}</td>
-  </tr>
-  <tr>
-    <th>Ennakonpidätysprosentti:</th>
-    <td>{{ customer.tax_rate }} %</td>
-  </tr>
-  <tr>
-    <th>Veronumero:</th>
-    <td>{{ customer.tax_number|default_if_none:"" }}</td>
-  </tr>
-  <tr>
-    <th>Asiakasrooli (kevytyrittäjä tai työntekijä):</th>
-    <td>{% if customer.custom_role == "light entrepreneur" %} Kevytyrittäjä {% elif customer.custom_role == "employee" %} Työntekijä {% endif %}</td>
-  </tr>
-</table>
-<br>
-<a href="{% url 'update_customer' userid=customer.pk %}" class="btn btn-sm " style="background:#993556; color:white;">+ Päivitä tietoja</a>
+            <a
+              href="?show_full=true"
+              style="margin-left: 10px; font-size: 0.8em"
+              >Näytä</a
+            >
+            {% endif %}
+          </td>
+        </tr>
+        <tr>
+          <th>Puhelinnmero:</th>
+          <td>{{ customer.phone }}</td>
+        </tr>
+        <tr>
+          <th>Katuosoite:</th>
+          <td>{{ customer.address }}</td>
+        </tr>
+        <tr>
+          <th>Postinumero:</th>
+          <td>{{ customer.postcode }}</td>
+        </tr>
+        <tr>
+          <th>Postitoimipaikka:</th>
+          <td>{{ customer.postoffice }}</td>
+        </tr>
+        <tr>
+          <th>Pankkitili:</th>
+          <td>{{ customer.bankaccount }}</td>
+        </tr>
+        <tr>
+          <th>Ennakonpidätysprosentti:</th>
+          <td>{{ customer.tax_rate }} %</td>
+        </tr>
+        <tr>
+          <th>Veronumero:</th>
+          <td>{{ customer.tax_number|default_if_none:"" }}</td>
+        </tr>
+        <tr>
+          <th>Asiakasrooli (kevytyrittäjä tai työntekijä):</th>
+          <td>
+            {% if customer.custom_role == "light entrepreneur" %} Kevytyrittäjä
+            {% elif customer.custom_role == "employee" %} Työntekijä {% endif %}
+          </td>
+        </tr>
+      </table>
+      <br />
 
-<style>
-  table {
-    border-collapse: collapse;
-    width: 100%;
-    max-width: 800px;
-  }
-  th, td {
-    border: 1px solid #ccc;
-    padding: 10px;
-    text-align: left;
-  }
-  th {
-    background-color: #f2f2f2;
-    width: 30%; /* Säätää otsikkosarakkeen leveyden */
-  }
-</style>
+      <a
+        href="{% url 'update_customer' userid=customer.pk %}"
+        class="btn btn-primary w-25 py-2 mt-2"
+      >
+        Päivitä tietoja
+      </a>
+    </div>
 
-
-{% endblock %}
+    {% endblock %}
+  </div>
+</div>

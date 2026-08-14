@@ -75,19 +75,24 @@ def activation_view(request, uidb64, token):
         uid = urlsafe_base64_decode(uidb64).decode()
         user = User.objects.get(pk=uid)
 
-        # print("UIDB64:", uidb64)
-        # print("Decoded:", urlsafe_base64_decode(uidb64))
+        print("UIDB64:", uidb64)
+        print("Decoded:", urlsafe_base64_decode(uidb64))
 
     except:
         user = None
 
-    if user and account_activation_token.check_token(user, token):
-        # Making the user active
-        user.is_active = True
-        user.save()
-        return render(request,"registration/ActivationSuccess.html")
-    else:
-        return HttpResponse("Failed to send an activation link email. Please retry.")
+    try:
+        if user and account_activation_token.check_token(user, token):
+            # Activate user
+            user.is_active = True
+            user.save()
+            return render(request, "registration/ActivationSuccess.html")
+        else:
+            return HttpResponse("Invalid or expired activation link.")
+    except Exception as e:
+        # Log the error
+        print(f"Activation error: {e}")
+        return HttpResponse("An unexpected error occurred during activation. Please try again later.")
 
 # Saving profile data to the Customer model
 def profileCompletion_view(request):
