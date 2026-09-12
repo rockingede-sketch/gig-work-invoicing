@@ -129,4 +129,5 @@ I implemented the complete user authentication and onboarding flow for the proje
 - Account activation via Brevo email service  
 - Profile completion workflow (contact, bank, and tax details)  
 - Saving customer data and updating profile status in the database  
-- Forgot Password functionality with email‑based reset flow  
+- Forgot Password functionality with email‑based reset flow
+- Designing the entire UI for this module using Django templates, forms, and Bootstrap (common layout + all pages)
