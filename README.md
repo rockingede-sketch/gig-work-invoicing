@@ -1,4 +1,4 @@
-# Keikkalaskutus
+# Keikkalaskutus (Gig Billing System)
 
 The gig‑work invoicing system enables independent workers to create invoices for completed work and receive payment for salaries, fees, and reimbursable expenses. The platform supports both light entrepreneurs and employees, allowing each user to choose their role when creating an invoice.
 
