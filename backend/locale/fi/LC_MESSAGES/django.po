@@ -1,0 +1,30 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: fi\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Keikkalasku"
+msgstr "Keikkalasku"
+
+msgid "Keikkalaskutus"
+msgstr "Keikkalaskutus"
+
+msgid "Language"
+msgstr "Kieli"
+
+msgid "Etusivu"
+msgstr "Etusivu"
+
+msgid "Omat tietosi"
+msgstr "Omat tietosi"
+
+msgid "Laskutus"
+msgstr "Laskutus"
+
+msgid "Kirjaudu ulos"
+msgstr "Kirjaudu ulos"
+
+msgid "Login"
+msgstr "Kirjaudu sisään"

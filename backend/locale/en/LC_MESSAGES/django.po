@@ -1,0 +1,30 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Keikkalasku"
+msgstr "Gig Invoicing"
+
+msgid "Keikkalaskutus"
+msgstr "Gig Invoicing"
+
+msgid "Language"
+msgstr "Language"
+
+msgid "Etusivu"
+msgstr "Home"
+
+msgid "Omat tietosi"
+msgstr "Your details"
+
+msgid "Laskutus"
+msgstr "Invoicing"
+
+msgid "Kirjaudu ulos"
+msgstr "Log out"
+
+msgid "Login"
+msgstr "Log in"

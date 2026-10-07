@@ -33,5 +33,5 @@ urlpatterns = [
     path('laskutus/<int:pk>/', gbsViews.lasku_detail, name='lasku_detail'),
     path('customer/', gbsViews.customer_dashboard, name='customer_dashboard'),
     path('customer/edit/', gbsViews.update_customer, name='update_customer'),
-
+    path('i18n/', include('django.conf.urls.i18n'))
 ]
