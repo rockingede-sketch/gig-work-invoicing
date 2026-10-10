@@ -30,78 +30,75 @@
           <span class="navbar-toggler-icon"></span>
         </button> -->
 
-        <!-- LANGUAGE SELECTOR -->
-        <form
-          action="{% url 'set_language' %}"
-          method="post"
-          class="d-flex align-items-center me-3"
-        >
-          {% csrf_token %}
-          <input
-            type="hidden"
-            name="next"
-            value="{{ request.get_full_path }}"
-          />
-          <select
-            name="language"
-            class="form-select form-select-sm bg-primary text-white border-0"
-            style="width: auto; min-width: 60px"
-            aria-label="{% trans 'Language' %}"
-            onchange="this.form.submit()"
+        <div class="d-flex align-items-center ms-auto gap-3">
+          <!-- LANGUAGE SELECTOR -->
+          <form
+            action="{% url 'set_language' %}"
+            method="post"
+            class="d-flex align-items-center m-0"
           >
-            {% for language in LANGUAGES %}
-            <option
-              value="{{ language.0 }}"
-              {% if language.0 == LANGUAGE_CODE %}selected{% endif %}
+            {% csrf_token %}
+            <input
+              type="hidden"
+              name="next"
+              value="{{ request.get_full_path }}"
+            />
+            <select
+              name="language"
+              class="form-select form-select-sm bg-primary text-white border-0"
+              style="width: auto; min-width: 60px"
+              aria-label="{% trans 'Language' %}"
+              onchange="this.form.submit()"
             >
-              {{ language.0|upper }}
-            </option>
-            {% endfor %}
-          </select>
-        </form>
+              {% for language in LANGUAGES %}
+              <option
+                value="{{ language.0 }}"
+                {% if language.0 == LANGUAGE_CODE %}selected{% endif %}
+              >
+                {{ language.0|upper }}
+              </option>
+              {% endfor %}
+            </select>
+          </form>
 
-        <!-- <divclass="collapse navbar-collapse" id="navbarNav">  -->
+          <ul class="navbar-nav flex-row">
+            <li class="nav-item">
+              <a class="nav-link text-white" href="/">{% trans "Etusivu" %}</a>
+            </li>
 
-        <ul class="navbar-nav me-auto">
-          <li class="nav-item">
-            <a class="nav-link text-white" href="/">{% trans "Etusivu" %}</a>
-          </li>
-
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link text-white" href="/customer/"
+                >{% trans "Omat tietosi" %}</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" href="/laskutus/"
+                >{% trans "Laskutus" %}</a
+              >
+            </li>
+            {% endif %}
+          </ul>
           {% if user.is_authenticated %}
-          <li class="nav-item">
-            <a class="nav-link text-white" href="/customer/"
-              >{% trans "Omat tietosi" %}</a
-            >
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-white" href="/laskutus/"
-              >{% trans "Laskutus" %}</a
-            >
-          </li>
+          <form
+            method="post"
+            action="{% url 'registration:logoutLink' %}"
+            class="d-inline"
+          >
+            {% csrf_token %}
+            <button type="submit" class="btn btn-link text-white border-0">
+              {% trans "Kirjaudu ulos" %}
+            </button>
+          </form>
+          {% else %}
+          <a
+            href="{% url 'registration:loginLink' %}"
+            class="btn btn-link text-white"
+          >
+            {% trans "Login" %}
+          </a>
           {% endif %}
-        </ul>
-        {% if user.is_authenticated %}
-
-        <!-- LOGOUT -->
-        <form
-          method="post"
-          action="{% url 'registration:logoutLink' %}"
-          class="d-inline"
-        >
-          {% csrf_token %}
-          <button type="submit" class="btn btn-link text-white border-0">
-            {% trans "Kirjaudu ulos" %}
-          </button>
-        </form>
-
-        {% else %}
-        <a
-          href="{% url 'registration:loginLink' %}"
-          class="btn btn-link text-white"
-        >
-          {% trans "Login" %}
-        </a>
-        {% endif %}
+        </div>
       </div>
     </nav>
 

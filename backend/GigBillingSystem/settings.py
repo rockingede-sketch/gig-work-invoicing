@@ -129,6 +129,7 @@ STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
     BASE_DIR / "registration/static",
+    BASE_DIR / "Images",
 ]
 
 
@@ -153,5 +154,4 @@ DEFAULT_FROM_EMAIL = "noreply@gigbillingsystem.com"
 
 # Setting Default url for Django's builtin authentication  
 LOGIN_REDIRECT_URL = 'registration:dashboardLink'
-
 

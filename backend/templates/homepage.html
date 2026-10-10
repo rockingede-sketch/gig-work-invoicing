@@ -1,7 +1,7 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %} {% load static %} {% block content %}
 
 <div class="row align-items-center mt-5">
-  <div class="col-md-6">
+  <div class="col-md-7">
     <h1 class="fw-bold">Tervetuloa Keikkalaskuun</h1>
 
     <p class="mb-3">
@@ -12,34 +12,33 @@
     <a href="{% url 'registration:loginLink' %}" class="btn btn-primary btn-lg"
       >Aloita nyt</a
     >
-  </div>
 
-  <div class="col-md-6">
-    <div class="bg-light rounded" style="height: 300px"></div>
-  </div>
-</div>
+    <!-- FEATURES -->
+    <div class="d-grid gap-3 mt-5">
+      <div class="p-3 bg-light rounded">
+        <h5 class="fw-semibold">Nopea laskutus</h5>
+        <p class="mb-0">Luo lasku muutamassa minuutissa ja lähetä se asiakkaalle.</p>
+      </div>
 
-<!-- FEATURES -->
-<div class="row mt-5">
-  <div class="col-md-4">
-    <div class="p-3 bg-light rounded">
-      <h5 class="fw-semibold">Nopea laskutus</h5>
-      <p>Luo lasku muutamassa minuutissa ja lähetä se asiakkaalle.</p>
+      <div class="p-3 bg-light rounded">
+        <h5 class="fw-semibold">Ei paperisotaa</h5>
+        <p class="mb-0">Hoidamme verot, vakuutukset ja muut velvoitteet puolestasi.</p>
+      </div>
+
+      <div class="p-3 bg-light rounded">
+        <h5 class="fw-semibold">Turvallinen palvelu</h5>
+        <p class="mb-0">Luotettava suomalainen laskutuspalvelu.</p>
+      </div>
     </div>
   </div>
 
-  <div class="col-md-4">
-    <div class="p-3 bg-light rounded">
-      <h5 class="fw-semibold">Ei paperisotaa</h5>
-      <p>Hoidamme verot, vakuutukset ja muut velvoitteet puolestasi.</p>
-    </div>
-  </div>
-
-  <div class="col-md-4">
-    <div class="p-3 bg-light rounded">
-      <h5 class="fw-semibold">Turvallinen palvelu</h5>
-      <p>Luotettava suomalainen laskutuspalvelu.</p>
-    </div>
+  <div class="col-md-5 mt-4 mt-md-0">
+    <img
+      src="{% static 'InvoiceCreation.png' %}"
+      class="img-fluid rounded w-100"
+      style="max-height: 560px; object-fit: contain"
+      alt="Invoice creation"
+    />
   </div>
 </div>
 
