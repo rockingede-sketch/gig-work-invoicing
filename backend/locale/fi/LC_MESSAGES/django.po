@@ -28,3 +28,33 @@ msgstr "Kirjaudu ulos"
 
 msgid "Login"
 msgstr "Kirjaudu sisään"
+
+msgid "Tervetuloa Keikkalaskuun"
+msgstr "Tervetuloa Keikkalaskuun"
+
+msgid "Helppo ja nopea tapa laskuttaa ilman omaa yritystä. Aloita laskutus muutamassa minuutissa."
+msgstr "Helppo ja nopea tapa laskuttaa ilman omaa yritystä. Aloita laskutus muutamassa minuutissa."
+
+msgid "Aloita nyt"
+msgstr "Aloita nyt"
+
+msgid "Nopea laskutus"
+msgstr "Nopea laskutus"
+
+msgid "Luo lasku muutamassa minuutissa ja lähetä se asiakkaalle."
+msgstr "Luo lasku muutamassa minuutissa ja lähetä se asiakkaalle."
+
+msgid "Ei paperisotaa"
+msgstr "Ei paperisotaa"
+
+msgid "Hoidamme verot, vakuutukset ja muut velvoitteet puolestasi."
+msgstr "Hoidamme verot, vakuutukset ja muut velvoitteet puolestasi."
+
+msgid "Turvallinen palvelu"
+msgstr "Turvallinen palvelu"
+
+msgid "Luotettava suomalainen laskutuspalvelu."
+msgstr "Luotettava suomalainen laskutuspalvelu."
+
+msgid "Invoice creation"
+msgstr "Laskun luominen"

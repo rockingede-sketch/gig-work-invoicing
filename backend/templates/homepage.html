@@ -1,33 +1,35 @@
-{% extends "base.html" %} {% load static %} {% block content %}
+{% extends "base.html" %} {% load static %}
+{% load i18n %}
+
+{% block content %}
 
 <div class="row align-items-center mt-5">
   <div class="col-md-7">
-    <h1 class="fw-bold">Tervetuloa Keikkalaskuun</h1>
+    <h1 class="fw-bold">{% trans "Tervetuloa Keikkalaskuun" %}</h1>
 
     <p class="mb-3">
-      Helppo ja nopea tapa laskuttaa ilman omaa yritystä. Aloita laskutus
-      muutamassa minuutissa.
+      {% trans "Helppo ja nopea tapa laskuttaa ilman omaa yritystä. Aloita laskutus muutamassa minuutissa." %}
     </p>
 
     <a href="{% url 'registration:loginLink' %}" class="btn btn-primary btn-lg"
-      >Aloita nyt</a
+      >{% trans "Aloita nyt" %}</a
     >
 
     <!-- FEATURES -->
     <div class="d-grid gap-3 mt-5">
       <div class="p-3 bg-light rounded">
-        <h5 class="fw-semibold">Nopea laskutus</h5>
-        <p class="mb-0">Luo lasku muutamassa minuutissa ja lähetä se asiakkaalle.</p>
+        <h5 class="fw-semibold">{% trans "Nopea laskutus" %}</h5>
+        <p class="mb-0">{% trans "Luo lasku muutamassa minuutissa ja lähetä se asiakkaalle." %}</p>
       </div>
 
       <div class="p-3 bg-light rounded">
-        <h5 class="fw-semibold">Ei paperisotaa</h5>
-        <p class="mb-0">Hoidamme verot, vakuutukset ja muut velvoitteet puolestasi.</p>
+        <h5 class="fw-semibold">{% trans "Ei paperisotaa" %}</h5>
+        <p class="mb-0">{% trans "Hoidamme verot, vakuutukset ja muut velvoitteet puolestasi." %}</p>
       </div>
 
       <div class="p-3 bg-light rounded">
-        <h5 class="fw-semibold">Turvallinen palvelu</h5>
-        <p class="mb-0">Luotettava suomalainen laskutuspalvelu.</p>
+        <h5 class="fw-semibold">{% trans "Turvallinen palvelu" %}</h5>
+        <p class="mb-0">{% trans "Luotettava suomalainen laskutuspalvelu." %}</p>
       </div>
     </div>
   </div>
@@ -37,7 +39,7 @@
       src="{% static 'InvoiceCreation.png' %}"
       class="img-fluid rounded w-100"
       style="max-height: 560px; object-fit: contain"
-      alt="Invoice creation"
+      alt="{% trans 'Invoice creation' %}"
     />
   </div>
 </div>

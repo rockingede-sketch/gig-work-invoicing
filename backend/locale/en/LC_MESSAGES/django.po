@@ -28,3 +28,33 @@ msgstr "Log out"
 
 msgid "Login"
 msgstr "Log in"
+
+msgid "Tervetuloa Keikkalaskuun"
+msgstr "Welcome to Gig Invoicing"
+
+msgid "Helppo ja nopea tapa laskuttaa ilman omaa yritystä. Aloita laskutus muutamassa minuutissa."
+msgstr "An easy and fast way to invoice without your own company. Start invoicing in just a few minutes."
+
+msgid "Aloita nyt"
+msgstr "Get started"
+
+msgid "Nopea laskutus"
+msgstr "Fast invoicing"
+
+msgid "Luo lasku muutamassa minuutissa ja lähetä se asiakkaalle."
+msgstr "Create an invoice in minutes and send it to your customer."
+
+msgid "Ei paperisotaa"
+msgstr "No paperwork"
+
+msgid "Hoidamme verot, vakuutukset ja muut velvoitteet puolestasi."
+msgstr "We take care of taxes, insurance, and other obligations for you."
+
+msgid "Turvallinen palvelu"
+msgstr "A secure service"
+
+msgid "Luotettava suomalainen laskutuspalvelu."
+msgstr "A reliable Finnish invoicing service."
+
+msgid "Invoice creation"
+msgstr "Invoice creation"

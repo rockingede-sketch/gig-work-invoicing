@@ -6,6 +6,9 @@ class LanguageSelectionTests(TestCase):
     def test_language_selector_changes_django_language(self):
         response = self.client.get("/")
         self.assertContains(response, '<html lang="fi">', html=False)
+        self.assertContains(response, "Tervetuloa Keikkalaskuun")
+        self.assertContains(response, "Nopea laskutus")
+        self.assertContains(response, 'alt="Laskun luominen"', html=False)
         self.assertContains(response, "Kirjaudu sisään")
         self.assertRegex(
             response.content.decode(),
@@ -20,6 +23,23 @@ class LanguageSelectionTests(TestCase):
 
         response = self.client.get("/")
         self.assertContains(response, '<html lang="en">', html=False)
+        self.assertContains(response, "Welcome to Gig Invoicing")
+        self.assertContains(
+            response,
+            "An easy and fast way to invoice without your own company. "
+            "Start invoicing in just a few minutes.",
+        )
+        self.assertContains(response, "Get started")
+        self.assertContains(response, "Fast invoicing")
+        self.assertContains(response, "Create an invoice in minutes and send it to your customer.")
+        self.assertContains(response, "No paperwork")
+        self.assertContains(
+            response,
+            "We take care of taxes, insurance, and other obligations for you.",
+        )
+        self.assertContains(response, "A secure service")
+        self.assertContains(response, "A reliable Finnish invoicing service.")
+        self.assertContains(response, 'alt="Invoice creation"', html=False)
         self.assertContains(response, "Log in")
         self.assertContains(response, "Home")
         self.assertContains(response, "Gig Invoicing")
