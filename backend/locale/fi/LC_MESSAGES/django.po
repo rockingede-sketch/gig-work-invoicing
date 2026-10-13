@@ -32,8 +32,14 @@ msgstr "Kirjaudu sisään"
 msgid "Tervetuloa Keikkalaskuun"
 msgstr "Tervetuloa Keikkalaskuun"
 
+msgid "Helppo ja nopea tapa laskuttaa ilman omaa yritystä"
+msgstr "Helppo ja nopea tapa laskuttaa ilman omaa yritystä"
+
 msgid "Helppo ja nopea tapa laskuttaa ilman omaa yritystä. Aloita laskutus muutamassa minuutissa."
 msgstr "Helppo ja nopea tapa laskuttaa ilman omaa yritystä. Aloita laskutus muutamassa minuutissa."
+
+msgid "Aloita laskutus muutamassa minuutissa"
+msgstr "Aloita laskutus muutamassa minuutissa"
 
 msgid "Aloita nyt"
 msgstr "Aloita nyt"

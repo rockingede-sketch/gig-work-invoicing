@@ -32,8 +32,14 @@ msgstr "Log in"
 msgid "Tervetuloa Keikkalaskuun"
 msgstr "Welcome to Gig Invoicing"
 
+msgid "Helppo ja nopea tapa laskuttaa ilman omaa yritystä"
+msgstr "An easy and fast way to invoice without your own company"
+
 msgid "Helppo ja nopea tapa laskuttaa ilman omaa yritystä. Aloita laskutus muutamassa minuutissa."
 msgstr "An easy and fast way to invoice without your own company. Start invoicing in just a few minutes."
+
+msgid "Aloita laskutus muutamassa minuutissa"
+msgstr "Start invoicing in just a few minutes"
 
 msgid "Aloita nyt"
 msgstr "Get started"
