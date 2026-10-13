@@ -62,9 +62,11 @@
           </form>
 
           <ul class="navbar-nav flex-row">
+            {% if not request.user.is_authenticated %}
             <li class="nav-item">
               <a class="nav-link text-white" href="/">{% trans "Etusivu" %}</a>
             </li>
+            {% endif %}
 
             {% if request.user.is_authenticated %}
             <li class="nav-item">
