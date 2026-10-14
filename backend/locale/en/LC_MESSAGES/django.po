@@ -64,3 +64,189 @@ msgstr "A reliable Finnish invoicing service."
 
 msgid "Invoice creation"
 msgstr "Invoice creation"
+
+msgid "Kirjaudu"
+msgstr "Log in"
+
+msgid "Käyttäjätunnus"
+msgstr "Username"
+
+msgid "Salasana"
+msgstr "Password"
+
+msgid "Kirjaudu sisään"
+msgstr "Log in"
+
+msgid "Unohtunut salasana?"
+msgstr "Forgot your password?"
+
+msgid "Eikö sinulla ole tiliä?"
+msgstr "Don't have an account?"
+
+msgid "Luo tili"
+msgstr "Create an account"
+
+msgid "Tästä näet omat tietosi ja voit päivittää ne tarvittaessa."
+msgstr "View your personal details here and update them whenever needed."
+
+msgid "Sähköpostiosoitetta et voi muuttaa, sillä se on tunnistetietosi."
+msgstr "You cannot change your email address because it is your login credential."
+
+msgid "Olet rekisteröitynyt kevytyrittäjänä."
+msgstr "You are registered as a light entrepreneur."
+
+msgid "Olet rekisteröitynyt työntekijänä."
+msgstr "You are registered as an employee."
+
+msgid "Käyttäjätunnus/sähköpostiosoite:"
+msgstr "Username/email address:"
+
+msgid "Sukunimi:"
+msgstr "Last name:"
+
+msgid "Etunimi:"
+msgstr "First name:"
+
+msgid "Henkilötunnus:"
+msgstr "Finnish personal identity code:"
+
+msgid "Piilota"
+msgstr "Hide"
+
+msgid "Näytä"
+msgstr "Show"
+
+msgid "Puhelinnumero:"
+msgstr "Phone number:"
+
+msgid "Katuosoite:"
+msgstr "Street address:"
+
+msgid "Postinumero:"
+msgstr "Postal code:"
+
+msgid "Postitoimipaikka:"
+msgstr "City:"
+
+msgid "Pankkitili:"
+msgstr "Bank account:"
+
+msgid "Ennakonpidätysprosentti:"
+msgstr "Tax withholding rate:"
+
+msgid "Veronumero:"
+msgstr "Tax number:"
+
+msgid "Asiakasrooli (kevytyrittäjä tai työntekijä):"
+msgstr "Customer role (light entrepreneur or employee):"
+
+msgid "Kevytyrittäjä"
+msgstr "Light entrepreneur"
+
+msgid "Työntekijä"
+msgstr "Employee"
+
+msgid "Päivitä tietoja"
+msgstr "Update details"
+
+msgid "Sähköposti"
+msgstr "Email"
+
+msgid "Vahvista salasana"
+msgstr "Confirm password"
+
+msgid "Rekisteröidy"
+msgstr "Register"
+
+msgid "Onko sinulla jo tili?"
+msgstr "Already have an account?"
+
+msgid "Viimeistele profiilisi"
+msgstr "Complete your profile"
+
+msgid "Etunimi"
+msgstr "First name"
+
+msgid "Sukunimi"
+msgstr "Last name"
+
+msgid "Henkilötunnus"
+msgstr "Finnish personal identity code"
+
+msgid "Rooli"
+msgstr "Role"
+
+msgid "Veronumero (tarvitaan vain rakennusalalla)"
+msgstr "Tax number (required only in the construction industry)"
+
+msgid "Puhelinnumero"
+msgstr "Phone number"
+
+msgid "Osoite"
+msgstr "Address"
+
+msgid "Postinumero"
+msgstr "Postal code"
+
+msgid "Postitoimipaikka"
+msgstr "City"
+
+msgid "Ennakonpidätysprosentti"
+msgstr "Tax withholding rate"
+
+msgid "Pankkitilinumero (IBAN)"
+msgstr "Bank account number (IBAN)"
+
+msgid "Tallenna tiedot"
+msgstr "Save details"
+
+msgid "Profiili valmis"
+msgstr "Profile complete"
+
+msgid "Tilisi on nyt aktiivinen"
+msgstr "Your account is now active"
+
+msgid "Siirry tarkastelemaan tietojasi"
+msgstr "View your details"
+
+msgid "Unohtunut salasana"
+msgstr "Forgot password"
+
+msgid "Syötä sähköpostiosoitteesi, niin lähetämme sinulle palautuslinkin."
+msgstr "Enter your email address and we'll send you a password reset link."
+
+msgid "Lähetä palautuslinkki"
+msgstr "Send password reset link"
+
+msgid "Lähetimme sinulle sähköpostin, jossa on ohjeet uudelleenasetusta varten"
+msgstr "We have emailed you instructions for resetting your password."
+
+msgid "Aseta uusi salasana"
+msgstr "Set a new password"
+
+msgid "Nollaa salasana"
+msgstr "Reset password"
+
+msgid "Salasana vaihdettu onnistuneesti"
+msgstr "Password changed successfully"
+
+msgid "Siirry kirjautumiseen"
+msgstr "Go to log in"
+
+msgid "Rekisteröityminen onnistui"
+msgstr "Registration successful"
+
+msgid "Olemme lähettäneet aktivointilinkin sähköpostiisi"
+msgstr "We have sent an activation link to your email address"
+
+msgid "Tarkista sähköpostisi jatkaaksesi"
+msgstr "Check your email to continue"
+
+msgid "Onnistuneesti aktivoitu"
+msgstr "Account activated successfully"
+
+msgid "Email already registered"
+msgstr "This email address is already registered."
+
+msgid "Tämä salasanan palautuslinkki ei ole kelvollinen tai se on vanhentunut. Pyydä uusi linkki."
+msgstr "This password reset link is invalid or has expired. Please request a new link."

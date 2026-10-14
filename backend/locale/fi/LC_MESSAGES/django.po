@@ -64,3 +64,189 @@ msgstr "Luotettava suomalainen laskutuspalvelu."
 
 msgid "Invoice creation"
 msgstr "Laskun luominen"
+
+msgid "Kirjaudu"
+msgstr "Kirjaudu"
+
+msgid "Käyttäjätunnus"
+msgstr "Käyttäjätunnus"
+
+msgid "Salasana"
+msgstr "Salasana"
+
+msgid "Kirjaudu sisään"
+msgstr "Kirjaudu sisään"
+
+msgid "Unohtunut salasana?"
+msgstr "Unohtunut salasana?"
+
+msgid "Eikö sinulla ole tiliä?"
+msgstr "Eikö sinulla ole tiliä?"
+
+msgid "Luo tili"
+msgstr "Luo tili"
+
+msgid "Tästä näet omat tietosi ja voit päivittää ne tarvittaessa."
+msgstr "Tästä näet omat tietosi ja voit päivittää ne tarvittaessa."
+
+msgid "Sähköpostiosoitetta et voi muuttaa, sillä se on tunnistetietosi."
+msgstr "Sähköpostiosoitetta et voi muuttaa, sillä se on tunnistetietosi."
+
+msgid "Olet rekisteröitynyt kevytyrittäjänä."
+msgstr "Olet rekisteröitynyt kevytyrittäjänä."
+
+msgid "Olet rekisteröitynyt työntekijänä."
+msgstr "Olet rekisteröitynyt työntekijänä."
+
+msgid "Käyttäjätunnus/sähköpostiosoite:"
+msgstr "Käyttäjätunnus/sähköpostiosoite:"
+
+msgid "Sukunimi:"
+msgstr "Sukunimi:"
+
+msgid "Etunimi:"
+msgstr "Etunimi:"
+
+msgid "Henkilötunnus:"
+msgstr "Henkilötunnus:"
+
+msgid "Piilota"
+msgstr "Piilota"
+
+msgid "Näytä"
+msgstr "Näytä"
+
+msgid "Puhelinnumero:"
+msgstr "Puhelinnumero:"
+
+msgid "Katuosoite:"
+msgstr "Katuosoite:"
+
+msgid "Postinumero:"
+msgstr "Postinumero:"
+
+msgid "Postitoimipaikka:"
+msgstr "Postitoimipaikka:"
+
+msgid "Pankkitili:"
+msgstr "Pankkitili:"
+
+msgid "Ennakonpidätysprosentti:"
+msgstr "Ennakonpidätysprosentti:"
+
+msgid "Veronumero:"
+msgstr "Veronumero:"
+
+msgid "Asiakasrooli (kevytyrittäjä tai työntekijä):"
+msgstr "Asiakasrooli (kevytyrittäjä tai työntekijä):"
+
+msgid "Kevytyrittäjä"
+msgstr "Kevytyrittäjä"
+
+msgid "Työntekijä"
+msgstr "Työntekijä"
+
+msgid "Päivitä tietoja"
+msgstr "Päivitä tietoja"
+
+msgid "Sähköposti"
+msgstr "Sähköposti"
+
+msgid "Vahvista salasana"
+msgstr "Vahvista salasana"
+
+msgid "Rekisteröidy"
+msgstr "Rekisteröidy"
+
+msgid "Onko sinulla jo tili?"
+msgstr "Onko sinulla jo tili?"
+
+msgid "Viimeistele profiilisi"
+msgstr "Viimeistele profiilisi"
+
+msgid "Etunimi"
+msgstr "Etunimi"
+
+msgid "Sukunimi"
+msgstr "Sukunimi"
+
+msgid "Henkilötunnus"
+msgstr "Henkilötunnus"
+
+msgid "Rooli"
+msgstr "Rooli"
+
+msgid "Veronumero (tarvitaan vain rakennusalalla)"
+msgstr "Veronumero (tarvitaan vain rakennusalalla)"
+
+msgid "Puhelinnumero"
+msgstr "Puhelinnumero"
+
+msgid "Osoite"
+msgstr "Osoite"
+
+msgid "Postinumero"
+msgstr "Postinumero"
+
+msgid "Postitoimipaikka"
+msgstr "Postitoimipaikka"
+
+msgid "Ennakonpidätysprosentti"
+msgstr "Ennakonpidätysprosentti"
+
+msgid "Pankkitilinumero (IBAN)"
+msgstr "Pankkitilinumero (IBAN)"
+
+msgid "Tallenna tiedot"
+msgstr "Tallenna tiedot"
+
+msgid "Profiili valmis"
+msgstr "Profiili valmis"
+
+msgid "Tilisi on nyt aktiivinen"
+msgstr "Tilisi on nyt aktiivinen"
+
+msgid "Siirry tarkastelemaan tietojasi"
+msgstr "Siirry tarkastelemaan tietojasi"
+
+msgid "Unohtunut salasana"
+msgstr "Unohtunut salasana"
+
+msgid "Syötä sähköpostiosoitteesi, niin lähetämme sinulle palautuslinkin."
+msgstr "Syötä sähköpostiosoitteesi, niin lähetämme sinulle palautuslinkin."
+
+msgid "Lähetä palautuslinkki"
+msgstr "Lähetä palautuslinkki"
+
+msgid "Lähetimme sinulle sähköpostin, jossa on ohjeet uudelleenasetusta varten"
+msgstr "Lähetimme sinulle sähköpostin, jossa on ohjeet uudelleenasetusta varten"
+
+msgid "Aseta uusi salasana"
+msgstr "Aseta uusi salasana"
+
+msgid "Nollaa salasana"
+msgstr "Nollaa salasana"
+
+msgid "Salasana vaihdettu onnistuneesti"
+msgstr "Salasana vaihdettu onnistuneesti"
+
+msgid "Siirry kirjautumiseen"
+msgstr "Siirry kirjautumiseen"
+
+msgid "Rekisteröityminen onnistui"
+msgstr "Rekisteröityminen onnistui"
+
+msgid "Olemme lähettäneet aktivointilinkin sähköpostiisi"
+msgstr "Olemme lähettäneet aktivointilinkin sähköpostiisi"
+
+msgid "Tarkista sähköpostisi jatkaaksesi"
+msgstr "Tarkista sähköpostisi jatkaaksesi"
+
+msgid "Onnistuneesti aktivoitu"
+msgstr "Onnistuneesti aktivoitu"
+
+msgid "Email already registered"
+msgstr "Sähköpostiosoite on jo rekisteröity."
+
+msgid "Tämä salasanan palautuslinkki ei ole kelvollinen tai se on vanhentunut. Pyydä uusi linkki."
+msgstr "Tämä salasanan palautuslinkki ei ole kelvollinen tai se on vanhentunut. Pyydä uusi linkki."

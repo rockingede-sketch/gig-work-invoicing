@@ -1,4 +1,4 @@
-{% extends "base.html" %} {% load static %} {% block content %}
+{% extends "base.html" %} {% load static i18n %} {% block content %}
 
 <div class="d-flex justify-content-center bg-light px-3">
   <div
@@ -6,7 +6,7 @@
     style="max-width: 420px; width: 100%; border-radius: 12px"
   >
     <div class="card-body p-4">
-      <h4 class="fw-semibold mb-3">Luo tili</h4>
+      <h4 class="fw-semibold mb-3">{% trans "Luo tili" %}</h4>
 
       <form method="POST">
         {% csrf_token %} {% spaceless %} {% if form.errors %}
@@ -22,7 +22,7 @@
         {% endif %} {% endspaceless %}
 
         <div class="mb-3">
-          <label class="form-label">Käyttäjätunnus</label>
+          <label class="form-label">{% trans "Käyttäjätunnus" %}</label>
           {{ form.username }} {% if form.username.errors %}
           <div class="invalid-feedback d-block">
             {{ form.username.errors|striptags }}
@@ -31,7 +31,7 @@
         </div>
 
         <div class="mb-3">
-          <label class="form-label">Sähköposti</label>
+          <label class="form-label">{% trans "Sähköposti" %}</label>
           {{ form.email }} {% if form.email.errors %}
           <div class="invalid-feedback d-block">
             {{ form.email.errors|striptags }}
@@ -40,7 +40,7 @@
         </div>
 
         <div class="mb-3">
-          <label class="form-label">Salasana</label>
+          <label class="form-label">{% trans "Salasana" %}</label>
           {{ form.password1 }} {% if form.password1.errors %}
           <div class="invalid-feedback d-block">
             {{ form.password1.errors|striptags }}
@@ -49,7 +49,7 @@
         </div>
 
         <div class="mb-3">
-          <label class="form-label">Vahvista salasana</label>
+          <label class="form-label">{% trans "Vahvista salasana" %}</label>
           {{ form.password2 }} {% if form.password2.errors %}
           <div class="invalid-feedback d-block">
             {{ form.password2.errors|striptags }}
@@ -58,18 +58,18 @@
         </div>
 
         <button type="submit" class="btn btn-primary w-100 py-2 mt-2">
-          Rekisteröidy
+          {% trans "Rekisteröidy" %}
         </button>
 
         <hr class="my-4" />
 
         <div class="text-center">
-          <p class="mb-2">Onko sinulla jo tili?</p>
+          <p class="mb-2">{% trans "Onko sinulla jo tili?" %}</p>
           <a
             href="{% url 'registration:loginLink' %}"
             class="btn btn-outline-primary w-100"
           >
-            Kirjaudu sisään
+            {% trans "Kirjaudu sisään" %}
           </a>
         </div>
       </form>

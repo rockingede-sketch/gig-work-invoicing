@@ -1,4 +1,4 @@
-{% extends "base.html" %} {% load static %} {% block content %}
+{% extends "base.html" %} {% load static i18n %} {% block content %}
 
 <div class="d-flex justify-content-center bg-light px-3">
   <div
@@ -6,7 +6,7 @@
     style="max-width: 420px; width: 100%; border-radius: 12px"
   >
     <div class="card-body p-4">
-      <h4 class="fw-semibold mb-3">Kirjaudu</h4>
+      <h4 class="fw-semibold mb-3">{% trans "Kirjaudu" %}</h4>
 
       <form method="POST" action="{% url 'registration:loginLink' %}">
         {% csrf_token %} {% spaceless %} {% if form.errors %}
@@ -22,12 +22,12 @@
         {% endif %} {% endspaceless %}
 
         <div class="mb-3">
-          <label class="form-label">Käyttäjätunnus</label>
+          <label class="form-label">{% trans "Käyttäjätunnus" %}</label>
           <input type="text" name="username" class="form-control" required />
         </div>
 
         <div class="mb-3">
-          <label class="form-label">Salasana</label>
+          <label class="form-label">{% trans "Salasana" %}</label>
           <input
             type="password"
             name="password"
@@ -37,22 +37,22 @@
         </div>
 
         <button type="submit" class="btn btn-primary w-100 py-2 mt-2">
-          Kirjaudu sisään
+          {% trans "Kirjaudu sisään" %}
         </button>
 
         <div class="text-center mt-3">
-          <a href="/auth/password_reset/">Unohtunut salasana?</a>
+          <a href="/auth/password_reset/">{% trans "Unohtunut salasana?" %}</a>
         </div>
 
         <hr class="my-4" />
 
         <div class="text-center">
-          <p class="mb-2">Eikö sinulla ole tiliä?</p>
+          <p class="mb-2">{% trans "Eikö sinulla ole tiliä?" %}</p>
           <a
             href="{% url 'registration:createAccLink' %}"
             class="btn btn-outline-primary w-100"
           >
-            Luo tili
+            {% trans "Luo tili" %}
           </a>
         </div>
       </form>

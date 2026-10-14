@@ -1,15 +1,15 @@
-{% extends "base.html" %} {% load static %} {% block content %}
+{% extends "base.html" %} {% load static i18n %} {% block content %}
 <div class="d-flex justify-content-center bg-light px-3">
   <div
     class="card shadow-sm"
     style="max-width: 420px; width: 100%; border-radius: 12px"
   >
     <div class="card-body p-4">
-      <h2>Profiili valmis</h2>
+      <h2>      {% trans "Profiili valmis" %}</h2>
 
-      <p>Tilisi on nyt aktiivinen</p>
+      <p>{% trans "Tilisi on nyt aktiivinen" %}</p>
 
-      <a href="{% url 'registration:dashboardLink' %}">Siirry tarkastelemaan tietojasi</a>
+      <a href="{% url 'registration:dashboardLink' %}">{% trans "Siirry tarkastelemaan tietojasi" %}</a>
     </div>
   </div>
 </div>

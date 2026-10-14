@@ -1,11 +1,11 @@
-{% extends "base.html" %} {% load static %} {% block content %}
+{% extends "base.html" %} {% load static i18n %} {% block content %}
 <div class="d-flex justify-content-center bg-light px-3">
   <div
     class="card shadow-sm"
     style="max-width: 480px; width: 100%; border-radius: 12px"
   >
     <div class="card-body p-4">
-      <h4 class="fw-semibold mb-3">Viimeistele profiilisi</h4>
+      <h4 class="fw-semibold mb-3">{% trans "Viimeistele profiilisi" %}</h4>
 
       <form method="POST">
         {% csrf_token %} {% if form.errors %}
@@ -22,7 +22,7 @@
 
         <!-- FIRST NAME -->
         <div class="mb-3">
-          <label class="form-label">Etunimi</label>
+          <label class="form-label">{% trans "Etunimi" %}</label>
           {{ form.first_name }} {% if form.first_name.errors %}
           <div class="invalid-feedback d-block">
             {{ form.first_name.errors|striptags }}
@@ -32,7 +32,7 @@
 
         <!-- LAST NAME -->
         <div class="mb-3">
-          <label class="form-label">Sukunimi</label>
+          <label class="form-label">{% trans "Sukunimi" %}</label>
           {{ form.last_name }} {% if form.last_name.errors %}
           <div class="invalid-feedback d-block">
             {{ form.last_name.errors|striptags }}
@@ -42,7 +42,7 @@
 
         <!-- PERSON ID -->
         <div class="mb-3">
-          <label class="form-label">Henkilötunnus</label>
+          <label class="form-label">{% trans "Henkilötunnus" %}</label>
           {{ form.person_id }} {% if form.person_id.errors %}
           <div class="invalid-feedback d-block">
             {{ form.person_id.errors|striptags }}
@@ -52,7 +52,7 @@
 
         <!-- CUSTOM ROLE -->
         <div class="mb-3">
-          <label class="form-label">Rooli</label>
+          <label class="form-label">{% trans "Rooli" %}</label>
           {{ form.custom_role }} {% if form.custom_role.errors %}
           <div class="invalid-feedback d-block">
             {{ form.custom_role.errors|striptags }}
@@ -62,7 +62,7 @@
 
         <!-- TAX NUMBER -->
         <div class="mb-3">
-          <label class="form-label">Veronumero (tarvitaan vain rakennusalalla)</label>
+          <label class="form-label">{% trans "Veronumero (tarvitaan vain rakennusalalla)" %}</label>
           {{ form.tax_number }} {% if form.tax_number.errors %}
           <div class="invalid-feedback d-block">
             {{ form.tax_number.errors|striptags }}
@@ -72,7 +72,7 @@
 
         <!-- PHONE -->
         <div class="mb-3">
-          <label class="form-label">Puhelinnumero</label>
+          <label class="form-label">{% trans "Puhelinnumero" %}</label>
           {{ form.phone }} {% if form.phone.errors %}
           <div class="invalid-feedback d-block">
             {{ form.phone.errors|striptags }}
@@ -82,7 +82,7 @@
 
         <!-- ADDRESS -->
         <div class="mb-3">
-          <label class="form-label">Osoite</label>
+          <label class="form-label">{% trans "Osoite" %}</label>
           {{ form.address }} {% if form.address.errors %}
           <div class="invalid-feedback d-block">
             {{ form.address.errors|striptags }}
@@ -92,7 +92,7 @@
 
         <!-- POSTCODE -->
         <div class="mb-3">
-          <label class="form-label">Postinumero</label>
+          <label class="form-label">{% trans "Postinumero" %}</label>
           {{ form.postcode }} {% if form.postcode.errors %}
           <div class="invalid-feedback d-block">
             {{ form.postcode.errors|striptags }}
@@ -102,7 +102,7 @@
 
         <!-- POST OFFICE -->
         <div class="mb-3">
-          <label class="form-label">Postitoimipaikka</label>
+          <label class="form-label">{% trans "Postitoimipaikka" %}</label>
           {{ form.postoffice }} {% if form.postoffice.errors %}
           <div class="invalid-feedback d-block">
             {{ form.postoffice.errors|striptags }}
@@ -112,7 +112,7 @@
 
         <!-- TAX RATE -->
         <div class="mb-3">
-          <label class="form-label">Ennakonpidätysprosentti</label>
+          <label class="form-label">{% trans "Ennakonpidätysprosentti" %}</label>
           {{ form.tax_rate }} {% if form.tax_rate.errors %}
           <div class="invalid-feedback d-block">
             {{ form.tax_rate.errors|striptags }}
@@ -122,7 +122,7 @@
 
         <!-- BANK ACCOUNT -->
         <div class="mb-3">
-          <label class="form-label">Pankkitilinumero (IBAN)</label>
+          <label class="form-label">{% trans "Pankkitilinumero (IBAN)" %}</label>
           {{ form.bankaccount }} {% if form.bankaccount.errors %}
           <div class="invalid-feedback d-block">
             {{ form.bankaccount.errors|striptags }}
@@ -131,7 +131,7 @@
         </div>
 
         <button type="submit" class="btn btn-primary w-100 py-2 mt-2">
-          Tallenna tiedot
+          {% trans "Tallenna tiedot" %}
         </button>
       </form>
     </div>

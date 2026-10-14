@@ -1,4 +1,4 @@
-{% extends "base.html" %} {% load static %} {% block content %}
+{% extends "base.html" %} {% load static i18n %} {% block content %}
 
 <div class="d-flex justify-content-center bg-light px-3">
   <div
@@ -6,85 +6,85 @@
     style="max-width: 800px; width: 100%; border-radius: 12px"
   >
     <div class="card-body p-4">
-      <h1>Omat tietosi</h1>
+      <h1>{% trans "Omat tietosi" %}</h1>
 
       <p>
-        Tästä näet omat tietosi ja voit päivittää ne tarvittaessa.
-        Sähköpostiosoitetta et voi muuttaa, sillä se on tunnistetietosi.
+        {% trans "Tästä näet omat tietosi ja voit päivittää ne tarvittaessa." %}
+        {% trans "Sähköpostiosoitetta et voi muuttaa, sillä se on tunnistetietosi." %}
       </p>
       <br />
       {% if customer.custom_role == "light entrepreneur" %}
-      <p class="text-info">Olet rekisteröitynyt kevytyrittäjänä.</p>
+      <p class="text-info">{% trans "Olet rekisteröitynyt kevytyrittäjänä." %}</p>
       {% elif customer.custom_role == "employee" %}
-      <p class="text-info">Olet rekisteröitynyt työntekijänä.</p>
+      <p class="text-info">{% trans "Olet rekisteröitynyt työntekijänä." %}</p>
       {% endif %}
 
       <table>
         <tr>
-          <th>Käyttäjätunnus/sähköpostiosoite:</th>
+          <th>{% trans "Käyttäjätunnus/sähköpostiosoite:" %}</th>
           <td>{{ customer.email }}</td>
         </tr>
         <tr>
-          <th>Sukunimi:</th>
+          <th>{% trans "Sukunimi:" %}</th>
           <td>{{ customer.last_name }}</td>
         </tr>
         <tr>
-          <th>Etunimi:</th>
+          <th>{% trans "Etunimi:" %}</th>
           <td>{{ customer.first_name }}</td>
         </tr>
         <tr>
-          <th>Henkilötunnus:</th>
+          <th>{% trans "Henkilötunnus:" %}</th>
           <td>
             {{ display_id }} {% if is_full %}
             <!-- Linkki, joka lataa sivun ilman show_full-parametria -->
             <a
               href="?show_full=false"
               style="margin-left: 10px; font-size: 0.8em"
-              >Piilota</a
+              >{% trans "Piilota" %}</a
             >
             {% else %}
             <!-- Linkki, joka lisää URL:iin ?show_full=true -->
             <a
               href="?show_full=true"
               style="margin-left: 10px; font-size: 0.8em"
-              >Näytä</a
+              >{% trans "Näytä" %}</a
             >
             {% endif %}
           </td>
         </tr>
         <tr>
-          <th>Puhelinnmero:</th>
+          <th>{% trans "Puhelinnumero:" %}</th>
           <td>{{ customer.phone }}</td>
         </tr>
         <tr>
-          <th>Katuosoite:</th>
+          <th>{% trans "Katuosoite:" %}</th>
           <td>{{ customer.address }}</td>
         </tr>
         <tr>
-          <th>Postinumero:</th>
+          <th>{% trans "Postinumero:" %}</th>
           <td>{{ customer.postcode }}</td>
         </tr>
         <tr>
-          <th>Postitoimipaikka:</th>
+          <th>{% trans "Postitoimipaikka:" %}</th>
           <td>{{ customer.postoffice }}</td>
         </tr>
         <tr>
-          <th>Pankkitili:</th>
+          <th>{% trans "Pankkitili:" %}</th>
           <td>{{ customer.bankaccount }}</td>
         </tr>
         <tr>
-          <th>Ennakonpidätysprosentti:</th>
+          <th>{% trans "Ennakonpidätysprosentti:" %}</th>
           <td>{{ customer.tax_rate }} %</td>
         </tr>
         <tr>
-          <th>Veronumero:</th>
+          <th>{% trans "Veronumero:" %}</th>
           <td>{{ customer.tax_number|default_if_none:"" }}</td>
         </tr>
         <tr>
-          <th>Asiakasrooli (kevytyrittäjä tai työntekijä):</th>
+          <th>{% trans "Asiakasrooli (kevytyrittäjä tai työntekijä):" %}</th>
           <td>
-            {% if customer.custom_role == "light entrepreneur" %} Kevytyrittäjä
-            {% elif customer.custom_role == "employee" %} Työntekijä {% endif %}
+            {% if customer.custom_role == "light entrepreneur" %} {% trans "Kevytyrittäjä" %}
+            {% elif customer.custom_role == "employee" %} {% trans "Työntekijä" %} {% endif %}
           </td>
         </tr>
       </table>
@@ -94,7 +94,7 @@
         href="{% url 'update_customer' %}"
         class="btn btn-primary w-25 py-2 mt-2"
       >
-        Päivitä tietoja
+        {% trans "Päivitä tietoja" %}
       </a>
     </div>
 

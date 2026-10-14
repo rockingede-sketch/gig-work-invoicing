@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 from datetime import timedelta
 from decimal import Decimal
 
@@ -46,8 +47,8 @@ class UserProfile(models.Model):
 # taulua customers vastaava luokka:
 class Customer(models.Model):
     CUSTOMER_ROLE = [
-        ('light entrepreneur', 'Kevytyrittäjä'),
-        ('employee', 'Työntekijä'),
+        ('light entrepreneur', _('Kevytyrittäjä')),
+        ('employee', _('Työntekijä')),
     ]
     
     user_id = models.ForeignKey('auth.User', on_delete=models.SET_NULL, null=True, related_name='customers')

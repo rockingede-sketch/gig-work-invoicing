@@ -1,4 +1,4 @@
-{% extends "base.html" %} {% load static %} {% block content %}
+{% extends "base.html" %} {% load static i18n %} {% block content %}
 <div
   class="d-flex justify-content-center align-items-center min-vh-100 bg-light px-3"
 >
@@ -7,14 +7,14 @@
     style="max-width: 420px; width: 100%; border-radius: 12px"
   >
     <div class="card-body p-4">
-      <h2>Rekisteröityminen onnistui</h2>
+      <h2>{% trans "Rekisteröityminen onnistui" %}</h2>
 
       <p>
-        Olemme lähettäneet aktivointilinkin sähköpostiisi
+        {% trans "Olemme lähettäneet aktivointilinkin sähköpostiisi" %}
         <strong>{{ email }}</strong>
       </p>
 
-      <p>Tarkista sähköpostisi jatkaaksesi</p>
+      <p>{% trans "Tarkista sähköpostisi jatkaaksesi" %}</p>
     </div>
   </div>
 </div>

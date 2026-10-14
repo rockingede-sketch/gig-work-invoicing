@@ -1,11 +1,12 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django.utils.translation import gettext_lazy as _
 from gbsapp.models import Customer
 
 class RegistrationForm(UserCreationForm):
-    username = forms.CharField(max_length=30, required=True)
-    email = forms.EmailField(required=True)
+    username = forms.CharField(max_length=30, required=True, label=_("Käyttäjätunnus"))
+    email = forms.EmailField(required=True, label=_("Sähköposti"))
 
     class Meta:
         model = User
@@ -13,6 +14,8 @@ class RegistrationForm(UserCreationForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields["password1"].label = _("Salasana")
+        self.fields["password2"].label = _("Vahvista salasana")
 
         # Adding Bootstrap classes to all fields
         for field_name, field in self.fields.items():
@@ -28,7 +31,7 @@ class RegistrationForm(UserCreationForm):
     def clean_email(self):
         email = self.cleaned_data.get("email")
         if User.objects.filter(email=email).exists():
-            raise forms.ValidationError("Email already registered")
+            raise forms.ValidationError(_("Email already registered"))
         return email
 
     # Override the parent class's(UserCreationForm) save method to set username and email before saving
@@ -45,6 +48,18 @@ class ProfileCompletionForm(forms.ModelForm):
         model = Customer
         fields = ["first_name","last_name","person_id","custom_role","tax_number","phone","address",
             "postcode","postoffice","tax_rate","bankaccount"]
-        
+        labels = {
+            "first_name": _("Etunimi"),
+            "last_name": _("Sukunimi"),
+            "person_id": _("Henkilötunnus"),
+            "custom_role": _("Rooli"),
+            "tax_number": _("Veronumero (tarvitaan vain rakennusalalla)"),
+            "phone": _("Puhelinnumero"),
+            "address": _("Osoite"),
+            "postcode": _("Postinumero"),
+            "postoffice": _("Postitoimipaikka"),
+            "tax_rate": _("Ennakonpidätysprosentti"),
+            "bankaccount": _("Pankkitilinumero (IBAN)"),
+        }
 
         
