@@ -11,6 +11,8 @@ After registering, the gig worker provides the necessary personal and financial 
     • Work details such as date, hours worked, workplace, and travel expenses </br>
 Once the required information is submitted, the worker can generate an invoice for the completed task, which is then processed for payment.
 
+<b>This application is available in both Finnish (FI) and English (EN). Users can switch languages directly from the interface. </b>
+
 <h2>Features</h2>
 1. <b>User Registration & Authentication : </b> Gig workers can create an account and manage their profile.</br>
 2. <b>Role Selection : </b> Users choose between light entrepreneur or employee when creating an invoice.</br>
@@ -131,3 +133,4 @@ I implemented the complete user authentication and onboarding flow for the proje
 - Saving customer data and updating profile status in the database  
 - Forgot Password functionality with email‑based reset flow
 - Designing the entire UI for this module using Django templates, forms, and Bootstrap (common layout + all pages)
+- Developed localization features with Django's internationalization framework, supporting both Finnish and English languages.
