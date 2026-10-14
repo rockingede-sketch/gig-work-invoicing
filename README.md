@@ -93,32 +93,29 @@ Once the required information is submitted, the worker can generate an invoice f
   ### Home Page (English)
   ![Home](assets/HomePage.png)
 
-  ### Login Page (Finnish)
-  ![Login](assets/LoginPage-Finnish.png)
-
   ### AccountCreation Page (English)
-  ![Home](assets/HomePage.png)
+  ![Home](assets/AccountCreation.png)
 
-  ### ForgotPassword Page (Finnish)
-  ![ForgotPassword](assets/ForgotPwd-Finnish.png)
-
-  ### ResetPassword Page (English)
-  ![ResetPassword](assets/ResetPassword.png)
-  
   ### Validation of Account (English)
   ![AccountValidation](assets/AccountValidation.png)
 
   ### Email with Account activation link (English)
   ![ActivationMail](assets/ActivationEmail.png)
 
-  ### Activation Success (Finnish)
-  ![ActivationSuccess](assets/ActivationSuccess.png)
+  ### Activation Success (English)
+  ![ActivationSuccess](assets/AccountActivationSuccess.png)
+
+  ### Login Page (Finnish)
+  ![Login](assets/LoginPage-Finnish.png)
    
   ### Profile Completion (English)
   ![Profile](assets/ProfileCompletion.png)
 
   ### Dashboard (Finnish)
   ![Dashboard](assets/Dashboard-Finnish.png)
+
+  ### ForgotPassword Page (Finnish)
+  ![ForgotPassword](assets/ForgotPwd-Finnish.png)
 
 </details>
 
